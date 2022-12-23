@@ -1,0 +1,26 @@
+nav {
+    margin: 20px 0;
+    background-color: antiquewhite;
+}
+
+ul{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    text-decoration: none;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    gap: 30px;
+    font-size: 23px;
+}
+
+li{
+    text-decoration: none;
+    list-style: none;
+}
+
+li:last-child {
+    margin-right: 20px;
+}
