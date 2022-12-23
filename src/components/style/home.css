@@ -1,6 +1,10 @@
 nav {
     margin: 20px 0;
     background-color: antiquewhite;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 50px;
 }
 
 ul{
@@ -21,6 +25,7 @@ li{
     list-style: none;
 }
 
-li:last-child {
-    margin-right: 20px;
+.userName{
+    font-size: 23px;
+    cursor: pointer;
 }

@@ -2,10 +2,10 @@ import axios from 'axios';
 import React from 'react'
 import { useState } from 'react';
 import './style/login.css';
-import { useNavigate } from 'react-router-dom';
+import { createSearchParams, useNavigate } from 'react-router-dom';
 
 function Login() {
-
+    var data ={};
     const navigate = useNavigate();
 
     const [user, setuser] = useState({
@@ -23,14 +23,23 @@ function Login() {
     async function loginchecker(e) {
         e.preventDefault();
         try {
-            const data = await axios.post('/login', {
+            data = await axios.post('/login', {
                 uemail: user.uemail,
                 upass: user.upass
             });
             if(data.status === 200){
                 console.log(data);
-                navigate('/');
-                alert("SucssesFull Loggin");
+                
+                navigate({
+                    pathname: '/',
+                    search: createSearchParams({
+                        uemail : data.data.uemail,
+                        uname : data.data.uname,
+                        uphone : data.data.uphone,
+                    }).toString(),
+                });
+
+                alert(`Hello ${data.data.uname}, you Logged in successfully.`);
             }else{
                 alert(data.data.message);
                 console.log(data);

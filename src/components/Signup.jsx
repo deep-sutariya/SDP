@@ -3,6 +3,7 @@ import { useState } from 'react';
 import './style/signup.css';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+var validator = require("email-validator");
 
 function Signup() {
 
@@ -13,12 +14,17 @@ function Signup() {
 
     async function check(e) {
         e.preventDefault();
-        let ps = document.getElementById('upass').value;
-        let cps = document.getElementById('ucpass').value;
-        let phone = document.getElementById('uphone').value;
+
+        let ps = user.upass;
+        let cps = user.ucpass;
+        let phone = user.uphone;
+        let uemail = user.uemail;
+        
         let errmsg = document.getElementById('errmsg');
         
-        if (ps === cps && phone.length === 10) {
+        let isvalid = validator.validate(uemail);
+
+        if (ps === cps && phone.length === 10 && isvalid) {
             try{
                 const data = await axios.post('/signup',{
                     uemail : user.uemail, 
@@ -29,21 +35,24 @@ function Signup() {
                 })
                 console.log(data);
                 navigate("/login");
+                alert(`Hello, ${data.data.uname} You Registered Successfully`);
 
             }catch(error){
                 console.log(error);
             }
         }
 
-        if (phone.length !== 10){
+        else if(!isvalid){
+            errmsg.innerText = "Not Valid Email!";
+        }
+        else if (phone.length !== 10){
             errmsg.innerText = "Not Valid Phone Number!";
-            errmsg.style.color = 'red';
+        }
+        else if (ps !== cps){
+            errmsg.innerText = "Passwords are not maching!";
         }
 
-        if (ps !== cps){
-            errmsg.innerText = "Passwords are not maching!";
-            errmsg.style.color = 'red';
-        }
+        errmsg.style.color = 'red';
     }
 
     let name, value;
