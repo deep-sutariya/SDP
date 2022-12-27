@@ -13,12 +13,9 @@ function Home() {
     <div>
         <nav>
         <div className='userName'>{uname}</div>
-        <ul>
+        {!uname ? <ul>
           <li>
             <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/orders">Orders</Link>
           </li>
           <li>
             <Link to="/login">Login</Link>
@@ -26,7 +23,14 @@ function Home() {
           <li>
             <Link to="/signup">Sign up</Link>
           </li>
-        </ul>
+        </ul> :  <ul>
+          <li>
+            <Link to="/orders">Orders</Link>
+          </li>
+          <li>
+            <Link to="/login">Log Out</Link>
+          </li>
+        </ul>}
       </nav>
       <Outlet />
     </div>

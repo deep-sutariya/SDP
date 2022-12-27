@@ -61,8 +61,9 @@ function Login() {
 
                         <b>Password</b>
                         <input type="password" placeholder="Enter Password" name="upass" value={user.upass} onChange={change} required />
-
-                        <a href='/signup'>Sign up</a>
+                        
+                            <a href='/registerrestaurant' id='res'>Register Restaurent</a>
+                            <a href='/signup'>Sign up</a>
 
                         <button type="submit">Login</button>
                     </div>

@@ -48,6 +48,7 @@ a{
     float: right;
     color: blue;
     margin: 10px 0;
+    cursor: pointer;
 }
 
 @media screen and (max-width: 300px) {

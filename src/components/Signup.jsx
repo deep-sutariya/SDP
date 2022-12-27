@@ -31,7 +31,6 @@ function Signup() {
                     uname : user.uname, 
                     upass : user.upass, 
                     uphone : user.uphone, 
-                    ucpass : user.ucpass
                 })
                 console.log(data);
                 navigate("/login");
@@ -84,6 +83,8 @@ function Signup() {
                     <input type="password" placeholder="Enter Password" id="ucpass" name="ucpass" value={user.ucpass} onChange={handleinputs} required />
 
                     <span id='errmsg'></span>
+
+                    {/* <a href='/rsignup'>Register as a Restaurant</a> */}
 
                     <button type="submit">Sign Up</button>
 

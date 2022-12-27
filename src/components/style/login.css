@@ -49,6 +49,11 @@ a {
     margin: 10px 0;
 }
 
+#res{
+    float: left;
+    color: blue;
+}
+
 @media screen and (max-width: 300px) {
     span.psw {
         display: block;

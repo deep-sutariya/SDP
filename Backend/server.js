@@ -3,8 +3,9 @@ const app = express();
 const PORT = 5000;
 
 const connectDB = require('./db/db');
-const userinfo = require('./model/userinfo');
 connectDB();
+
+const userinfo = require('./model/userinfo');
 
 const cors = require('cors');
 app.use(cors());
