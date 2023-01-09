@@ -1,40 +1,19 @@
 import React from 'react'
-import './style/home.css';
-import { Outlet, Link, useSearchParams } from "react-router-dom";
-
+import Navbar from './Navbar'
 
 function Home() {
-  const [data] = useSearchParams();
-  // const uemail = data.get("uemail");
-  const uname = data.get("uname");
-  // const uphone = data.get("uphone");
-  
-  return (
-    <div>
-        <nav>
-        <div className='userName'>{uname}</div>
-        {!uname ? <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/login">Login</Link>
-          </li>
-          <li>
-            <Link to="/signup">Sign up</Link>
-          </li>
-        </ul> :  <ul>
-          <li>
-            <Link to="/orders">Orders</Link>
-          </li>
-          <li>
-            <Link to="/login">Log Out</Link>
-          </li>
-        </ul>}
-      </nav>
-      <Outlet />
-    </div>
-  )
+    return (
+        <>
+            <Navbar />
+            <div>Restaurant 1</div>
+            <div>Restaurant 2</div>
+            <div>Restaurant 3</div>
+            <div>Restaurant 4</div>
+            <div>Restaurant 5</div>
+            <div>Restaurant 6</div>
+            <div>Restaurant 7</div>
+        </>
+    )
 }
 
 export default Home

@@ -21,6 +21,7 @@ function Login() {
     }
 
     async function loginchecker(e) {
+        let loginmsg = document.getElementById("loginmsg");
         e.preventDefault();
         try {
             data = await axios.post('/login', {
@@ -40,8 +41,10 @@ function Login() {
                 });
 
                 alert(`Hello ${data.data.uname}, you Logged in successfully.`);
-            }else{
-                alert(data.data.message);
+                // data = await axios.get('/orders',{});
+            }
+            else{
+                loginmsg.innerText = data.data.message;
                 console.log(data);
             }
             
@@ -50,22 +53,25 @@ function Login() {
         }
     }
 
-
     return (
         <>
             <div className='main'>
+                
                 <form onSubmit={loginchecker}>
-                    <div className="container">
-                        <b>Email</b>
+                    <h1 className='heading'>Login</h1>
+                    <div className="login_container">
+                        <b>Email :</b>
                         <input type="text" placeholder="Enter Username" name="uemail" value={user.uemail} onChange={change} required />
 
-                        <b>Password</b>
+                        <b>Password :</b>
                         <input type="password" placeholder="Enter Password" name="upass" value={user.upass} onChange={change} required />
                         
                             <a href='/registerrestaurant' id='res'>Register Restaurent</a>
                             <a href='/signup'>Sign up</a>
 
-                        <button type="submit">Login</button>
+                            <span id='loginmsg'></span>
+
+                        <button type="submit" className='login_btn'>Login</button>
                     </div>
                 </form>
             </div>

@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const bcrypt = require('bcryptjs');
+const jwt = require("jsonwebtoken");
 
 const RestaurantInfoSchema = new Schema({
     rname: { type: String, required: true },
@@ -11,8 +12,17 @@ const RestaurantInfoSchema = new Schema({
     rurl: { type: String, required: true},
     rcity: { type: String, required: true},
     rpass: { type: String, required: true },
-    rmenu: { type: Array, required: false,"default" :[] }
+    rmenu: [
+        {
+            url:{type: String, required: false},
+            name:{ type: String, required: true},
+            des:{ type: String, required: true},
+            price:{ type: String, required: true},
+
+        }
+    ]
 }, { timestamps: true });
+
 
 RestaurantInfoSchema.pre("save", async function (next) {
         this.rpass = await bcrypt.hash(this.rpass, 10);

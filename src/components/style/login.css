@@ -1,3 +1,6 @@
+*{
+    letter-spacing: 0.1rem;
+}
 form {
     width: 50%;
     border: 3px solid #f1f1f1;
@@ -9,6 +12,12 @@ form {
     place-items: center;
     height: 80vh;
 }
+.heading{
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-weight: 600;
+    letter-spacing: 2px;
+    padding: 15px;
+}
 
 input {
     width: 100%;
@@ -19,8 +28,8 @@ input {
     box-sizing: border-box;
 }
 
-button {
-    background-color: #04AA6D;
+.login_btn {
+    background-color: rgb(59, 59, 254);
     color: white;
     padding: 14px 20px;
     margin: 8px 0;
@@ -28,13 +37,15 @@ button {
     border-radius: 10px;
     cursor: pointer;
     width: 100%;
+    font-weight: 600;
+    letter-spacing: 2px;
 }
 
-button:hover {
+.login_btn:hover {
     opacity: 0.8;
 }
 
-.container {
+.login_container {
     padding: 16px;
 }
 
@@ -43,14 +54,8 @@ span.psw {
     padding-top: 16px;
 }
 
-a {
-    float: right;
-    color: blue;
-    margin: 10px 0;
-}
-
 #res{
-    float: left;
+    float: right;
     color: blue;
 }
 

@@ -30,7 +30,7 @@ function Signup() {
                     uemail : user.uemail, 
                     uname : user.uname, 
                     upass : user.upass, 
-                    uphone : user.uphone, 
+                    uphone : user.uphone,
                 })
                 console.log(data);
                 navigate("/login");
@@ -82,9 +82,9 @@ function Signup() {
                     <b>Confirm Password</b>
                     <input type="password" placeholder="Enter Password" id="ucpass" name="ucpass" value={user.ucpass} onChange={handleinputs} required />
 
-                    <span id='errmsg'></span>
+                    <a className='regres' href='/registerrestaurant'>Register Restaurent</a>
 
-                    {/* <a href='/rsignup'>Register as a Restaurant</a> */}
+                    <span id='errmsg'></span>
 
                     <button type="submit">Sign Up</button>
 

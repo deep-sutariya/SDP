@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import "./style/rsignup.css";
 import axios from 'axios';
-
+var validator = require("email-validator");
 
 const Rsignup = () => {
     const [Restaurant, setRestaurant] = useState({
@@ -12,8 +12,14 @@ const Rsignup = () => {
 
     async function check(e) {
         e.preventDefault();
-            try{
-                const data = await axios.post('/registerrestaurant',{
+
+        let errmsg = document.getElementById('emsg');
+
+        const valid = validator.validate(Restaurant.remail);
+        if (Restaurant.rpass === Restaurant.rcpass && Restaurant.rphone.length === 10 && valid) {
+            errmsg.innerText = "";
+            try {
+                const data = await axios.post('/registerrestaurant', {
                     rname: Restaurant.rname,
                     roname: Restaurant.roname,
                     rphone: Restaurant.rphone,
@@ -25,9 +31,20 @@ const Rsignup = () => {
                     rmenu: Restaurant.rmenu
                 })
                 console.log(data);
-            }catch(error){
+            } catch (error) {
                 console.log(error);
             }
+        }
+        else if(!valid){
+            errmsg.innerText = "Not Valid Email!";
+        }
+        else if(Restaurant.rphone.length !== 10){
+            errmsg.innerText = "Not Valid Phone Number!";
+        }
+        else if(Restaurant.rpass !== Restaurant.rcpass){
+            errmsg.innerText = "Passwords are not maching!";
+        }
+        errmsg.style.color = 'red';
     }
 
     let name, value;
@@ -55,13 +72,13 @@ const Rsignup = () => {
                     <input type="text" placeholder="Enter Phone Number" id="rphone" name="rphone" value={Restaurant.rphone} onChange={handleinputs} required />
 
                     <b>Address :</b>
-                    <input type="password" placeholder="Enter Address" id="raddress" name="raddress" value={Restaurant.raddress} onChange={handleinputs} required />
+                    <input type="text" placeholder="Enter Address" id="raddress" name="raddress" value={Restaurant.raddress} onChange={handleinputs} required />
 
                     <b>City :</b>
-                    <input type="password" placeholder="Enter City" id="rcity" name="rcity" value={Restaurant.rcity} onChange={handleinputs} required />
+                    <input type="text" placeholder="Enter City" id="rcity" name="rcity" value={Restaurant.rcity} onChange={handleinputs} required />
 
                     <b>Location URL :</b>
-                    <input type="password" placeholder="Enter Location" id="rurl" name="rurl" value={Restaurant.rurl} onChange={handleinputs} required />
+                    <input type="text" placeholder="Enter Location" id="rurl" name="rurl" value={Restaurant.rurl} onChange={handleinputs} required />
 
                     <b>Password :</b>
                     <input type="password" placeholder="Enter Password" id="rpass" name="rpass" value={Restaurant.rpass} onChange={handleinputs} required />
@@ -69,7 +86,7 @@ const Rsignup = () => {
                     <b>Confirm Password</b>
                     <input type="password" placeholder="Enter Confirm Password" id="rcpass" name="rcpass" value={Restaurant.rcpass} onChange={handleinputs} required />
 
-                    <span id='errmsg'></span>
+                    <span id='emsg'></span>
 
                     <button type="submit">Sign Up</button>
 
