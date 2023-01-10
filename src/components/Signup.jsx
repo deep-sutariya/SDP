@@ -8,6 +8,7 @@ var validator = require("email-validator");
 function Signup() {
 
     const navigate = useNavigate();
+    // const []
     const [user, setuser] = useState({
         uemail: "", uname: "", upass: "", uphone: "", ucpass: ""
     });

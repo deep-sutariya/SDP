@@ -53,9 +53,9 @@ router.post("/login", async (req, res) => {
             // res.status(201).send({ message: "Invalid Password" });
         }
         else
-            res.status(201).send({ message: "Invalid Password" });
+            res.status(201).send({ message: "Error! : *** Invalid Password ***" });
     } else {
-        res.status(202).send({ message: "userNotfound" });
+        res.status(202).send({ message: "Error! : *** userNotfound ***" });
     }
     // }
     // console.log(req.cookies.jwt);

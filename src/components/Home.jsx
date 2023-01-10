@@ -4,7 +4,6 @@ import Navbar from './Navbar'
 function Home() {
     return (
         <>
-            <Navbar />
             <div>Restaurant 1</div>
             <div>Restaurant 2</div>
             <div>Restaurant 3</div>

@@ -5,6 +5,7 @@ import Signup from './components/Signup';
 import Navbar from './components/Navbar';
 import Orders from './components/Orders';
 import Rsignup from './components/Rsignup';
+import Home from './components/Home';
 // import Rsignup from './components/Rsignup';
 
 function App() {
@@ -12,12 +13,14 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<Navbar />}>
+          <Route path="home" element={<Home />} />
           <Route path="orders" element={<Orders />} />
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
           <Route path="registerrestaurant" element={<Rsignup />} />
           {/* <Route path="rsignup" element={<Rsignup />} /> */}
         </Route>
+        
       </Routes>
     </BrowserRouter>
   );
