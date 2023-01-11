@@ -2,17 +2,19 @@ import axios from "axios";
 import React from "react";
 import { useState } from "react";
 import "./style/login.css";
-import { createSearchParams, useNavigate } from "react-router-dom";
+import { createSearchParams, Link, useNavigate } from "react-router-dom";
 import restaurentlogo from '../assets/restaurentlogo.jfif';
 import userlogo from '../assets/userlogo.jfif';
 function Login() {
   var data = {};
   const navigate = useNavigate();
   const [loginoption,setLoginOption] = useState("");
+
   const [user, setuser] = useState({
     uemail: "",
     upass: "",
   });
+
   const handleRestaurent = () =>{
     setLoginOption("restaurent");
     document.getElementById('use').style.backgroundColor =  "white";
@@ -23,6 +25,7 @@ function Login() {
     document.getElementById('res').style.backgroundColor =  "white";
     document.getElementById('use').style.backgroundColor =  "rgba(72, 126, 219, 0.412)";
   }
+
   let name, value;
   function change(e) {
     name = e.target.name;
@@ -35,7 +38,7 @@ function Login() {
     let loginmsg = document.getElementById("loginmsg");
     e.preventDefault();
     try {
-      data = await axios.post(`/login`, {
+      data = await axios.post(`/${loginoption}login`, {
         uemail: user.uemail,
         upass: user.upass,
       });
@@ -45,13 +48,13 @@ function Login() {
         navigate({
           pathname: "/home",
           search: createSearchParams({
-            uemail: data.data.uemail,
-            uname: data.data.uname,
-            uphone: data.data.uphone,
+            data : data.data
           }).toString(),
         });
-
+        if(loginoption === "user")
         alert(`Hello ${data.data.uname}, you Logged in successfully.`);
+        else
+        alert(`Hello ${data.data.rname}, you Logged in successfully.`);
         // data = await axios.get('/orders',{});
       } else {
         loginmsg.innerText = data.data.message;
@@ -95,9 +98,9 @@ function Login() {
               </div>
 
               <div className="form-link">
-                <a href="#" className="forgot-pass">
+                <Link to="#" className="forgot-pass">
                   Forgot password?
-                </a>
+                </Link>
               </div>
               <span id="loginmsg"></span>
               <div className="field button-field">
@@ -107,10 +110,10 @@ function Login() {
 
             <div className="form-link">
               <span>
-                Don't have an account?{" "}
-                <a href="Signup" className="link signup-link">
+                Don't have an account? {" "}
+                <Link to="/signup" className="link signup-link">
                   Signup
-                </a>
+                </Link>
               </span>
             </div>
           </div>

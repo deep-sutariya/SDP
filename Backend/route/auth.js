@@ -3,8 +3,7 @@ const router = express.Router();
 const UserInfo = require('../model/userinfo');
 const bcrypt = require('bcryptjs');
 const Restaurantinfo = require('../model/restaurantInfo');
-const jwt = require('jsonwebtoken');
-
+// const uuidv4 = require("uuid/v4");
 
 router.post("/signup", async (req, res) => {
     const user = new UserInfo({
@@ -35,39 +34,81 @@ router.post("/registerrestaurant", async (req, res) => {
     res.send(data);
 });
 
-router.post("/login", async (req, res) => {
-    // if (req.cookies.jwt) res.status(200).send({message: "done"});
-    // else {
+router.post("/userlogin", async (req, res) => {
     const { uemail, upass } = req.body;
     const user = await UserInfo.findOne({ uemail: uemail });
     if (user) {
         if (await bcrypt.compare(upass, user.upass)) {
-            // user.utockens = await generateToken(this._id);
-            // res.cookie("jwt", user.utockens, {
-            //     expires: new Date(Date.now() + 50000),
-            //     httpOnly: true
-            // });
-            // await user.save();
-            // console.log("200");
             res.status(200).send(user);
-            // res.status(201).send({ message: "Invalid Password" });
         }
         else
             res.status(201).send({ message: "Error! : *** Invalid Password ***" });
     } else {
         res.status(202).send({ message: "Error! : *** userNotfound ***" });
     }
-    // }
-    // console.log(req.cookies.jwt);
 });
 
-const generateToken = async (id) => {
-    try {
-        return jwt.sign({ id }, "mynameisdeepsutariyaimmernstackdeveloper");
+
+router.post("/restaurentlogin", async (req, res) => {
+    const { uemail, upass } = req.body;
+    console.log(req.body);
+    const restaurent = await Restaurantinfo.findOne({ remail: uemail });
+    console.log(restaurent);
+    if (restaurent) {
+        if (await bcrypt.compare(upass, restaurent.rpass)) {
+            res.status(200).send(restaurent);
+            console.log(restaurent);
+        }
+        else
+            res.status(201).send({ message: "Error! : *** Invalid Password ***" });
+    } else {
+        res.status(202).send({ message: "Error! : *** RestaurentNotfound ***" });
     }
-    catch (e) {
-        console.log(e);
+});
+
+
+
+
+// menu update
+
+router.post("/addmenu", async (req, res) => {
+
+    const { resid, iname, iprice, ides } = req.body;
+    const restaurent = await Restaurantinfo.findById(resid);
+
+    if (restaurent) {
+        restaurent.rmenu.push({ name: iname, des: ides, price :iprice });
+        const data = await restaurent.save();
+        res.send({data : data, message : `${iname} Added Sucssessfully !`});
     }
-}
+    else {
+        res.send({message : "Error"});
+    }
+});
+
+router.post("/removemenu", async (req, res) => {
+
+    const { resid, iid } = req.body;
+    const restaurent = await Restaurantinfo.findById(resid);
+    const resnew = await Restaurantinfo.find({
+        _id: restaurent._id,
+        "rmenu._id" : `new ObjectId("${iid}")`
+    })
+    console.log(resnew);
+    // const item = restaurent.rmenu.forEach((obj) => {
+    //     // console.log(obj._id);
+    //     obj._id == `new ObjectId("${iid}")` ? obj._id : console.log("No");
+    // });
+    // console.log(item);
+
+    // if (item) {
+    //     restaurent.rmenu.remove(item);
+    //     const data = await restaurent.save();
+    //     res.send({data : data, message : `${item.name} Removed Sucssessfully !`});
+    // }
+    // else {
+    // }
+    res.send({message : "Item not found !"});
+});
 
 module.exports = router;

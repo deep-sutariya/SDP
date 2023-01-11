@@ -14,11 +14,9 @@ const RestaurantInfoSchema = new Schema({
     rpass: { type: String, required: true },
     rmenu: [
         {
-            url:{type: String, required: false},
-            name:{ type: String, required: true},
-            des:{ type: String, required: true},
-            price:{ type: String, required: true},
-
+            name:{ type: String, required: false},
+            des:{ type: String, required: false},
+            price:{ type: String, required: false},
         }
     ]
 }, { timestamps: true });
