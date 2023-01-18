@@ -1,15 +1,34 @@
 import React from 'react'
+import { useEffect ,useState } from 'react';
+import Navbar from '../components/Navbar';
+import axios from 'axios';
+import Cards from '../components/Cards';
 
 function Home() {
+    const [restaurents,setRestaurents] = useState([]);
+
+    const getData = async ()=>{
+        const data = await axios.post("/res");
+        setRestaurents(data.data);
+        console.log(restaurents);
+    }
+    useEffect(()=>{
+        getData();
+    },[]);
+
     return (
         <>
-            <div>Restaurant 1</div>
-            <div>Restaurant 2</div>
-            <div>Restaurant 3</div>
-            <div>Restaurant 4</div>
-            <div>Restaurant 5</div>
-            <div>Restaurant 6</div>
-            <div>Restaurant 7</div>
+        <Navbar />
+        { Object.keys(restaurents).length > 0 &&
+            restaurents.map(({_id,rname,raddress}) => (
+                <div key={_id}><Cards 
+                    rname = {rname}
+                    raddress = {raddress}
+                    rid = {_id}
+                /></div>
+            ))
+        }
+
         </>
     )
 }

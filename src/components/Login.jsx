@@ -5,25 +5,26 @@ import "./style/login.css";
 import { createSearchParams, Link, useNavigate } from "react-router-dom";
 import restaurentlogo from '../assets/restaurentlogo.jfif';
 import userlogo from '../assets/userlogo.jfif';
+import Navbar from '../components/Navbar';
 function Login() {
   var data = {};
   const navigate = useNavigate();
-  const [loginoption,setLoginOption] = useState("");
+  const [loginoption, setLoginOption] = useState("");
 
   const [user, setuser] = useState({
     uemail: "",
     upass: "",
   });
 
-  const handleRestaurent = () =>{
+  const handleRestaurent = () => {
     setLoginOption("restaurent");
-    document.getElementById('use').style.backgroundColor =  "white";
-    document.getElementById('res').style.backgroundColor =  "rgba(72, 126, 219, 0.412)"; 
+    document.getElementById('use').style.backgroundColor = "white";
+    document.getElementById('res').style.backgroundColor = "rgba(72, 126, 219, 0.412)";
   }
-  const handleUser = () =>{
+  const handleUser = () => {
     setLoginOption("user");
-    document.getElementById('res').style.backgroundColor =  "white";
-    document.getElementById('use').style.backgroundColor =  "rgba(72, 126, 219, 0.412)";
+    document.getElementById('res').style.backgroundColor = "white";
+    document.getElementById('use').style.backgroundColor = "rgba(72, 126, 219, 0.412)";
   }
 
   let name, value;
@@ -42,20 +43,15 @@ function Login() {
         uemail: user.uemail,
         upass: user.upass,
       });
-      if (data.status === 200) {
-        console.log(data);
 
-        navigate({
-          pathname: "/home",
-          search: createSearchParams({
-            data : data.data
-          }).toString(),
-        });
-        if(loginoption === "user")
-        alert(`Hello ${data.data.uname}, you Logged in successfully.`);
+      if (data.status === 200) {
+        console.log(data.data);
+
+        if (loginoption === "user")
+          alert(`Hello ${data.data.uname}, you Logged in successfully.`);
         else
-        alert(`Hello ${data.data.rname}, you Logged in successfully.`);
-        // data = await axios.get('/orders',{});
+          alert(`Hello ${data.data.rname}, you Logged in successfully.`);
+
       } else {
         loginmsg.innerText = data.data.message;
         loginmsg.style = 'color:red;';
@@ -67,9 +63,10 @@ function Login() {
   }
   return (
     <>
-      <div className="container grid_container">
+      <Navbar />
+      <div className="container">
         <div className="contai">vgfbgf</div>
-        <div className="form login">
+        <div className="form grid_container login">
           <div className="form-content">
             <header>Login</header>
             <div className="option">
@@ -82,9 +79,9 @@ function Login() {
                 <span>User</span>
               </div>
             </div>
-            <form onSubmit={loginchecker}>
+            <form onSubmit={loginchecker} className="inside_form">
               <div className="field input-field">
-                <input type="email"  placeholder="Email" className="input" name="uemail" value={user.uemail} onChange={change} required />
+                <input type="email" placeholder="Email" className="input" name="uemail" value={user.uemail} onChange={change} required />
               </div>
 
               <div className="field input-field">

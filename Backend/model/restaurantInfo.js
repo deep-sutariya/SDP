@@ -14,11 +14,12 @@ const RestaurantInfoSchema = new Schema({
     rpass: { type: String, required: true },
     rmenu: [
         {
-            name:{ type: String, required: false},
-            des:{ type: String, required: false},
-            price:{ type: String, required: false},
+            name:{ type: String, required: true},
+            des:{ type: String, required: true},
+            price:{ type: String, required: true},
+            type:{type: String, required: true}  // south inde
         }
-    ]
+    ],
 }, { timestamps: true });
 
 

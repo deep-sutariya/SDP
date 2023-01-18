@@ -87,28 +87,50 @@ router.post("/addmenu", async (req, res) => {
 });
 
 router.post("/removemenu", async (req, res) => {
+    try{
+        const { resid, iid } = req.body;
+        const restaurent = await Restaurantinfo.findById(resid);
+        const menu = restaurent.rmenu;
+        let isFound = false;
+        menu.forEach((e,index)=>{
+            if(e._id.toString() === iid){
+                menu.splice(index,1);
+                isFound = true;
+            }
+        });
+        console.log(menu);
+        restaurent.rmenu = menu;
+        await restaurent.save();
+        if(isFound)
+            res.send({message : "Item found and deleted!"});
+        else
+            res.send({message : "Item not found !"});
 
-    const { resid, iid } = req.body;
-    const restaurent = await Restaurantinfo.findById(resid);
-    const resnew = await Restaurantinfo.find({
-        _id: restaurent._id,
-        "rmenu._id" : `new ObjectId("${iid}")`
-    })
-    console.log(resnew);
-    // const item = restaurent.rmenu.forEach((obj) => {
-    //     // console.log(obj._id);
-    //     obj._id == `new ObjectId("${iid}")` ? obj._id : console.log("No");
-    // });
-    // console.log(item);
-
-    // if (item) {
-    //     restaurent.rmenu.remove(item);
-    //     const data = await restaurent.save();
-    //     res.send({data : data, message : `${item.name} Removed Sucssessfully !`});
-    // }
-    // else {
-    // }
-    res.send({message : "Item not found !"});
+    }catch(err){
+        console.log(err);
+    }
 });
+
+router.post("/res",async (req,res)=>{
+    try{
+        const data = await Restaurantinfo.find({});
+        // console.log(data);
+        res.send(data);
+    }catch(err){
+        console.log(err);
+        res.send({message : "Error auured"});
+    }
+})
+
+router.post("/getrestaurent",async (req,res)=>{
+    try{
+        const {id} = req.body;
+        const data = await Restaurantinfo.findById(id);
+        res.send(data);
+    }catch(err){
+        console.log(err);
+        res.send({message : "Error auured"});
+    }
+})
 
 module.exports = router;
