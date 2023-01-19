@@ -89,22 +89,14 @@ router.post("/addmenu", async (req, res) => {
 router.post("/removemenu", async (req, res) => {
     try{
         const { resid, iid } = req.body;
-        const restaurent = await Restaurantinfo.findById(resid);
-        const menu = restaurent.rmenu;
-        let isFound = false;
-        menu.forEach((e,index)=>{
-            if(e._id.toString() === iid){
-                menu.splice(index,1);
-                isFound = true;
-            }
-        });
-        console.log(menu);
-        restaurent.rmenu = menu;
-        await restaurent.save();
-        if(isFound)
-            res.send({message : "Item found and deleted!"});
+        const data = await Restaurantinfo.findOneAndUpdate(   
+            {"_id":resid},
+            {$pull : {"rmenu" : { _id : iid }}}
+        )
+        if(data)
+            res.send({data : data, message : "deleted"});
         else
-            res.send({message : "Item not found !"});
+            res.send({message : " not found or some error occured"});
 
     }catch(err){
         console.log(err);
@@ -114,7 +106,6 @@ router.post("/removemenu", async (req, res) => {
 router.post("/res",async (req,res)=>{
     try{
         const data = await Restaurantinfo.find({});
-        // console.log(data);
         res.send(data);
     }catch(err){
         console.log(err);

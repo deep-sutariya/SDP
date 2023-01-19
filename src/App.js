@@ -5,7 +5,6 @@ import Signup from './components/Signup';
 import Orders from './components/Orders';
 import Home from './components/Home';
 import Restaurant from './components/Restaurant';
-// import Rsignup from './components/Rsignup';
 
 function App() {
   return (
