@@ -38,35 +38,40 @@ function Login() {
   async function loginchecker(e) {
     let loginmsg = document.getElementById("loginmsg");
     e.preventDefault();
-    try {
-      data = await axios.post(`/${loginoption}login`, {
-        uemail: user.uemail,
-        upass: user.upass,
-      });
+    if (loginoption === "") {
+      loginmsg.innerText = "Error! : *** Select Login Option ***";
+      loginmsg.style = 'color:red;';
+    }
+    else {
+      try {
+        data = await axios.post(`/${loginoption}login`, {
+          uemail: user.uemail,
+          upass: user.upass,
+        });
 
-      if (data.status === 200) {
-        console.log(data.data);
+        if (data.status === 200) {
+          console.log(data.data);
 
-        if (loginoption === "user"){ // navigate to the user page 
-          navigate("/",{
-            state : { data : data.data }
-          })
-          alert(`Hello ${data.data.uname}, you Logged in successfully.`);
+          if (loginoption === "user") { // navigate to the user page 
+            navigate("/", {
+              state: { data: data.data }
+            })
+            alert(`Hello ${data.data.uname}, you Logged in successfully.`);
+          }
+          else { // navigate to the restaurent page 
+            navigate("/restaurenthome", {
+              state: { data: data.data }
+            })
+            alert(`Hello ${data.data.rname}, you Logged in successfully.`);
+          }
+
+        } else {
+          loginmsg.innerText = data.data.message;
+          loginmsg.style = 'color:red;';
         }
-        else{ // navigate to the restaurent page 
-          navigate("/restaurenthome",{
-            state: {data : data.data}
-          })
-          alert(`Hello ${data.data.rname}, you Logged in successfully.`);
-        }
-
-      } else {
-        loginmsg.innerText = data.data.message;
-        loginmsg.style = 'color:red;';
-        console.log(data);
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
     }
   }
   return (

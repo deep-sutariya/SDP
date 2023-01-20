@@ -13,16 +13,13 @@ function Restaurant() {
     const restaurantid = location.state.id;
     const [resdata,setResdata] = useState({});
     const [resmenu,setResmenu] = useState([]);
+    
     const getData = async () => {
-
-
         const data = await axios.post("/getrestaurent",{
             id : restaurantid
         });
-        console.log(data);
         setResmenu(data.data.rmenu);
         setResdata(data.data);
-
     }
 
     useEffect(()=>{
@@ -31,8 +28,7 @@ function Restaurant() {
 
   return (
     <>
-    <div><h2>{resdata.rname}</h2></div>
-    {console.log(resmenu)}
+    <div style={{textAlign: 'center',marginTop: '60px', marginBottom: '60px', textDecoration: 'underline'}}><h2>{resdata.rname}</h2></div>
         {Object.keys(resmenu).length > 0 &&
         resmenu.map(({_id,name,des,price})=>{
                 return (<Menu id={_id} name={name} des={des} price={price}/>);

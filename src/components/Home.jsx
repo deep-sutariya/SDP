@@ -15,7 +15,6 @@ function Home() {
     const getData = async ()=>{
         const data = await axios.post("/res");
         setRestaurents(data.data);
-        console.log(restaurents);
     }
     useEffect(()=>{
         getData();

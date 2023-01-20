@@ -41,9 +41,13 @@ function Signup() {
                         upass: user.upass,
                         uphone: user.uphone,
                     });
-                    console.log(data);
-                    navigate("/login");
-                    alert(`Hello, ${data.data.uname} You Registered Successfully`);
+                    if(data.status === 202){
+                        errmsg.innerText = `${data.data.message}`;
+                    }
+                    else{
+                        navigate("/login");
+                        alert(`${data.data.message}`);
+                    }
                 } catch (error) {
                     console.log(error);
                 }
@@ -73,10 +77,14 @@ function Signup() {
                         rpass: user.rpass,
                         rmenu: user.rmenu
                     })
-                    console.log(data);
 
-                    navigate("/login");
-                    alert(`Hello, ${data.data.roname} Your Restaurant ${data.data.rname} Registered Successfully`);
+                    if(data.status === 202){
+                        errmsg.innerText = `${data.data.message}`;
+                    }
+                    else{
+                        navigate("/login");
+                        alert(`${data.data.message}`);
+                    }
 
                 } catch (error) {
                     console.log(error);
@@ -99,7 +107,6 @@ function Signup() {
     function handleinputs(e) {
         name = e.target.name;
         value = e.target.value;
-        console.log(name + " " + value);
         setuser({ ...user, [name]: value });
         e.preventDefault();
     }
@@ -143,7 +150,7 @@ function Signup() {
                     </div>
                 </div>
                 <div className="form-content">
-                    <form onSubmit={checkuser}>
+                    <form>
                         {option === "user" ? <>
                             <div className="field input-field">
                                 <input type="text" placeholder="Name" onChange={handleinputs} value={user.uname} name="uname" className="input" />
@@ -189,11 +196,11 @@ function Signup() {
                                     <input type="password" placeholder="Confirm Password" onChange={handleinputs} value={user.rcpass} name="rcpass" className="input" />
                                 </div>
                             </>}
-                        <span id="errmsg"></span>
-                        <div className="field button-field">
-                            <button type="submit">Register</button>
-                        </div>
+                <span id="errmsg"></span>
                     </form>
+                </div>
+                <div className="field button-field">
+                    <button type="submit" onClick={checkuser}>Register</button>
                 </div>
             </div>
             </div>
