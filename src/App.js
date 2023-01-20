@@ -4,7 +4,8 @@ import Login from './components/Login';
 import Signup from './components/Signup';
 import Orders from './components/Orders';
 import Home from './components/Home';
-import Restaurant from './components/Restaurant';
+import RestaurantMenu from './components/RestaurantMenu';
+import RestaurantHome from './components/RestaurantHome';
 
 function App() {
   return (
@@ -16,7 +17,8 @@ function App() {
           <Route path="orders" element={<Orders />} />
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
-          <Route path="restaurent" element={<Restaurant />} />
+          <Route path="restaurentmenu" element={<RestaurantMenu />} />
+          <Route path="restaurenthome" element={<RestaurantHome />} />
 
       </Routes>
 

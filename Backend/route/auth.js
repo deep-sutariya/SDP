@@ -53,9 +53,9 @@ router.post("/restaurentlogin", async (req, res) => {
     const { uemail, upass } = req.body;
     console.log(req.body);
     const restaurent = await Restaurantinfo.findOne({ remail: uemail });
-    console.log(restaurent);
+    // console.log(restaurent);
     if (restaurent) {
-        if (await bcrypt.compare(upass, restaurent.rpass)) {
+        if (await bcrypt.compare(upass, restaurent.rpass)){
             res.status(200).send(restaurent);
             console.log(restaurent);
         }

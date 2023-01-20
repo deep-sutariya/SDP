@@ -60,3 +60,9 @@
     border: none;
     background-color: rgb(59, 59, 254);
 }
+
+@media screen and (max-width: 539px){
+    .nav_logo{
+        display: none;
+    }
+}
