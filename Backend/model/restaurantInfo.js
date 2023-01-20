@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const bcrypt = require('bcryptjs');
+// const bcrypt = require('bcryptjs');
 const jwt = require("jsonwebtoken");
 
 const RestaurantInfoSchema = new Schema({
@@ -23,8 +23,8 @@ const RestaurantInfoSchema = new Schema({
 }, { timestamps: true });
 
 
-RestaurantInfoSchema.pre("save", async function (next) {
-        this.rpass = await bcrypt.hash(this.rpass, 10);
-});
+// RestaurantInfoSchema.pre("save", async function (next) {
+//         this.rpass = await bcrypt.hash(this.rpass, 10);
+// });
 
 module.exports = mongoose.model('Restaurantinfo', RestaurantInfoSchema);
