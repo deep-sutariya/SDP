@@ -2,7 +2,7 @@ import axios from "axios";
 import React from "react";
 import { useState } from "react";
 import "./style/login.css";
-import { createSearchParams, Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import restaurentlogo from '../assets/restaurentlogo.jfif';
 import userlogo from '../assets/userlogo.jfif';
 import Navbar from '../components/Navbar';
@@ -47,10 +47,18 @@ function Login() {
       if (data.status === 200) {
         console.log(data.data);
 
-        if (loginoption === "user")
+        if (loginoption === "user"){ // navigate to the user page 
+          navigate("/",{
+            state : { data : data.data }
+          })
           alert(`Hello ${data.data.uname}, you Logged in successfully.`);
-        else
+        }
+        else{ // navigate to the restaurent page 
+          navigate("/restaurenthome",{
+            state: {data : data.data}
+          })
           alert(`Hello ${data.data.rname}, you Logged in successfully.`);
+        }
 
       } else {
         loginmsg.innerText = data.data.message;
