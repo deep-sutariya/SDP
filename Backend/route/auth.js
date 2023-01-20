@@ -77,8 +77,8 @@ router.post("/addmenu", async (req, res) => {
     const restaurent = await Restaurantinfo.findById(resid);
 
     if (restaurent) {
-        restaurent.rmenu.push({ name: iname, des: ides, price :iprice });
-        const data = await restaurent.save();
+        const data = restaurent.rmenu.push({ name: iname, des: ides, price :iprice });
+        // const data = await restaurent..save();
         res.send({data : data, message : `${iname} Added Sucssessfully !`});
     }
     else {
