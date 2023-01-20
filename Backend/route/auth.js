@@ -3,6 +3,7 @@ const router = express.Router();
 const UserInfo = require('../model/userinfo');
 const bcrypt = require('bcryptjs');
 const Restaurantinfo = require('../model/restaurantInfo');
+const hashpassword = require('../middleware/hashpassword');
 // const uuidv4 = require("uuid/v4");
 
 router.post("/signup", async (req, res) => {
@@ -17,7 +18,7 @@ router.post("/signup", async (req, res) => {
     res.send(data);
 });
 
-router.post("/registerrestaurant", async (req, res) => {
+router.post("/registerrestaurant", hashpassword ,async (req, res) => {
     const restaurantInfo = new Restaurantinfo({
         rname: req.body.rname,
         roname: req.body.roname,
