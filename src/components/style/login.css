@@ -1,14 +1,14 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
 
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
 }
-.container{
-    height: 90vh;
+
+.container {
+    height: 88vh;
     width: 100%;
     border-radius: 10px;
     justify-content: center;
@@ -16,42 +16,55 @@
     grid-template-columns: 3fr 2.5fr;
     display: grid;
     column-gap: 30px;
-    background-image: url(../../assets/Login_bg.jpeg);
-    background-size: cover;
-    background-repeat: no-repeat;
 }
-.form{
+.contai{
+    max-width: 430px;
+    margin: auto;
+    display: block;
+}
+.contai img {
+    width: 100%;
+    animation: up-down 1.7s ease-in-out infinite alternate-reverse both;
+}
+
+.form {
     max-width: 430px;
     margin: auto;
     display: block;
     width: 100%;
     padding: 30px;
     border-radius: 10px;
-    background: rgb(248, 247, 247,0.9);
-    box-shadow: inset 0 0 4px 1px #737981
+    box-shadow: 0 0 15px 3px #737981;
+    background: transparent;
+    background-color: rgba(0, 0, 0, 0.02);
 }
-.inside_form{
-    margin-top: 30px;
+
+.inside_form {
+    margin-top: 15px;
 }
-.form.signup{
+
+.form.signup {
     opacity: 0;
     pointer-events: none;
 }
-.forms.show-signup .form.signup{
+
+.forms.show-signup .form.signup {
     opacity: 1;
     pointer-events: auto;
 }
-.forms.show-signup .form.login{
+
+.forms.show-signup .form.login {
     opacity: 0;
     pointer-events: none;
 }
-header{
+
+header {
     font-size: 28px;
     font-weight: 600;
     color: #232836;
 }
 
-.form .field{
+.form .field {
     position: relative;
     height: 50px;
     width: 100%;
@@ -59,8 +72,9 @@ header{
     border-radius: 6px;
     background-color: #016dcb;
 }
+
 .field input,
-.field button{
+.field button {
     height: 100%;
     width: 100%;
     border: none;
@@ -68,15 +82,18 @@ header{
     font-weight: 400;
     border-radius: 6px;
 }
-.field input{
+
+.field input {
     outline: none;
     padding: 0 15px;
     border: 1px solid#CACACA;
 }
-.field input:focus{
+
+.field input:focus {
     border-bottom-width: 2px;
 }
-.eye-icon{
+
+.eye-icon {
     position: absolute;
     top: 50%;
     right: 10px;
@@ -86,39 +103,47 @@ header{
     cursor: pointer;
     padding: 5px;
 }
-.field button{
+
+.field button {
     color: #fff;
     background-color: #0171d3;
     transition: all 0.3s ease;
     cursor: pointer;
 }
-.field button:hover{
+
+.field button:hover {
     background-color: #016dcb;
 }
-.form-link{
+
+.form-link {
     margin-top: 10px;
 }
+
 .form-link span,
-.form-link a{
+.form-link a {
     font-size: 14px;
     font-weight: 400;
     color: #232836;
 }
-.form a{
+
+.form a {
     color: #0171d3;
     text-decoration: none;
 }
-.form-content a:hover{
+
+.form-content-login a:hover {
     text-decoration: underline;
 }
-.line{
+
+.line {
     position: relative;
     height: 1px;
     width: 100%;
     margin: 36px 0;
     background-color: #d4d4d4;
 }
-.line::before{
+
+.line::before {
     content: 'Or';
     position: absolute;
     top: 50%;
@@ -128,16 +153,19 @@ header{
     color: #8b8b8b;
     padding: 0 15px;
 }
-.media-options a{
+
+.media-options a {
     display: flex;
     align-items: center;
     justify-content: center;
 }
-a.facebook{
+
+a.facebook {
     color: #fff;
     background-color: #4267b2;
 }
-a.facebook .facebook-icon{
+
+a.facebook .facebook-icon {
     height: 28px;
     width: 28px;
     color: #0171d3;
@@ -148,49 +176,56 @@ a.facebook .facebook-icon{
     justify-content: center;
     background-color: #fff;
 }
+
 .facebook-icon,
-img.google-img{
+img.google-img {
     position: absolute;
     top: 50%;
     left: 15px;
     transform: translateY(-50%);
 }
-img.google-img{
+
+img.google-img {
     height: 20px;
     width: 20px;
     object-fit: cover;
 }
-a.google{
+
+a.google {
     border: 1px solid #CACACA;
 }
-a.google span{
+
+a.google span {
     font-weight: 500;
     opacity: 0.6;
     color: #232836;
 }
 
 /* options css */
-.restaurentlogo{
+.restaurentlogo {
     height: 40px;
     width: 40px;
     border-radius: 50px;
     border: 2px solid black;
 }
-.userlogo{
+
+.userlogo {
     height: 40px;
     width: 40px;
     border-radius: 50px;
     border: 2px solid black;
 }
-.option{
+
+.option {
     display: grid;
     grid-template-columns: auto auto;
     gap: 0px 10px;
     margin-top: 15px;
     font-weight: 800;
-    cursor: pointer;    
+    cursor: pointer;
 }
-.user{
+
+.user {
     height: 3rem;
     display: flex;
     justify-content: space-between;
@@ -199,107 +234,76 @@ a.google span{
     border: 1px solid #8b8b8b;
     border-radius: 10px;
 }
-.restaurent{
+
+.restaurent {
     height: 3rem;
     display: flex;
     justify-content: space-between;
     padding: 0px 10px;
     align-items: center;
-    border:1px solid #8b8b8b;
+    border: 1px solid #8b8b8b;
     border-radius: 10px;
 }
-.user:hover{
-    background: rgb(2,0,36);
-    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(255,255,255,1) 0%, rgba(72, 126, 219, 0.612) 100%);    
+
+.user:hover {
+    background: rgb(2, 0, 36);
+    background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(255, 255, 255, 1) 0%, rgba(72, 126, 219, 0.612) 100%);
 }
-.restaurent:hover{
-    background: rgb(255,255,255);
-    background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(72, 126, 219, 0.612) 0%, rgba(255,255,255,0.4638135039171919) 100%);
+
+.restaurent:hover {
+    background: rgb(255, 255, 255);
+    background: linear-gradient(90deg, rgba(255, 255, 255, 1) 0%, rgba(72, 126, 219, 0.612) 0%, rgba(255, 255, 255, 0.4638135039171919) 100%);
 }
-@media screen and (max-width: 903px) {
-    .container{
-        grid-template-columns: 1fr;
+
+
+
+/* KeyFrames */
+
+@keyframes up-down {
+    0% {
+        transform: translateY(10px);
+    }
+
+    100% {
+        transform: translateY(-10px);
     }
 }
-@media screen and (max-width: 400px) {
+
+
+
+
+/* Media Query */
+
+
+@media screen and (max-width: 903px) {
+    .container {
+        grid-template-columns: 1fr;
+        height: auto;
+        margin-bottom: 20px;
+    }
+    .contai {
+        margin: auto;
+    }
+}
+
+@media screen and (max-width: 404px) {
+    .form.grid_container.login {
+        padding: 10px 10px;
+    }
+
+}
+@media screen and (max-width: 528px) {
     .form{
+        max-width: 90%;
         padding: 20px 10px;
     }
-    
 }
-
-
-
-
-
-/* *{
-    letter-spacing: 0.1rem;
-}
-form {
-    width: 50%;
-    border: 3px solid #f1f1f1;
-    border-radius: 10px;
-}
-
-.main {
-    display: grid;
-    place-items: center;
-    height: 80vh;
-}
-.heading{
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    font-weight: 600;
-    letter-spacing: 2px;
-    padding: 15px;
-}
-
-input {
-    width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
-}
-
-.login_btn {
-    background-color: rgb(59, 59, 254);
-    color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    width: 100%;
-    font-weight: 600;
-    letter-spacing: 2px;
-}
-
-.login_btn:hover {
-    opacity: 0.8;
-}
-
-.login_container {
-    padding: 16px;
-}
-
-span.psw {
-    float: right;
-    padding-top: 16px;
-}
-
-#res{
-    float: right;
-    color: blue;
-}
-
-@media screen and (max-width: 300px) {
-    span.psw {
-        display: block;
-        float: none;
+@media screen and (max-width: 540px) {
+    .form {
+        padding: 10px 50px;
+        max-width: 400px;
+        margin: auto;
     }
 
-    .cancelbtn {
-        width: 100%;
-    }
-} */
+
+}

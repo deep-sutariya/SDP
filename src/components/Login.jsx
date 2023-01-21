@@ -6,6 +6,10 @@ import { Link, useNavigate } from "react-router-dom";
 import restaurentlogo from '../assets/restaurentlogo.jfif';
 import userlogo from '../assets/userlogo.jfif';
 import Navbar from '../components/Navbar';
+import login from '../assets/login.svg'
+import reslogin from '../assets/reslogin.svg'
+
+
 function Login() {
   var data = {};
   const navigate = useNavigate();
@@ -76,11 +80,14 @@ function Login() {
   }
   return (
     <>
-      <Navbar />
+      <Navbar type="user"/>
       <div className="container">
-        <div className="contai">vgfbgf</div>
+        <div className="contai">
+          <img src={login} alt="loginimage"/>
+          {/* <img src={reslogin} alt="loginimage"/> */}
+        </div>
         <div className="form grid_container login">
-          <div className="form-content">
+          <div className="form-content-login">
             <header>Login</header>
             <div className="option">
               <div className="restaurent" id="res" onClick={handleRestaurent}>

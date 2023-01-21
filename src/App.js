@@ -6,6 +6,7 @@ import Orders from './components/Orders';
 import Home from './components/Home';
 import RestaurantMenu from './components/RestaurantMenu';
 import RestaurantHome from './components/RestaurantHome';
+import RestaurantOders from './components/RestaurantOders';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="signup" element={<Signup />} />
           <Route path="restaurentmenu" element={<RestaurantMenu />} />
           <Route path="restaurenthome" element={<RestaurantHome />} />
+          <Route path="restaurantorders" element={<RestaurantOders />} />
 
       </Routes>
 

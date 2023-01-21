@@ -132,7 +132,7 @@ function Signup() {
 
     return (
         <>
-        <Navbar />
+        <Navbar type="user"/>
         <div className="signup_main">
             <div className="signup login">
                 <div className="signup_option">
@@ -196,9 +196,9 @@ function Signup() {
                                     <input type="password" placeholder="Confirm Password" onChange={handleinputs} value={user.rcpass} name="rcpass" className="input" />
                                 </div>
                             </>}
-                <span id="errmsg"></span>
                     </form>
                 </div>
+                <span id="errmsg" className="errmsg"></span>
                 <div className="field button-field">
                     <button type="submit" onClick={checkuser}>Register</button>
                 </div>

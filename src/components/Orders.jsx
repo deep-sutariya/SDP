@@ -1,12 +1,15 @@
-import React from 'react'
-import './style/orders.css'
-import { useSearchParams } from "react-router-dom";
+import React from 'react';
+import './style/orders.css';
+import Navbar from './Navbar';
+
+
 function Orders() {
-  const [data] = useSearchParams();
-  console.log("dajdad");
-  console.log(data.get("uname"));
+  
   return (
-    <div>orders Page</div>
+    <>
+    <Navbar type="user" />
+      <div>orders Page</div>
+    </>
   )
 }
 

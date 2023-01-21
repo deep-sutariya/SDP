@@ -18,11 +18,11 @@ function Home() {
     }
     useEffect(()=>{
         getData();
-    },[setRestaurents]);
+    },[]);
 
     return (
         <>
-        <Navbar />
+        <Navbar type="user"/>
         <h1 style={{textAlign : "center",margin: "40px 0px"}}>Categories</h1>
         <Types />
         <h1 style={{textAlign : "center",margin :"10px 0px"}}>Restaurants</h1>
