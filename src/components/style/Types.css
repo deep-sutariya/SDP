@@ -31,7 +31,7 @@ body{
     position: relative;
     overflow: hidden;
     white-space: nowrap;
-    margin: auto;
+    /* margin: 50px 20px; */
     width: 100%;
 }
 .types_section::after {

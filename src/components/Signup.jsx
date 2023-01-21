@@ -134,9 +134,9 @@ function Signup() {
         <>
         <Navbar type="user"/>
         <div className="signup_main">
-            <div className="signup login">
+            <div className="signup">
                 <div className="signup_option">
-                    <div className="signup_">
+                    <div className="signup_ login">
                         <div className="inner_res">
                             <div className="option_img"><img src={res_img} alt="restaurent_option img" /></div>
                             <div className="option_heading" onClick={handleResOption} id='restaurant'>RESTAURENT</div>
