@@ -24,6 +24,7 @@
 }
 .contai img {
     width: 100%;
+    filter: drop-shadow(0 0 0.75rem rgb(174, 168, 169));
     animation: up-down 1.7s ease-in-out infinite alternate-reverse both;
 }
 

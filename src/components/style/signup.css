@@ -13,14 +13,10 @@
 }
 
 .signup_main{
-    /* background-image: url(../../assets/Signin_bg.jpeg);
-    background-repeat: no-repeat;
-    background-size: cover; */
-    /* display: flex; */
+    display: flex;
     height: 90vh;
     justify-content: center;
     align-items: center;
-    /* margin-bottom: 10px; */
 }
 /*  */
 
@@ -144,12 +140,8 @@
     }
 
     .option_heading {
-        /* border: none; */
-        /* border-bottom-right-radius: 0px; */
         border-top-left-radius: 10px;
-        /* border: 1px solid black; */
         letter-spacing: 0px;
-        /* border-radius: 1px; */
     }
 
     .option_img {

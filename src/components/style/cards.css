@@ -46,7 +46,7 @@ body{
     width: 100%;
 }
 .res_card:hover{
-    transform: scale(105%);
+    transform: scale(103%);
 }
 .res_btn button{
     padding: 5px 40px;
