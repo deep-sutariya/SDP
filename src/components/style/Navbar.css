@@ -41,7 +41,7 @@
     border-radius: 3px;
     text-transform: uppercase;
   }
-  a.active,a:hover{
+  nav ul li a.active,a:hover{
     background: var(--light);
     transition: .5s;
   }
@@ -96,7 +96,7 @@
     nav ul li a{
       font-size: 20px;
     }
-    a:hover,a.active{
+    nav ul li a:hover,a.active{
       background: none;
       color: #0082e6;
     }

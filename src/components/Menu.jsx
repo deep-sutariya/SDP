@@ -1,25 +1,29 @@
 import React from 'react'
-import Navbar from './Navbar';
-
+import '../components/style/menucard.css'
 const Menu = (props) => {
   return (
     <>
-      <div className="res_card" style={{ margin: "40px" }}>
-        {/* <div className="res_img">
-        <img src={demo_image} alt="image" />
-    </div> */}
-        <div className="res_details">
-          <div style={{ float: "left" }}>
-            <h2 className='res_heading'>{props.name.toUpperCase()}</h2>
-            <p>{props.des}</p>
+      
+      <div className="menu_card">
+
+          <div className="menu_img">
+
+            {/* <img src={demoimage} alt="menu image" /> */}
+
           </div>
-          <div className="more" style={{ float: "right" }}>
-            <p>{props.price}</p>
-            <div className="res_btn">
-              <button>Add to cart</button>
-            </div>
+          <div className="menu_details">
+              {/* Heading */}
+              <h3>{props.name.toUpperCase()}</h3> 
+              {/* descrption */}
+              <p>{props.des}</p>
+              {/* Ratings */}
+              <p>4⭐</p>
+              {/* Price */}
+              <h2>{props.price}₹</h2>
+              {/* Button for order */}
+                <a href='daksjb'><button>ORDER</button></a>
           </div>
-        </div>
+
       </div>
 
     </>

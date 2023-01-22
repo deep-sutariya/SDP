@@ -23,7 +23,7 @@ const Cards = (props) => {
         <div className="res_details">
           <h2 className='res_heading'>{props.rname.toUpperCase()}</h2>
           <p>{props.raddress}</p>
-          <div className='res_btn'><a><button id={props.rid} onClick={toMenuPage}>Visit</button></a></div>
+          <div className='res_btn'><a><button id={props.rid} onClick={toMenuPage}>VISIT</button></a></div>
         </div>
       </div>
 

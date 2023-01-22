@@ -51,12 +51,13 @@ body{
 .res_btn button{
     padding: 5px 40px;
     font-weight: 900;
-    font-size: 1.2rem;
-    background-color:#4CAF50;
+    font-size: large;
+    background-color:var(--green);
     border: transparent;
-    color: white;
+    color: var(--offwhite);
     border-radius: 5px;
     letter-spacing: 1px;
+    transition: all 0.5s ease-in-out;
 }
 .res_details{
     padding: 10px;
@@ -70,6 +71,7 @@ body{
 }
 .res_btn button:hover{
     cursor: pointer;
+    background-color: var(--light);
 }
 
 @media screen and (max-width : 1000px) {

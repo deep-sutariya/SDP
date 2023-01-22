@@ -1,0 +1,37 @@
+.menu_card{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    /* margin-bottom: 20px; */
+    padding: 10px;
+}
+
+.menu_img{
+    min-width: 150px;
+    min-height: 170px;
+    background-color: black;
+    border-radius: 5px;
+}
+.menu_img img{
+    height: 100%;
+    width: 100%;
+}
+.menu_details{
+    padding: 0px 10px;
+    width: 100%;
+}
+.menu_details button{
+    float: right;
+    border: none;
+    background-color: var(--green);
+    color: var(--offwhite);
+    font-weight: 900;
+    letter-spacing: 1px;
+    border-radius: 5px;
+    padding: 10px 40px;
+    transition: all 0.3s ease-in-out;
+}
+.menu_details button:hover{
+    background-color: var(--light);
+    letter-spacing: 2px;
+}
