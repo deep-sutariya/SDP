@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom'
 import Menu from './Menu'
 import Navbar from './Navbar';
-
+import Popup from '../components/popup';
 
 function Restaurant() {
 
@@ -34,6 +34,7 @@ function Restaurant() {
                     return (<Menu id={_id} name={name} des={des} price={price} />);
                 })
             }
+            <Popup />
         </>
     )
 }

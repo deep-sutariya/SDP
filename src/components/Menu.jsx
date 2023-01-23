@@ -1,6 +1,14 @@
 import React from 'react'
+import { useState } from 'react'
 import '../components/style/menucard.css'
 const Menu = (props) => {
+
+
+  const [count, setCount] = useState(0);
+  const decre = () => {
+    if(count > 0)
+      setCount(count-1);
+  }
   return (
     <>
       
@@ -21,7 +29,10 @@ const Menu = (props) => {
               {/* Price */}
               <h2>{props.price}₹</h2>
               {/* Button for order */}
-                <a href='daksjb'><button>ORDER</button></a>
+                <button  >ADD TO TRAY</button>
+                <button onClick={()=> {setCount(count+1)}}>+</button>
+                <button>{count}</button>
+                <button onClick={decre}>-</button>
           </div>
 
       </div>
