@@ -5,8 +5,9 @@ import { useLocation } from 'react-router-dom'
 import Menu from './Menu'
 import Navbar from './Navbar';
 import Popup from '../components/popup';
+import './style/restaurantmenu.css'
 
-function Restaurant() {
+function RestaurantMenu() {
 
     const location = useLocation();
     const restaurantid = location.state.id;
@@ -29,14 +30,16 @@ function Restaurant() {
         <>
             <Navbar type="restaurant" />
             <div style={{ textAlign: 'center', marginTop: '60px', marginBottom: '60px', textDecoration: 'underline' }}><h2>{resdata.rname}</h2></div>
-            {Object.keys(resmenu).length > 0 &&
-                resmenu.map(({ _id, name, des, price }) => {
-                    return (<Menu id={_id} name={name} des={des} price={price} />);
-                })
-            }
+            <div className="allmenuitems">
+                {Object.keys(resmenu).length > 0 &&
+                    resmenu.map(({ _id, name, des, price }) => {
+                        return (<Menu id={_id} name={name} des={des} price={price} />);
+                    })
+                }
+            </div>
             <Popup />
         </>
     )
 }
 
-export default Restaurant
+export default RestaurantMenu

@@ -13,11 +13,11 @@ function Home(props) {
       </label>
       <label className="logo">BookMyMeal</label>
       <ul>
-        <li><a className="active" href="sadkbj">Home</a></li>
-        <li><a href="sadkbj">About</a></li>
-        <li><a href="sadkbj">Services</a></li>
-        <li><a href="sadkbj">Contact</a></li>
-        <li><a href="sadkbj">Logout</a></li>
+        <li><a className="active" href="/">Home</a></li>
+        {/* <li><a href="sadkbj"></a></li> */}
+        <li><a href="orders">orders</a></li>
+        <li><a href="login">Login</a></li>
+        <li><a href="signup">Signup</a></li>
       </ul>
     </nav>
 

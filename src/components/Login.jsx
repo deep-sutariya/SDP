@@ -7,7 +7,6 @@ import restaurentlogo from '../assets/restaurentlogo.jfif';
 import userlogo from '../assets/userlogo.jfif';
 import Navbar from '../components/Navbar';
 import login from '../assets/login.svg'
-import reslogin from '../assets/reslogin.svg'
 
 
 function Login() {

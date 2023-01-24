@@ -1,42 +1,40 @@
-import React from 'react'
-import { useEffect } from 'react';
-import { useState } from 'react';
-import { useLocation } from 'react-router-dom'
-import Menu from './Menu';
-import axios from 'axios';
+import React from "react";
+import { useEffect,createContext } from "react";
+import { Link, Outlet, useLocation } from "react-router-dom";
+import Navbar from "../components/Navbar";
+import "../components/style/restauranthome.css";
+import Profile from "./Profile";
+const ResContext = createContext();
 const RestaurantHome = () => {
+  let data;
+  const location = useLocation();
+  useEffect(() => {
+    data = location.state.data;
+  }, []);
 
-    const location = useLocation();
-    const [resData,setResdata] = useState();
-    const getData = async () => {
-        setResdata(location.state.data);
-    }
-
-    useEffect(() => {
-    
-      getData();
-
-    }, [])
-    
+  console.log(data);
 
   return (
-    <div>
+    <>
+      <Navbar />
+      {/* <div className="breadcrumb_container">
+        <ul className="breadcrumb">
+          <li>
+            <Link to="profile">Profile</Link>
+          </li>
+          <li>
+            <button onClick={menufunc}>Menu</button>
+          </li>
+          <li>
+            <Link to="orders">Orders</Link>
+          </li>
+        </ul>
+        <hr />
+      </div> */}
+        <Outlet />
+    </>
+  );
+};
 
-        {/* navbar id "restaurant" */}
-        {(resData) ? <>
-
-         {   Object.keys(resData.rmenu).length > 0 &&
-            resData.rmenu.map(({_id,name,des,price})=>{
-                    return (<Menu id={_id} name={name} des={des} price={price}/>);
-                })
-        }
-
-        </> : <h1>dshvdas</h1>}
-
-
-
-    </div>
-  )
-}
-
-export default RestaurantHome
+export default RestaurantHome;
+// export { ResContext };
