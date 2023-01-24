@@ -8,6 +8,7 @@ import RestaurantMenu from './components/RestaurantMenu';
 import RestaurantHome from './components/RestaurantHome';
 import Profile from './components/Profile';
 import AllMenu from './components/AllMenu';
+import { useState } from 'react';
 function App() {
   return (
     <>
@@ -17,10 +18,10 @@ function App() {
 
           <Route path='/' element={<Home />} />
           <Route path="orders" element={<Orders />} />
-          <Route path="login" element={<Login />} />
+          <Route path="login" element={<Login/>} />
           <Route path="signup" element={<Signup />} />
           <Route path="restaurentmenu" element={<RestaurantMenu />} />
-          <Route path="restaurenthome" element={<RestaurantHome />}>
+          <Route path="restaurenthome" element={<RestaurantHome  />}>
             <Route path='profile' element={<Profile />} />
             <Route path='orders' element={<Orders />} />
             <Route path='menus' element={<AllMenu />} />

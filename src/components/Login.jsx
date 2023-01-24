@@ -9,7 +9,7 @@ import Navbar from '../components/Navbar';
 import login from '../assets/login.svg'
 
 
-function Login() {
+function Login({setResData}) {
   var data = {};
   const navigate = useNavigate();
   const [loginoption, setLoginOption] = useState("");
@@ -51,6 +51,8 @@ function Login() {
           uemail: user.uemail,
           upass: user.upass,
         });
+
+        localStorage.setItem("data",JSON.stringify(data))
 
         if (data.status === 200) {
           console.log(data.data);
