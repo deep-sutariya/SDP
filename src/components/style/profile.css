@@ -1,0 +1,124 @@
+.profile_heading{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 10px;
+}
+.profile_info{
+    font-size: 1.1rem;
+    padding: 10px 20px;
+}
+.profile_info h1{
+    padding: 20px 0px;
+}
+.res_info{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin: 20px 0px;
+}
+.profile{
+    margin: auto;
+    margin-top: 40px;
+    width: 60vw;
+    letter-spacing: 1px;
+    background-color: rgba(255, 255, 255, 0.694);
+    border-radius: 10px;
+    box-shadow: 0px 0px 8px black;
+    padding: 20px
+}
+.material-symbols-outlined{
+    transition: all 0.5s ease-in-out;
+}
+.material-symbols-outlined:hover{
+    background-color: var(--green);
+    cursor: pointer;
+}
+@media screen and (max-width: 550px) {
+    .res_info{
+        grid-template-columns: 1fr;
+        margin: 10px 0px;
+        text-align: center;
+    }
+}
+
+/* 
+
+
+
+*/
+/* Style inputs, select elements and textareas */
+.col-75 input[type=text], select, textarea{
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    resize: vertical;
+  }
+  
+  /* Style the label to display next to the inputs */
+  .col-25 label {
+    padding: 12px 12px 12px 0;
+    display: inline-block;
+  }
+  
+  /* Style the submit button */
+  .row input[type=submit] {
+    background-color: #04AA6D;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    float: right;
+  }
+  
+  /* Style the container */
+  .edit_container {
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.694);;
+    box-shadow: 0px 0px 8px black;
+    padding: 20px;
+    width: 60vw;
+    margin: auto;
+    margin-top: 40px;
+  }
+  
+  /* Floating column for labels: 25% width */
+  .col-25 {
+    float: left;
+    width: 25%;
+    margin-top: 6px;
+  }
+  
+  /* Floating column for inputs: 75% width */
+  .col-75 {
+    float: left;
+    width: 75%;
+    margin-top: 6px;
+  }
+  
+  /* Clear floats after the columns */
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  
+  /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+  @media screen and (max-width: 600px) {
+    .col-25, .col-75, .row input[type=submit] {
+      width: 100%;
+    }
+    .row input[type=submit] {
+        margin: 5px 0px !important;
+      }
+  }
+  @media screen and (max-width: 730px) {
+    .edit_container{
+        width: 80vw;
+    }
+    .profile{
+        width: 80vw;
+    }
+  }

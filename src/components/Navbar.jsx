@@ -8,7 +8,7 @@ function Home(props) {
   return (
     <nav className='navbar'>
       <input type="checkbox" id="check" />
-      <label for="check" className="checkbtn">
+      <label htmlFor="check" className="checkbtn">
         <i className="fas fa-bars"></i>
       </label>
       <label className="logo">BookMyMeal</label>

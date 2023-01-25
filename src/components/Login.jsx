@@ -52,10 +52,10 @@ function Login({setResData}) {
           upass: user.upass,
         });
 
-        localStorage.setItem("data",JSON.stringify(data))
-
+        
         if (data.status === 200) {
           console.log(data.data);
+          localStorage.setItem("data",JSON.stringify(data.data));
 
           if (loginoption === "user") { // navigate to the user page 
             navigate("/", {

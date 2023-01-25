@@ -41,7 +41,7 @@
     border-radius: 3px;
     text-transform: uppercase;
   }
-  nav ul li a.active,a:hover{
+  nav ul li a.active,nav ul li a:hover{
     background: var(--light);
     transition: .5s;
   }
@@ -78,7 +78,7 @@
     .checkbtn{
       display: block;
     }
-    ul{
+    nav ul{
       position: fixed;
       width: 70%;
       height: 100vh;
