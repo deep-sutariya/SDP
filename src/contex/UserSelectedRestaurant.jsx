@@ -8,14 +8,13 @@ export const UserSelectedResContex = createContext(null);
 export const UserSelectedResContexProvider = (props) =>{
 
     const [Restaurant, setRestaurant] = useState({});
-    const [RestaurantMenu, setRestaurantMenu] = useState({});
+    const [RestaurantMenu, setRestaurantMenu] = useState([]);
 
-    const setSelectedRestaurant = (resData) =>{
-        setRestaurant({resData})
+    const setSelectedRestaurant = async (resData) =>{
+        await setRestaurant({resData})
         const data = resData.rmenu;
-        setRestaurantMenu({data});
+        await setRestaurantMenu(data);
     }
-    console.log(RestaurantMenu);
 
     const Rescontexvalue = {Restaurant,RestaurantMenu,setSelectedRestaurant}
 

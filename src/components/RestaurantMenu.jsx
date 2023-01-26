@@ -9,10 +9,13 @@ import './style/restaurantmenu.css';
 import BounceLoader from "react-spinners/BounceLoader";
 import { UserSelectedResContex } from '../contex/UserSelectedRestaurant';
 import { useContext } from 'react';
+import { TrayContex } from '../contex/tray_contex';
 
 function RestaurantMenu() {
 
     const {setSelectedRestaurant} = useContext(UserSelectedResContex);
+
+    const {getDefaultCart} = useContext(TrayContex);
 
     const location = useLocation();
     const restaurantid = location.state.id;
@@ -29,8 +32,12 @@ function RestaurantMenu() {
         setResdata(data.data);
         setLoading(false);
     }
+    
+    useEffect(()=>{
+        setSelectedRestaurant(resdata);
+        getDefaultCart();
+    }, [resdata, resmenu] );
 
-    useEffect(()=>setSelectedRestaurant(resdata), [resdata] );
     
     useEffect(() => {
         getData();
