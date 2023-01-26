@@ -1,0 +1,76 @@
+.menu_card{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    /* margin-bottom: 20px; */
+    padding: 30px;
+}
+
+.infoFlex{
+    display: grid;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+.infoGrid{
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    width: 100%;
+}
+
+.menu_img{
+    min-width: 150px;
+    min-height: 170px;
+    background-color: black;
+    border-radius: 5px;
+}
+.menu_img img{
+    height: 100%;
+    width: 100%;
+}
+.menu_details{
+    padding: 0px 10px;
+    width: 100%;
+}
+
+.traybutton{
+    /* width: 35%; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.traybutton span{
+    border: 1px dotted var(--green);
+    padding: 10px 20px;
+    border: none;
+}
+.traybutton button{
+    border: none;
+    background-color: var(--green);
+    color: var(--offwhite);
+    font-weight: 900;
+    letter-spacing: 1px;
+    border-radius: 5px;
+    padding: 10px 30px;
+    transition: all 0.3s ease-in-out;
+}
+
+.traybutton button:hover{
+    background-color: var(--light);
+    letter-spacing: 2px;
+}
+
+@media screen and (max-width : 630px){
+     .menu_card{
+        flex-direction: column;
+     }
+     .infoGrid{
+        grid-template-columns: 1fr;
+     }
+     .menu_img{
+        width: 100%;
+        height: 100%;
+     }
+}
+

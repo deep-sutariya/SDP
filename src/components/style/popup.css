@@ -14,6 +14,7 @@
     left: 0px;
 }
 
+
 /* The popup form - hidden by default */
 .form-popup {
     display: none;
@@ -24,6 +25,7 @@
     width: 100vw;
     left: 0px;
     transition: all 0.5s ease-in-out;
+
 }
 
 /* Add styles to the form container */

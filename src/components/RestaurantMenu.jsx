@@ -14,6 +14,7 @@ function RestaurantMenu() {
     const [resdata, setResdata] = useState({});
     const [resmenu, setResmenu] = useState([]);
 
+    
     const getData = async () => {
         const data = await axios.post("/getrestaurent", {
             id: restaurantid
@@ -24,12 +25,12 @@ function RestaurantMenu() {
 
     useEffect(() => {
         getData();
-    }, []);
+    }, [resdata]);
 
     return (
         <>
-            <Navbar type="restaurant" />
-            <div style={{ textAlign: 'center', marginTop: '60px', marginBottom: '60px', textDecoration: 'underline' }}><h2>{resdata.rname}</h2></div>
+            <Navbar type="user" />
+            <div style={{ textAlign: 'center', marginTop: '60px', marginBottom: '60px', textDecoration: 'underline' }} className="menuParent"><h2>{resdata.rname}</h2></div>
             <div className="allmenuitems">
                 {Object.keys(resmenu).length > 0 &&
                     resmenu.map(({ _id, name, des, price }) => {

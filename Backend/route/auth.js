@@ -6,6 +6,8 @@ const Restaurantinfo = require("../model/restaurantInfo");
 const hashpassword = require("../middleware/hashpassword");
 const pdf_generator = require('../service/pdf_generator');
 
+
+// Sign Up
 router.post("/signup", async (req, res) => {
   const userexist = await UserInfo.findOne({ uemail: uemail });
   if (userexist) res.status(202).send({ message: "Email already exists" });
@@ -27,6 +29,8 @@ router.post("/signup", async (req, res) => {
   }
 });
 
+
+// Register Restaurant 
 router.post("/registerrestaurant", hashpassword, async (req, res) => {
   const restaurent = await Restaurantinfo.findOne({ remail: req.body.remail });
   if (restaurent != null)
@@ -54,8 +58,10 @@ router.post("/registerrestaurant", hashpassword, async (req, res) => {
   }
 });
 
+
+// Update Restaurant Details 
 router.post("/updaterestaurant", async (req, res) => {
-  try{
+  try {
     const restaurant = await Restaurantinfo.findOne({ remail: req.body.remail });
     if (restaurant === null)
       res.status(202).send({ message: "Restaurant Does not Exists" });
@@ -73,16 +79,18 @@ router.post("/updaterestaurant", async (req, res) => {
       const data = await restaurant.save();
       console.log(data);
       res.status(200).send({
-            data: data,
-            message: `Updation has been done SuccessFully !`,
+        data: data,
+        message: `Updation has been done SuccessFully !`,
       });
     }
   }
-  catch(e){
-    res.status(203).send({message : "Error Accured"})
+  catch (e) {
+    res.status(203).send({ message: "Error Accured" })
   }
 });
 
+
+// User Login Details
 router.post("/userlogin", async (req, res) => {
   const { uemail, upass } = req.body;
   const user = await UserInfo.findOne({ uemail: uemail });
@@ -96,6 +104,8 @@ router.post("/userlogin", async (req, res) => {
   }
 });
 
+
+// Restaurant login details
 router.post("/restaurentlogin", async (req, res) => {
   const { uemail, upass } = req.body;
   const restaurent = await Restaurantinfo.findOne({ remail: uemail });
@@ -110,8 +120,8 @@ router.post("/restaurentlogin", async (req, res) => {
   }
 });
 
-// menu update
 
+// Add MEnu Item
 router.post("/addmenu", async (req, res) => {
   const { resid, iname, iprice, ides } = req.body;
   const restaurent = await Restaurantinfo.findById(resid);
@@ -130,6 +140,8 @@ router.post("/addmenu", async (req, res) => {
   }
 });
 
+
+// Remove Menu Item
 router.post("/removemenu", async (req, res) => {
   try {
     const { resid, iid } = req.body;
@@ -144,21 +156,42 @@ router.post("/removemenu", async (req, res) => {
   }
 });
 
-router.post("editmenu", async (req,res)=>{
-  try{
-    const {resid, iid} = req.body;
-    const data = await Restaurantinfo.findOneAndUpdate(
-      {_id : resid,
-        rmenu : { $elemMatch: { _id : iid } }
-      },
-      { $set: { rmenu { name : `${req.body.name}` }}}
-      )
-      res.send(data);
-  }catch(e){
-    res.status(202).send({message: `${e}`});
+
+// Edit Menu
+router.post("/editmenu", async (req, res) => {
+  try {
+    let { resid, menuIndex, newData } = req.body;
+    console.log(resid,menuIndex,newData);
+
+    const data = await Restaurantinfo.findById(resid);
+    if (data) {
+      let restaurantMenu = data.rmenu;
+
+      if (restaurantMenu) {
+        menuIndex = parseInt(menuIndex);
+        console.log(restaurantMenu[menuIndex]);
+        restaurantMenu[menuIndex].name = newData.name;
+        restaurantMenu[menuIndex].des = newData.des;
+        restaurantMenu[menuIndex].price = newData.price;
+
+        const updatedData = await data.save();
+        res.status(200).send({updatedData, message: "Menu Updated Successfully!"});
+
+      }
+      res.status(202).send({message : "Menu not found"});
+    }
+
+    res.status(201).send({message : "Restaurant not found"});
+
+    // $Set
+
+  } catch (e) {
+    res.status(202).send({ message: `${e}` });
   }
 })
 
+
+// Find All Restaurant
 router.post("/res", async (req, res) => {
   try {
     const data = await Restaurantinfo.find({});
@@ -169,6 +202,8 @@ router.post("/res", async (req, res) => {
   }
 });
 
+
+// Get Restaurant By Id
 router.post("/getrestaurent", async (req, res) => {
   try {
     const { id } = req.body;
@@ -181,24 +216,22 @@ router.post("/getrestaurent", async (req, res) => {
 });
 
 
-
 // Fetch Orders
 
 
 
 
 // GenerateBill
-
-router.get('/generatebill', async(req,res)=>{
-  const stream = res.writeHead(200,{
-    'Content-Type' : 'application/pdf',
-    'Content-Disposition' : 'attachment;filename=yourBill.pdf'
+router.get('/generatebill', async (req, res) => {
+  const stream = res.writeHead(200, {
+    'Content-Type': 'application/pdf',
+    'Content-Disposition': 'attachment;filename=yourBill.pdf'
   })
 
   pdf_generator.billPdf(
     (chunk) => stream.write(chunk),
-    ()=>stream.end(),
-    {rname: "Deep's Cafe"}
+    () => stream.end(),
+    { rname: "Deep's Cafe" }
   )
 
 })
