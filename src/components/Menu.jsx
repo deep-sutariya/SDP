@@ -9,7 +9,7 @@ const Menu = (props) => {
 
         <div className="menu_img"></div>
 
-        <div className="infoGrid">
+        <div className="infoGridofMenu">
 
           <div className="menu_details">
             <h3>{props.name.toUpperCase()}</h3>

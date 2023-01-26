@@ -17,7 +17,7 @@ const TrayMenu = (props) => {
 
                 <div className="menu_img"></div>
 
-                <div className="infoGrid">
+                <div className="infoGridofMenu">
 
                     <div className="menu_details">
 

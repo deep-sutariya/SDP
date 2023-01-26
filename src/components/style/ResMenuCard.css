@@ -36,23 +36,6 @@
     flex-direction: column;
     justify-content: flex-start;
 }
-.infoGrid{
-    display: grid;
-    grid-template-columns: 1fr 4fr;
-    gap:10px;
-    padding: 10px;
-}
-.infoGrid label{
-    font-weight: 600;
-}
-.infoGrid p{
-    font-size: large;
-    font-weight: lighter;
-    color: rgb(91, 91, 91);
-}
-
-.editbutton{
-}
 .modify_button {
     text-align: center;
     font-size: 1em;
@@ -163,11 +146,6 @@
     overflow: auto;
 }
 
-@media screen and (max-width : 515px) {
-    .infoGrid{
-        grid-template-columns: 2fr 4fr;
-    }
-}
 @media screen and (max-width : 560px) {
     .popup{
         max-width: 300px;

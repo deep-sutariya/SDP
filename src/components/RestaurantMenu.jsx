@@ -5,7 +5,8 @@ import { useLocation } from 'react-router-dom'
 import Menu from './Menu'
 import Navbar from './Navbar';
 import Popup from '../components/popup';
-import './style/restaurantmenu.css'
+import './style/restaurantmenu.css';
+import BounceLoader from "react-spinners/BounceLoader";
 
 function RestaurantMenu() {
 
@@ -13,26 +14,33 @@ function RestaurantMenu() {
     const restaurantid = location.state.id;
     const [resdata, setResdata] = useState({});
     const [resmenu, setResmenu] = useState([]);
-
+    let [loading, setLoading] = useState(true);
     
     const getData = async () => {
+        setLoading(true);
         const data = await axios.post("/getrestaurent", {
             id: restaurantid
         });
         setResmenu(data.data.rmenu);
         setResdata(data.data);
+        setLoading(false);
     }
 
     useEffect(() => {
         getData();
-    }, [resdata]);
+    }, []);
 
     return (
         <>
             <Navbar type="user" />
             <div style={{ textAlign: 'center', marginTop: '60px', marginBottom: '60px', textDecoration: 'underline' }} className="menuParent"><h2>{resdata.rname}</h2></div>
             <div className="allmenuitems">
-                {Object.keys(resmenu).length > 0 &&
+                {loading ?<div className="loader"><BounceLoader
+                        size={50}
+                        color="black"
+                        aria-label="Loading Spinner"
+                        data-testid="loader"
+                    /> </div>:Object.keys(resmenu).length > 0 &&
                     resmenu.map(({ _id, name, des, price }) => {
                         return (<Menu id={_id} name={name} des={des} price={price} />);
                     })
