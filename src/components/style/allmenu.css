@@ -1,0 +1,18 @@
+.res_menus{
+    max-width: 80%;
+    margin: auto;
+}
+.buttondiv{
+    margin: 30px 10px;
+    display: flex;
+    justify-content: flex-end;
+}
+.buttondiv .additembutton{
+    padding: 10px 10px;
+    border: none;
+    background: var(--dark);
+    border: 1px dotted var(--light);
+    border-radius: 10px;
+    cursor: pointer;
+    color: var(--offwhite);
+}

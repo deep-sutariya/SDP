@@ -132,9 +132,10 @@ router.post("/addmenu", async (req, res) => {
       des: ides,
       price: iprice,
     });
+    const update = await restaurent.save();
     res
       .status(200)
-      .send({ data: data, message: `${iname} Added Sucssessfully !` });
+      .send({ data: update, message: `${iname} Added Sucssessfully !` });
   } else {
     res.status(202).send({ message: "Error" });
   }

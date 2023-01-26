@@ -8,7 +8,7 @@ function Orders() {
   // console.log(data);
   return (
     <>
-      <div>orders Page</div>
+      <div className='mainorder'>orders Page</div>
     </>
   )
 }
