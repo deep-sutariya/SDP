@@ -1,8 +1,14 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import "../components/style/popup.css"
 import TrayMenu from './TrayMenu';
+import { TrayContex } from '../contex/tray_contex'
 
-const popup = () => {
+const Popup = (props) => {
+
+    const { cartItem, getTotalCardAmount } = useContext(TrayContex);
+
+    // console.log(props.resmenu);
+    const resmenu = props.resmenu;
 
     function openForm() {
         document.getElementById("myForm").style.display = "block";
@@ -12,20 +18,40 @@ const popup = () => {
         document.getElementById("myForm").style.display = "none";
     }
 
+
+    // const getTotalCardAmount = () => {
+    //     let totalAmount = 0;
+    //     for(const item in cartItem){
+    //         if(cartItem[item] > 0){
+    //             let itemindex = resmenu[item]
+    //             console.log(itemindex)
+    //             if(itemindex) totalAmount += cartItem[item] * Number(itemindex.price);
+    //         }
+    //     }
+    //     return totalAmount
+    // };
+
+
     return (
         <>
             <button className="open-button" onClick={openForm}>Open Tray</button>
 
             <div className="form-popup" id="myForm">
-                <div className="form-container">
+                <div className="heading">
                     <h1>Your Tray</h1>
+                    <h3>Total Amount : <span>{getTotalCardAmount()}</span></h3>
+                </div>
+                <div className="form-container">
                     <div className="menulist">
-                        <TrayMenu id="Homelander" name="Deep" des="hey iam deepffffffff fffffffffffffffff fffffffff ffff ffffffff ffffff fffffff fffff fffffffffff ffffff ffffff" price="0" />
-                        <TrayMenu id="Homelander" name="Deep" des="hey iam deep" price="0" />
-                        <TrayMenu id="Homelander" name="Deep" des="hey iam deep" price="0" />
-                        <TrayMenu id="Homelander" name="Deep" des="hey iam deep" price="0" />
-                        <TrayMenu id="Homelander" name="Deep" des="hey iam deep" price="0" />
-                        <TrayMenu id="Homelander" name="Deep" des="hey iam deep" price="0" />
+
+                        {
+                            Object.keys(resmenu).length > 0 &&
+                            resmenu.map(({ _id, name, des, price }, index) => {
+                                if (cartItem[index] !== 0)
+                                    return (<TrayMenu key={index} index={index} id={_id} name={name} des={des} price={price} />);
+                            })
+                        }
+
                     </div>
                     <div className="popup_buttons">
                         <button type="submit" className="btn confirm">Confirm Order</button>
@@ -34,8 +60,7 @@ const popup = () => {
                 </div>
             </div>
         </>
-
     )
 }
 
-export default popup
+export default Popup

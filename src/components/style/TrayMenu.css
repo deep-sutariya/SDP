@@ -40,11 +40,20 @@
     align-items: center;
 }
 
-.traybutton span{
-    border: 1px dotted var(--green);
-    padding: 10px 20px;
+.traybutton input{
+    background: transparent;
+    padding: 10px 0px;
     border: none;
+    width: 50px;
+    font-size: large;
+    margin: 0 8px;
+    text-align: center;
 }
+
+.traybutton input:active{
+    border: 1px dotted var(--green);
+}
+
 .traybutton button{
     border: none;
     background-color: var(--green);

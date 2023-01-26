@@ -4,11 +4,15 @@ import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom'
 import Menu from './Menu'
 import Navbar from './Navbar';
-import Popup from '../components/popup';
+import Popup from './Popup';
 import './style/restaurantmenu.css';
 import BounceLoader from "react-spinners/BounceLoader";
+import { UserSelectedResContex } from '../contex/UserSelectedRestaurant';
+import { useContext } from 'react';
 
 function RestaurantMenu() {
+
+    const {setSelectedRestaurant} = useContext(UserSelectedResContex);
 
     const location = useLocation();
     const restaurantid = location.state.id;
@@ -26,10 +30,13 @@ function RestaurantMenu() {
         setLoading(false);
     }
 
+    useEffect(()=>setSelectedRestaurant(resdata), [resdata] );
+    
     useEffect(() => {
         getData();
     }, []);
-
+    
+    
     return (
         <>
             <Navbar type="user" />
@@ -41,12 +48,13 @@ function RestaurantMenu() {
                         aria-label="Loading Spinner"
                         data-testid="loader"
                     /> </div>:Object.keys(resmenu).length > 0 &&
-                    resmenu.map(({ _id, name, des, price }) => {
-                        return (<Menu id={_id} name={name} des={des} price={price} />);
+                    resmenu.map(({ _id, name, des, price },index) => {
+                        return (<Menu key={index} index={index} id={_id} name={name} des={des} price={price} />);
                     })
                 }
             </div>
-            <Popup />
+            {/* {console.log("RMenu Page")} */}
+            <Popup resmenu = {resmenu}/>
         </>
     )
 }

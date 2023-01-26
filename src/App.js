@@ -8,27 +8,32 @@ import RestaurantMenu from './components/RestaurantMenu';
 import RestaurantHome from './components/RestaurantHome';
 import Profile from './components/Profile';
 import AllMenu from './components/AllMenu';
+import { TrayContexProvider } from './contex/tray_contex';
+import { UserSelectedResContexProvider } from './contex/UserSelectedRestaurant';
 function App() {
   return (
     <>
+    <UserSelectedResContexProvider>
+      <TrayContexProvider>
+        <BrowserRouter>
+          <Routes>
 
-    <BrowserRouter>
-      <Routes>
+            <Route path='/' element={<Home />} />
+            <Route path="orders" element={<Orders />} />
+            <Route path="login" element={<Login />} />
+            <Route path="signup" element={<Signup />} />
+            <Route path="restaurentmenu" element={<RestaurantMenu />} />
+            <Route path="restaurenthome" element={<RestaurantHome />}>
+              <Route path='' element={<Profile />} />
+              <Route path='orders' element={<Orders />} />
+              <Route path='menus' element={<AllMenu />} />
+            </Route>
 
-          <Route path='/' element={<Home />} />
-          <Route path="orders" element={<Orders />} />
-          <Route path="login" element={<Login/>} />
-          <Route path="signup" element={<Signup />} />
-          <Route path="restaurentmenu" element={<RestaurantMenu />} />
-          <Route path="restaurenthome" element={<RestaurantHome  />}>
-            <Route path='' element={<Profile />} />
-            <Route path='orders' element={<Orders />} />
-            <Route path='menus' element={<AllMenu />} />
-          </Route>
+          </Routes>
 
-      </Routes>
-
-    </BrowserRouter>
+        </BrowserRouter>
+      </TrayContexProvider>
+      </UserSelectedResContexProvider>
     </>
   );
 }

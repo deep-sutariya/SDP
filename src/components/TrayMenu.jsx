@@ -1,8 +1,12 @@
 import React from 'react'
 import { useState } from 'react'
 import './style/TrayMenu.css'
+import { TrayContex } from '../contex/tray_contex'
+import { useContext } from 'react'
 
 const TrayMenu = (props) => {
+
+    const {cartItem, addToCart, removeFromCart, updateCartItemCount} = useContext(TrayContex);
 
     const [count, setCount] = useState(0);
 
@@ -29,9 +33,9 @@ const TrayMenu = (props) => {
                     </div>
 
                     <div className="traybutton">
-                        <button onClick={decre}>-</button>
-                        <span className='count'>{count}</span>
-                        <button onClick={() => { setCount(count + 1) }}>+</button>
+                        <button onClick={() => removeFromCart(props.index)}>-</button>
+                        <input className='count' value={cartItem[props.index]}  onChange={(e) => updateCartItemCount(Number(e.target.value), props.index)} />
+                        <button onClick={() => addToCart(props.index)}>+</button>
                     </div>
                     
                 </div>

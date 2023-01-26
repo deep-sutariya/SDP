@@ -25,6 +25,7 @@
     width: 100vw;
     left: 0px;
     transition: all 0.5s ease-in-out;
+    background-color: var(--offwhite);
 
 }
 
@@ -97,4 +98,16 @@
 }
 .menulist{
     padding-top: 30px;
+}
+.heading{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 30px;
+    align-items: center;
+}
+.heading h3 span{
+    color: var(--dark);
+}
+.heading h3{
+    text-decoration: underline;
 }

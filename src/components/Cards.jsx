@@ -31,22 +31,3 @@ const Cards = (props) => {
 }
 
 export default Cards
-
-/*
- * 
- *restairent Page
- * 
- * resid 
- *  data fetch
- * complete data fetch
- * 
- * 
- * heading 
- * menu 
- * option ==> map
- * 
- * 
- * 
- * 
- * 
- */
