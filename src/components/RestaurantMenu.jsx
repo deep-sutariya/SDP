@@ -1,10 +1,8 @@
-import axios from 'axios';
 import React from 'react'
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom'
 import Menu from './Menu'
 import Navbar from './Navbar';
-import Popup from './Popup';
+import Popup from './popup';
 import './style/restaurantmenu.css';
 import BounceLoader from "react-spinners/BounceLoader";
 import { UserSelectedResContex } from '../contex/UserSelectedRestaurant';
@@ -13,30 +11,24 @@ import { TrayContex } from '../contex/tray_contex';
 
 function RestaurantMenu() {
 
-    const {setSelectedRestaurant} = useContext(UserSelectedResContex);
+    const { RestaurantMenu ,Restaurant } = useContext(UserSelectedResContex);
+    const { cartItem } = useContext(TrayContex);
 
-    const {getDefaultCart} = useContext(TrayContex);
-
-    const location = useLocation();
-    const restaurantid = location.state.id;
     const [resdata, setResdata] = useState({});
     const [resmenu, setResmenu] = useState([]);
     let [loading, setLoading] = useState(true);
-    
-    const getData = async () => {
+
+
+    const getData = () => {
         setLoading(true);
-        const data = await axios.post("/getrestaurent", {
-            id: restaurantid
-        });
-        setResmenu(data.data.rmenu);
-        setResdata(data.data);
+
+        setResmenu(RestaurantMenu);
+        setResdata(Restaurant);
+
+        console.log(cartItem);
+
         setLoading(false);
     }
-    
-    useEffect(()=>{
-        setSelectedRestaurant(resdata);
-        getDefaultCart();
-    }, [resdata, resmenu] );
 
     
     useEffect(() => {
@@ -60,7 +52,6 @@ function RestaurantMenu() {
                     })
                 }
             </div>
-            {/* {console.log("RMenu Page")} */}
             <Popup resmenu = {resmenu}/>
         </>
     )

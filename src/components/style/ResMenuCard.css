@@ -4,7 +4,7 @@
     padding: 0;
 }
 .resmenucardmain{
-    max-width: 85%;
+    max-width: 80%;
     margin: auto;
 }
 .menuBtn {
@@ -15,7 +15,8 @@
     cursor: pointer;
     width: 100%;
     border: none;
-    border-radius: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
     text-align: left;
     outline: none;
     font-size: 15px;
@@ -47,15 +48,22 @@
     color: white;
     border-radius: 10px;
     text-decoration: none;
+    border: none;
     cursor: pointer;
     float: right;
     font-weight: 600;
     transition: all 0.3s ease-out;
     background: var(--green);
 }
+.modify_edit:hover{
+    border: 1px solid var(--green);
+}
 .removeitem{
     background: var(--dark);
     float: left;
+}
+.removeitem:hover{
+    border: 1px solid var(--dark);
 }
 
 .modify_button:hover {
@@ -87,6 +95,7 @@
     border-radius: 5px;
     max-width: 500px;
     position: relative;
+    top: 100px;
     transition: all 0.5s ease-in-out;
 }
 .popup_info{
@@ -120,7 +129,13 @@
     background-color: red;
 }
 .save{
-    background-color: #06d85f;
+    background-color: var(--green);
+    transition: all 0.5s ease-in-out;
+}
+.save:hover{
+    background: none;
+    color: black;
+    border: 1px solid var(--green);
 }
 
 .popup h2 {
@@ -141,7 +156,7 @@
 }
 
 .popup .close:hover {
-    color: #06d85f;
+    color: var(--green);
 }
 
 .popup .content {

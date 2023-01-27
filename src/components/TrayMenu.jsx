@@ -8,13 +8,6 @@ const TrayMenu = (props) => {
 
     const {cartItem, addToCart, removeFromCart, updateCartItemCount} = useContext(TrayContex);
 
-    const [count, setCount] = useState(0);
-
-    const decre = () => {
-        if (count > 0)
-            setCount(count - 1);
-    }
-
     return (
         <>
             <div className="menu_card">
@@ -34,7 +27,7 @@ const TrayMenu = (props) => {
 
                     <div className="traybutton">
                         <button onClick={() => removeFromCart(props.index)}>-</button>
-                        <input className='count' value={cartItem[props.index]}  onChange={(e) => updateCartItemCount(Number(e.target.value), props.index)} />
+                        <input type="number" className='count' value={cartItem[props.index]}  onChange={(e) => updateCartItemCount((e.target.value), props.index)} />
                         <button onClick={() => addToCart(props.index)}>+</button>
                     </div>
                     

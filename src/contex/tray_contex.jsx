@@ -9,28 +9,14 @@ export const TrayContex = createContext(null);
 
 export const TrayContexProvider = (props) => {
 
-    const { Restaurant, RestaurantMenu } = useContext(UserSelectedResContex);
-    console.log(Restaurant);    
-
-    const [rmenu, setrmenu] = useState([]);
-    useEffect(() => {
-        setrmenu(RestaurantMenu)
-        getDefaultCart();
-    }, [RestaurantMenu,Restaurant])
-
-    const [cartItem, setCartItem] = useState({})
+    const { Restaurant, RestaurantMenu } = useContext(UserSelectedResContex);  
     
-    const getDefaultCart = () => {
-        let cart = {}
+    const [cartItem, setCartItem] = useState([])
+    const [rmenu, setrmenu] = useState([]);
 
-        if (rmenu) {
-            for (let i = 0; i < rmenu.length; ++i) {
-                cart[i] = 0;
-            }
-        }
-        setCartItem(cart);
-    }
-    console.log(cartItem)
+    useEffect(() => {
+        setrmenu(RestaurantMenu);
+    }, [RestaurantMenu,Restaurant])
     
     const addToCart = (ItemId) => {
         setCartItem((prev) => ({ ...prev, [ItemId]: prev[ItemId] + 1 }))
@@ -41,7 +27,7 @@ export const TrayContexProvider = (props) => {
     };
 
     const updateCartItemCount = (newAmount, ItemId) => {
-        setCartItem((prev) => ({ ...prev, [ItemId]: newAmount }))
+            setCartItem((prev) => ({ ...prev, [ItemId]: (Number)(newAmount) }))
     };
 
     const getTotalCardAmount = () => {
@@ -56,7 +42,7 @@ export const TrayContexProvider = (props) => {
         return totalAmount
     };
 
-    const contexvalue = { cartItem, addToCart, removeFromCart, updateCartItemCount, getTotalCardAmount, getDefaultCart }
+    const contexvalue = { setCartItem, cartItem, addToCart, removeFromCart, updateCartItemCount, getTotalCardAmount }
 
     return (
         <TrayContex.Provider value={contexvalue}>{props.children}</TrayContex.Provider>

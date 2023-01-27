@@ -7,7 +7,6 @@ const Popup = (props) => {
 
     const { cartItem, getTotalCardAmount } = useContext(TrayContex);
 
-    // console.log(props.resmenu);
     const resmenu = props.resmenu;
 
     function openForm() {
@@ -17,20 +16,6 @@ const Popup = (props) => {
     function closeForm() {
         document.getElementById("myForm").style.display = "none";
     }
-
-
-    // const getTotalCardAmount = () => {
-    //     let totalAmount = 0;
-    //     for(const item in cartItem){
-    //         if(cartItem[item] > 0){
-    //             let itemindex = resmenu[item]
-    //             console.log(itemindex)
-    //             if(itemindex) totalAmount += cartItem[item] * Number(itemindex.price);
-    //         }
-    //     }
-    //     return totalAmount
-    // };
-
 
     return (
         <>
