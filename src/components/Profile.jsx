@@ -49,9 +49,6 @@ const Profile = () => {
 
     }
 
-
-    
-
   }
 
   const doChange = () => {

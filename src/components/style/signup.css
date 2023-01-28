@@ -1,20 +1,17 @@
 .signup {
-    /* max-width: 800px; */
     margin: auto;
     display: block;
-    /* min-width: 50vw; */
     padding: 30px;
-    /* background-color: white; */
     border-radius: 10px;
-    box-shadow: 0 0 15px 3px #737981;
+    box-shadow: 0 0 20px -2px #737981;
     background: transparent;
     background-color: rgba(0,0,0,0.02);
-
+    width: 500px;
 }
 
 .signup_main{
     display: flex;
-    height: 90vh;
+    height: 88vh;
     justify-content: center;
     align-items: center;
 }
@@ -33,7 +30,7 @@
 }
 
 .signup_ {
-    width: 40%;
+    width: 60%;
     text-align: center;
 }
 
@@ -45,6 +42,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    
     /* text-align: center; */
 }
 
@@ -55,7 +53,7 @@
 }
 
 .option_heading {
-    border: 1px solid black;
+    border: 1px solid rgba(0, 0, 0, 0.66);
     margin: 0px 5px;
     height: 40px;
     display: flex;
@@ -73,7 +71,6 @@
     margin-top: 10px;
     margin-bottom: 3px;
     border-radius: 6px;
-    background-color: #016dcb;
 }
 
 .field input,
@@ -98,7 +95,7 @@
 
 .option_heading:hover {
     background-color: aliceblue;
-    border: 2px dotted rgb(13, 13, 188);
+    border: 2px dotted var(--dark);
     cursor: pointer;
 }
 
@@ -121,20 +118,7 @@
 
 /* Media Queries */
 
-/* @media screen and (min-width: 927px) {
-    .signup_ {
-        width: 40%;
-    }
-    
-}
-@media screen and (max-width: 927px) {
-    .signup_ {
-        width: 40%;
-    }
-    
-} */
-
-@media screen and (max-width: 716px) {
+@media screen and (max-width: 776px) {
     .signup_ {
         width: 50%;
     }
@@ -148,34 +132,29 @@
         display: none;
         height: 150px;
     }
-    
-    #root{
-        width: 100vw;
-        margin: auto;
-    }
-    body{
-        /* margin: 10px 0; */
-    }
-
     .signup{
         max-width: 500px;
     }
-}
-
-@media screen and (max-width: 528px) {
-    .signup{
-        max-width: 90vw;
-        padding: 20px 10px;
-
-    }
-}
-@media screen and (min-width: 718px) {
     .signup{
         max-width: 84vh;
         padding: 20px;
     }
     .form-content{
         margin: 0;
+    }
+}
+
+@media screen and (max-width: 528px) {
+    .signup{
+        max-width: 85vw;
+        padding: 20px 10px;
+    }
+}
+
+@media screen and (max-width: 350px) {
+    .option_heading {
+        letter-spacing: 0px;
+        font-size: 13px;
     }
     
 }

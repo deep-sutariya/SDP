@@ -1,27 +1,17 @@
 .res_menus{
+    max-width: 70vw;
+    margin: auto;
     margin-top: 20px;
 }
-.buttondiv{
-    margin: 30px 10px;
+.addbutton{
+    margin-top: 50px;
+    margin-bottom: 40px;
     display: flex;
     justify-content: flex-end;
 }
-.buttondiv .additembutton{
-    padding: 10px 10px;
-    border: none;
-    background: var(--dark);
-    border: 1px dotted var(--light);
-    border-radius: 10px;
-    cursor: pointer;
-    color: var(--offwhite);
-}
-.addbutton{
-    width: 80%;
-    margin: auto;
-}
-.addmenu{
-    padding: 10px 5%;
-}
 .addmenu:hover{
     border: 1px solid var(--green);
+}
+.menublock{
+    max-width: 80vw;
 }

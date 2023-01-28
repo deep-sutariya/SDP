@@ -36,7 +36,3 @@ ul.breadcrumb {
   .breadcrumb_container hr{
     border-top: 1px dashed black;
   }
-
-  .breadcrumb_container{
-    max-width: 80%;
-  }

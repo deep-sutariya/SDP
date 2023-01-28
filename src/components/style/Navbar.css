@@ -34,7 +34,7 @@
     line-height: 80px;
     margin: 0 5px;
   }
-  nav ul li a{
+  nav ul li a, .Link{
     color: var(--offwhite);
     font-size: 17px;
     padding: 7px 13px;
@@ -43,8 +43,14 @@
   }
   nav ul li a.active,nav ul li a:hover{
     background: var(--light);
-    transition: .5s;
+    transition: 0.6s ease-in-out;
   }
+
+  nav ul li .navlinkss.active,nav ul li .navlinkss:hover{
+    background: var(--light);
+    transition: 0.6s ease-out;
+  }
+
   .checkbtn{
     font-size: 30px;
     color: var(--offwhite);
@@ -86,7 +92,7 @@
       top: 80px;
       left: -100%;
       text-align: center;
-      transition: all .5s;
+      transition: all .7s;
     }
     nav ul li{
       display: block;
@@ -104,8 +110,3 @@
       left: 0;
     }
   }
-  /* section{
-    background: url(bg1.jpg) no-repeat;
-    background-size: cover;
-    height: calc(100vh - 80px);
-  } */

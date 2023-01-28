@@ -12,7 +12,7 @@
     align-items: center;
     width: 100%;
 }
-.infoGrid{
+.infoGridofMenu{
     display: grid;
     grid-template-columns: 3fr 1fr;
     width: 100%;
@@ -74,7 +74,7 @@
      .menu_card{
         flex-direction: column;
      }
-     .infoGrid{
+     .infoGridofMenu{
         grid-template-columns: 1fr;
      }
      .menu_img{

@@ -19,11 +19,12 @@
 .profile{
     margin: auto;
     margin-top: 40px;
+    margin-bottom: 40px;
     width: 60vw;
     letter-spacing: 1px;
     background-color: rgba(255, 255, 255, 0.694);
     border-radius: 10px;
-    box-shadow: 0px 0px 8px black;
+    box-shadow: 0 0 20px -2px rgb(92, 85, 85);
     padding: 20px
 }
 .material-symbols-outlined{

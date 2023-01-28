@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect } from "react";
-import { Link, Outlet } from "react-router-dom";
+import {  Outlet } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import "../components/style/restauranthome.css";
 const RestaurantHome = ({resData}) => {
@@ -11,21 +11,8 @@ const RestaurantHome = ({resData}) => {
 
   return (
     <>
-      <Navbar />
-      <div className="breadcrumb_container">
-        <ul className="breadcrumb">
-          <li>
-            <Link to="">Profile</Link>
-          </li>
-          <li>
-            <Link to="menus">Menu</Link>
-          </li>
-          <li>
-            <Link to="orders">Orders</Link>
-          </li>
-        </ul>
-        <hr />
-      </div>
+      <Navbar type="restaurant" />
+      
         <Outlet />
     </>
   );

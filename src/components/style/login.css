@@ -35,28 +35,12 @@
     width: 100%;
     padding: 30px;
     border-radius: 10px;
-    box-shadow: 0 0 15px 3px #737981;
+    box-shadow: 0 0 20px -2px #737981;
     background: transparent;
-    background-color: rgba(0, 0, 0, 0.02);
 }
 
 .inside_form {
     margin-top: 15px;
-}
-
-.form.signup {
-    opacity: 0;
-    pointer-events: none;
-}
-
-.forms.show-signup .form.signup {
-    opacity: 1;
-    pointer-events: auto;
-}
-
-.forms.show-signup .form.login {
-    opacity: 0;
-    pointer-events: none;
 }
 
 header {
@@ -71,7 +55,6 @@ header {
     width: 100%;
     margin-top: 15px;
     border-radius: 6px;
-    background-color: #016dcb;
 }
 
 .field input,
@@ -94,26 +77,15 @@ header {
     border-bottom-width: 2px;
 }
 
-.eye-icon {
-    position: absolute;
-    top: 50%;
-    right: 10px;
-    transform: translateY(-50%);
-    font-size: 18px;
-    color: #8b8b8b;
-    cursor: pointer;
-    padding: 5px;
-}
-
 .field button {
     color: #fff;
-    background-color: #0171d3;
+    background-color: var(--dark);
     transition: all 0.3s ease;
     cursor: pointer;
 }
 
 .field button:hover {
-    background-color: #016dcb;
+    background-color: var(--light);
 }
 
 .form-link {
@@ -136,71 +108,6 @@ header {
     text-decoration: underline;
 }
 
-.line {
-    position: relative;
-    height: 1px;
-    width: 100%;
-    margin: 36px 0;
-    background-color: #d4d4d4;
-}
-
-.line::before {
-    content: 'Or';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #FFF;
-    color: #8b8b8b;
-    padding: 0 15px;
-}
-
-.media-options a {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-a.facebook {
-    color: #fff;
-    background-color: #4267b2;
-}
-
-a.facebook .facebook-icon {
-    height: 28px;
-    width: 28px;
-    color: #0171d3;
-    font-size: 20px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #fff;
-}
-
-.facebook-icon,
-img.google-img {
-    position: absolute;
-    top: 50%;
-    left: 15px;
-    transform: translateY(-50%);
-}
-
-img.google-img {
-    height: 20px;
-    width: 20px;
-    object-fit: cover;
-}
-
-a.google {
-    border: 1px solid #CACACA;
-}
-
-a.google span {
-    font-weight: 500;
-    opacity: 0.6;
-    color: #232836;
-}
 
 /* options css */
 .restaurentlogo {
@@ -248,12 +155,12 @@ a.google span {
 
 .user:hover {
     background: rgb(2, 0, 36);
-    background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(255, 255, 255, 1) 0%, rgba(72, 126, 219, 0.612) 100%);
+    background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(255, 255, 255, 1) 0%, var(--light) 100%);
 }
 
 .restaurent:hover {
     background: rgb(255, 255, 255);
-    background: linear-gradient(90deg, rgba(255, 255, 255, 1) 0%, rgba(72, 126, 219, 0.612) 0%, rgba(255, 255, 255, 0.4638135039171919) 100%);
+    background: linear-gradient(90deg, rgba(255, 255, 255, 1) 0%, var(--light) 0%, rgba(255, 255, 255, 0.4638135039171919) 100%);
 }
 
 
@@ -281,15 +188,19 @@ a.google span {
         grid-template-columns: 1fr;
         height: auto;
         margin-bottom: 20px;
+        margin-top: 20px;
     }
     .contai {
         margin: auto;
     }
+    .form.grid_container.login {
+        width: 85vw;
+    }
 }
 
 @media screen and (max-width: 404px) {
-    .form.grid_container.login {
-        padding: 10px 10px;
+    .contai{
+        max-width: 250px;
     }
 
 }
@@ -305,6 +216,32 @@ a.google span {
         max-width: 400px;
         margin: auto;
     }
+}
 
-
+@media screen and (max-width: 1040px) {
+    .container {
+        column-gap: 15px;
+    }
+    .contai{
+        width: 330px;
+    }
+    .form {
+        width: 360px;
+        padding: 20px;
+    }
+}
+@media screen and (max-width: 371px) {
+    .form {
+        width: 360px;
+        padding: 10px;
+    }
+}
+@media screen and (max-width: 340px) {
+    .restaurentlogo, .userlogo {
+        display: none;
+        text-align: center;
+    }
+    .restaurent, .user{
+        justify-content: center;
+    }
 }

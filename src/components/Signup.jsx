@@ -52,18 +52,21 @@ function Signup() {
                     console.log(error);
                 }
             } else if (!isvalid) {
-                errmsg.innerText = "Not Valid Email!";
+                errmsg.innerText = "***Not Valid Email!***";
             } else if (uphone.length !== 10) {
-                errmsg.innerText = "Not Valid Phone Number!";
+                errmsg.innerText = "***Not Valid Phone Number!***";
             } else if (ups !== ucps) {
-                errmsg.innerText = "Passwords are not maching!";
+                errmsg.innerText = "***Passwords are not maching!***";
             }
 
             errmsg.style.color = "red";
         }
         else {
             const valid = validator.validate(user.remail);
-            if (user.rpass === user.rcpass && user.rphone.length === 10 && valid) {
+            if(!user.rname){
+                errmsg.innerText = "***Enter Restaurant Name***";
+            }
+            else if (user.rpass === user.rcpass && user.rphone.length === 10 && valid && user.rname && user.rcity) {
                 errmsg.innerText = "";
                 try {
                     const data = await axios.post('/registerrestaurant', {
@@ -79,7 +82,7 @@ function Signup() {
                     })
 
                     if(data.status === 202){
-                        errmsg.innerText = `${data.data.message}`;
+                        errmsg.innerText = `***${data.data.message}***`;
                     }
                     else{
                         navigate("/login");
@@ -91,14 +94,18 @@ function Signup() {
                 }
             }
             else if (!valid) {
-                errmsg.innerText = "Not Valid Email!";
+                errmsg.innerText = "***Not Valid Email!***";
             }
             else if (user.rphone.length !== 10) {
-                errmsg.innerText = "Not Valid Phone Number!";
+                errmsg.innerText = "***Not Valid Phone Number!***";
+            }
+            else if (user.rcity === null) {
+                errmsg.innerText = "***Enter City***";
             }
             else if (user.rpass !== user.rcpass) {
-                errmsg.innerText = "Passwords are not maching!";
+                errmsg.innerText = "***Passwords are not maching!***";
             }
+            
             errmsg.style.color = 'red';
         }
     }
@@ -116,18 +123,18 @@ function Signup() {
         document.getElementById('user').style.backgroundColor = "white";
         document.getElementById('user').style.border = "1px solid black";
         document.getElementById('user').style.boxShadow = "none";
-        document.getElementById('restaurant').style.backgroundColor = "aliceblue";
-        document.getElementById('restaurant').style.border = "2px solid rgb(13, 13, 188)";
-        document.getElementById('restaurant').style.boxShadow = "1px 4px 9px 3px rgba(160,160,255,0.54)";
+        document.getElementById('restaurant').style.backgroundColor = "var(--light)";
+        document.getElementById('restaurant').style.border = "1px solid black";
+        document.getElementById('restaurant').style.boxShadow = "0 0 20px 0px var(--light)";
     }
     const handleUserOption = () => {
         setOption("user");
+        document.getElementById('restaurant').style.boxShadow = "none";
         document.getElementById('restaurant').style.backgroundColor = "white";
         document.getElementById('restaurant').style.border = "1px solid black";
-        document.getElementById('restaurant').style.boxShadow = "none";
-        document.getElementById('user').style.backgroundColor = "aliceblue";
-        document.getElementById('user').style.border = "2px solid rgb(13, 13, 188)";
-        document.getElementById('user').style.boxShadow = "1px 4px 9px 3px rgba(160,160,255,0.54)";
+        document.getElementById('user').style.backgroundColor = "var(--light)";
+        document.getElementById('user').style.border = "1px solid black";
+        document.getElementById('user').style.boxShadow = "0 0 20px 0px var(--light)";
     }
 
     return (

@@ -8,11 +8,17 @@ import RestaurantMenu from './components/RestaurantMenu';
 import RestaurantHome from './components/RestaurantHome';
 import Profile from './components/Profile';
 import AllMenu from './components/AllMenu';
+import RestaurantOrders from './components/RestaurantOrders';
+
 import { TrayContexProvider } from './contex/tray_contex';
 import { UserSelectedResContexProvider } from './contex/UserSelectedRestaurant';
+import { LoginDetailsProvider } from './contex/Logincontex';
+
 function App() {
   return (
     <>
+
+    <LoginDetailsProvider>
     <UserSelectedResContexProvider>
       <TrayContexProvider>
         <BrowserRouter>
@@ -25,7 +31,7 @@ function App() {
             <Route path="restaurentmenu" element={<RestaurantMenu />} />
             <Route path="restaurenthome" element={<RestaurantHome />}>
               <Route path='' element={<Profile />} />
-              <Route path='orders' element={<Orders />} />
+              <Route path='restaurantorders' element={<RestaurantOrders />} />
               <Route path='menus' element={<AllMenu />} />
             </Route>
 
@@ -34,6 +40,8 @@ function App() {
         </BrowserRouter>
       </TrayContexProvider>
       </UserSelectedResContexProvider>
+      </LoginDetailsProvider>
+
     </>
   );
 }

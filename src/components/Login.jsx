@@ -8,8 +8,13 @@ import userlogo from '../assets/userlogo.jfif';
 import Navbar from '../components/Navbar';
 import login from '../assets/login.svg'
 
+import { LoginDetails } from "../contex/Logincontex";
+import { useContext } from "react";
 
-function Login({setResData}) {
+function Login() {
+
+  const {setloginrestaurant, setloginuser} = useContext(LoginDetails);
+
   var data = {};
   const navigate = useNavigate();
   const [loginoption, setLoginOption] = useState("");
@@ -22,12 +27,12 @@ function Login({setResData}) {
   const handleRestaurent = () => {
     setLoginOption("restaurent");
     document.getElementById('use').style.backgroundColor = "white";
-    document.getElementById('res').style.backgroundColor = "rgba(72, 126, 219, 0.412)";
+    document.getElementById('res').style.backgroundColor = "var(--light)";
   }
   const handleUser = () => {
     setLoginOption("user");
     document.getElementById('res').style.backgroundColor = "white";
-    document.getElementById('use').style.backgroundColor = "rgba(72, 126, 219, 0.412)";
+    document.getElementById('use').style.backgroundColor = "var(--light)";
   }
 
   let name, value;
@@ -54,16 +59,19 @@ function Login({setResData}) {
 
         
         if (data.status === 200) {
-          console.log(data.data);
-          localStorage.setItem("data",JSON.stringify(data.data));
-
+          // console.log(data.data);
+          
           if (loginoption === "user") { // navigate to the user page 
+            setloginuser(data.data);
+
             navigate("/", {
               state: { data: data.data }
             })
             alert(`Hello ${data.data.uname}, you Logged in successfully.`);
           }
           else { // navigate to the restaurent page 
+            setloginrestaurant(data.data);
+
             navigate("/restaurenthome", {
               state: { data: data.data }
             })

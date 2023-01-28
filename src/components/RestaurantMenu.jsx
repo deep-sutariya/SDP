@@ -25,8 +25,6 @@ function RestaurantMenu() {
         setResmenu(RestaurantMenu);
         setResdata(Restaurant);
 
-        console.log(cartItem);
-
         setLoading(false);
     }
 

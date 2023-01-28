@@ -115,7 +115,7 @@ router.post("/restaurentlogin", async (req, res) => {
 
 // Add MEnu Item
 router.post("/addmenu", async (req, res) => {
-  const { resid, iname, iprice, ides } = req.body;
+  const { resid, iname, iprice, ides, itype } = req.body;
   const restaurent = await Restaurantinfo.findById(resid);
 
   if (restaurent) {
@@ -123,6 +123,7 @@ router.post("/addmenu", async (req, res) => {
       name: iname,
       des: ides,
       price: iprice,
+      type: itype
     });
     const update = await restaurent.save();
     res
@@ -148,6 +149,7 @@ router.post("/removemenu", async (req, res) => {
   }
 });
 
+
 // Edit Menu
 router.post("/editmenu", async (req, res) => {
   try {
@@ -166,9 +168,7 @@ router.post("/editmenu", async (req, res) => {
 
         const updatedData = await data.save();
 
-        res
-          .status(200)
-          .send({ updatedData, message: "Menu Updated Successfully!" });
+        res.status(200).send({ updatedData, message: "Menu Updated Successfully!" });
       }
       else
         res.status(202).send({ message: "Menu not found" });
@@ -180,6 +180,7 @@ router.post("/editmenu", async (req, res) => {
   }
 });
 
+
 // Find All Restaurant
 router.post("/res", async (req, res) => {
   try {
@@ -190,6 +191,7 @@ router.post("/res", async (req, res) => {
     res.status(202).send({ message: "Error ocuured" });
   }
 });
+
 
 // Get Restaurant By Id
 router.post("/getrestaurent", async (req, res) => {
@@ -203,7 +205,10 @@ router.post("/getrestaurent", async (req, res) => {
   }
 });
 
+
 // Fetch Orders
+
+
 
 // GenerateBill
 router.get("/generatebill", async (req, res) => {

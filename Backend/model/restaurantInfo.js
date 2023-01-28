@@ -17,7 +17,7 @@ const RestaurantInfoSchema = new Schema({
             name:{ type: String, required: false},
             des:{ type: String, required: false},
             price:{ type: String, required: false},
-            // type:{type: String, required: true}  // south inde
+            type:{type: String, required: false}
         }
     ],
 }, { timestamps: true });
