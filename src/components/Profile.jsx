@@ -2,17 +2,25 @@ import axios from "axios";
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
+import { LoginDetails } from "../contex/Logincontex";
+import { useContext } from "react";
 import "../components/style/profile.css";
-const Profile = () => {
+const Profile = (props) => {
   const [resData, setResData] = useState({});
   const [resInfo,setResInfo] = useState({});
   const [flag,setFlag] = useState(true);
-
+  const {setloginrestaurant, loginrestaurant} = useContext(LoginDetails);
+  const getData = async () => {
+    const data = await axios.post("/getrestaurent",{
+      id: localStorage.getItem("restaurantId")
+    })
+    setloginrestaurant(data.data);
+  }
 
   useEffect(() => {
-    const data = localStorage.getItem("data");
-    setResData(JSON.parse(data));
-    setResInfo(JSON.parse(data));
+    getData();
+    setResData(loginrestaurant);
+    setResInfo(loginrestaurant);
   }, []);
 
 

@@ -4,26 +4,26 @@ import { useState } from "react";
 import ResMenuCard from "./ResMenuCard";
 import '../components/style/allmenu.css'
 import axios from "axios";
-
 import { LoginDetails } from "../contex/Logincontex";
+import BounceLoader from "react-spinners/BounceLoader";
 
 const AllMenu = () => {
 
-  const {loginrestaurant} = useContext(LoginDetails);
-
+  const {loginrestaurant ,setloginrestaurant} = useContext(LoginDetails);
   const [Restaurant, setRestaurant] = useState({});
   const [RestaurantMenu, setRestaurantMenu] = useState([]);
 
   let [loading, setLoading] = useState(true);
-  
-  useEffect(() => {
+
+  const getData =  async() => {
     setLoading(true);
-
-    setRestaurant(loginrestaurant);
-    setRestaurantMenu(loginrestaurant.rmenu);
-
+    const data = await axios.post("/getrestaurent",{
+      id: localStorage.getItem("restaurantId")
+    });
+    setRestaurantMenu(data.data.rmenu);
+    setRestaurant(data.data);
     setLoading(false);
-  }, []); 
+  }
 
   const [addmenu, setaddmenu] = useState({
     name:"",
@@ -52,6 +52,9 @@ const AllMenu = () => {
         iprice: addmenu.price,
         ides: addmenu.des
       })
+
+      setRestaurantMenu({...RestaurantMenu,addmenu});
+      console.log(RestaurantMenu);
       console.log(data.data.data);
     }
 
@@ -61,6 +64,9 @@ const AllMenu = () => {
     }
   }
 
+  useEffect(() => {
+    getData();
+  },[]); 
 
   return (
 
@@ -92,19 +98,23 @@ const AllMenu = () => {
               <input type="textarea" placeholder="Type" name="type" value={addmenu.type} onChange={updateMenu} />
               <span id="addmenuerror"></span>
             </div>
-            <button className="popup_btn save" style={{margin:"7px 0px"}} onClick={saveMenu}>Save</button>
+            <a className="popup_btn save" style={{margin:"7px 0px"}} href="" onClick={saveMenu}>Save</a>
           </div>
 
         </div>
-
-        <div className="menublock">
-          {
-            Object.keys(RestaurantMenu).length > 0 &&
-            RestaurantMenu.map(({ _id, name, des, price, type }, index) => {
-              return (<ResMenuCard key={index} id={_id} index={index} name={name} price={price} des={des} type={type} />)
-            })
-          }
-        </div>
+          {(loading) ? <div className="loader"><BounceLoader
+                        size={50}
+                        color="black"
+                        aria-label="Loading Spinner"
+                        data-testid="loader"
+                    /> </div>: 
+          <div className="menublock">
+                {   (RestaurantMenu && Object.keys(RestaurantMenu).length > 0) && RestaurantMenu.map(({ _id, name, des, price, type }, index) => {
+                  
+                    return (<ResMenuCard key={index} id={_id} index={index} name={name} price={price} des={des} type={type} />)
+                  })
+                }
+          </div>}
       </div>
     </>
   );

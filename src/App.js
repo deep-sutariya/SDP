@@ -9,18 +9,19 @@ import RestaurantHome from './components/RestaurantHome';
 import Profile from './components/Profile';
 import AllMenu from './components/AllMenu';
 import RestaurantOrders from './components/RestaurantOrders';
-
+import { useState } from 'react';
 import { TrayContexProvider } from './contex/tray_contex';
 import { UserSelectedResContexProvider } from './contex/UserSelectedRestaurant';
 import { LoginDetailsProvider } from './contex/Logincontex';
+import Navbar from './components/Navbar';
 
 function App() {
+  const [first, setfirst] = useState({});
   return (
     <>
-
-    <LoginDetailsProvider>
     <UserSelectedResContexProvider>
-      <TrayContexProvider>
+    <TrayContexProvider>
+    <LoginDetailsProvider>
         <BrowserRouter>
           <Routes>
 
@@ -30,17 +31,16 @@ function App() {
             <Route path="signup" element={<Signup />} />
             <Route path="restaurentmenu" element={<RestaurantMenu />} />
             <Route path="restaurenthome" element={<RestaurantHome />}>
-              <Route path='' element={<Profile />} />
-              <Route path='restaurantorders' element={<RestaurantOrders />} />
+              <Route path='' element={<Profile  />} />
               <Route path='menus' element={<AllMenu />} />
+              <Route path='restaurantorders' element={<RestaurantOrders />} />
             </Route>
-
           </Routes>
 
         </BrowserRouter>
+      </LoginDetailsProvider>
       </TrayContexProvider>
       </UserSelectedResContexProvider>
-      </LoginDetailsProvider>
 
     </>
   );

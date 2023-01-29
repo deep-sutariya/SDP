@@ -1,18 +1,17 @@
 import React from 'react'
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet ,useNavigate} from "react-router-dom";
 import './style/Navbar.css';
 
 
 function Navbar(props) {
-
   var links = document.querySelectorAll('.navlinkss');
-  
+  const navigate = useNavigate();
   if(links.length > 0){
     links.forEach((link) => {
       link.addEventListener('click', (e) => {
 
         links.forEach((link) => {
-          link.classList.remove('.active');
+          link.classList.remove('active');
         });
         
         link.classList.add('active');
@@ -20,6 +19,9 @@ function Navbar(props) {
     });
   }
 
+  const finalCall= () => {
+    localStorage.clear();
+  }
 
   return (
     <>
@@ -35,7 +37,7 @@ function Navbar(props) {
             <ul>
               <li><a className="navlinkss active" href="/" >Home</a></li>
               <li><a className="navlinkss" href="orders" >orders</a></li>
-              <li><a className="navlinkss" href="login" >Login</a></li>
+              <li><a className="navlinkss" href='login'>Login</a></li>
               <li><a className="navlinkss" href="signup" >Signup</a></li>
             </ul>
             :
@@ -43,7 +45,7 @@ function Navbar(props) {
               <li><Link className='navlinkss active' to="" >Profile</Link></li>
               <li><Link className='navlinkss' to="menus" >Menu</Link></li>
               <li><Link className='navlinkss' to="restaurantorders" >Orders</Link></li>
-              <li><Link className='navlinkss' to="..\..\" >LogOut</Link></li>
+              <li><Link className='navlinkss' onClick={finalCall} to="..\..\login" >LogOut</Link></li>
             </ul>
         }
       </nav>
