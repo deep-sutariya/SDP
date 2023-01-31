@@ -25,8 +25,7 @@ const Cards = (props) => {
         setSelectedRestaurant(data.data);
         const cart = Array(data.data.rmenu.length).fill(0);
         setCartItem(cart);
-
-
+        
         navigate("/restaurentmenu");
 
     }
@@ -35,7 +34,7 @@ const Cards = (props) => {
 
       <div className="res_card">
         <div className="res_img">
-            <img src={demo_image} alt={props.rid}/>
+            <img src={props.rimage} alt={props.rid}/>
         </div>
         <div className="res_details">
           <h2 className='res_heading'>{props.rname.toUpperCase()}</h2>

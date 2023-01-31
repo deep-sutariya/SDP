@@ -34,8 +34,9 @@ function Home() {
                         data-testid="loader"
                     /> </div>:<div className="all_cards">
                 { Object.keys(restaurents).length > 0 &&
-                    restaurents.map(({_id,rname,raddress}) => (
+                    restaurents.map(({_id,rname,raddress,rimage}) => (
                         <div key={_id}><Cards 
+                            rimage = {rimage}
                             rname = {rname}
                             raddress = {raddress}
                             rid = {_id}

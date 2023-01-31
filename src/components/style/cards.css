@@ -40,10 +40,11 @@ body{
     background-color: bisque;
     border-radius: 10px;
     overflow: hidden;
-    
 }
 .res_img img{
     width: 100%;
+    height: 100%;
+    object-fit: fill;
 }
 .res_card:hover{
     transform: scale(103%);

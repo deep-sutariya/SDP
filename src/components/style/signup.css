@@ -115,7 +115,9 @@
     border-radius: 20px;
 }
 
-
+#file-upload-button{
+    padding: 20px;
+}
 /* Media Queries */
 
 @media screen and (max-width: 776px) {
@@ -143,7 +145,29 @@
         margin: 0;
     }
 }
-
+/*  */
+input[type="file"]{
+    display:none;
+}
+#file-label{
+    display: flex;
+    background-color: var(--green);
+    padding: 7px;
+    border-radius: 7px;
+    border: 1px solid grey;
+    height: 100%;
+    text-align: center;
+    align-items: center;
+    transition: all 0.5s ease-in-out;
+    font-weight: 500;
+}
+#file-label:hover{
+    background-color: var(--light);
+    cursor: pointer;
+    border: 1px solid black;
+    padding-left: 40px;
+}
+/*  */
 @media screen and (max-width: 528px) {
     .signup{
         max-width: 85vw;

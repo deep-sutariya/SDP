@@ -80,6 +80,10 @@ const Profile = (props) => {
                 <hr />
                 <div className="profile_info">
                   <h1 style={{textAlign: "center" ,textDecoration: "underline"}}>{resInfo.rname}</h1>
+                  
+                  <div className="profile_image">
+                    <img src={resInfo.rimage} alt="image" />
+                  </div>
                   <div className="res_info">
                     <p style={{fontWeight : "bold"}}>Email :</p>
                     <p style={{color: "rgb(69, 69, 69)"}}>{resInfo.remail}</p>

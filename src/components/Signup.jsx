@@ -18,7 +18,7 @@ function Signup() {
         uphone: "",
         ucpass: "",
         rname: "",
-        roname: "", rphone: "", raddress: "", remail: "", rurl: "", rcity: "", rpass: "", rcpass: ""
+        roname: "", rphone: "", raddress: "", remail: "", rurl: "", rcity: "",image:"", rpass: "", rcpass: ""
     });
 
     async function checkuser(e) {
@@ -77,6 +77,7 @@ function Signup() {
                         remail: user.remail,
                         rurl: user.rurl,
                         rcity: user.rcity,
+                        rimage:user.image,
                         rpass: user.rpass,
                         rmenu: user.rmenu
                     })
@@ -117,7 +118,14 @@ function Signup() {
         setuser({ ...user, [name]: value });
         e.preventDefault();
     }
-
+    const handleFile = async (e)=>{
+        e.preventDefault();
+        document.getElementById("nameoffile").innerText = e.target.files[0].name; 
+        document.getElementById("label").innerText = ""; 
+        const file = e.target.files[0];
+        const Base64 = await convertToBase64(file);
+        setuser({ ...user, ["image"]: Base64 });
+    }
     const handleResOption = () => {
         setOption("restaurant");
         document.getElementById('user').style.backgroundColor = "white";
@@ -136,6 +144,21 @@ function Signup() {
         document.getElementById('user').style.border = "1px solid black";
         document.getElementById('user').style.boxShadow = "0 0 20px 0px var(--light)";
     }
+    // converting the file to the Base64 format
+    function convertToBase64(file){
+
+        return new Promise((resolve,reject) => {
+          const fileReader = new FileReader();
+          fileReader.readAsDataURL(file);
+          fileReader.onload = () =>{
+            resolve(fileReader.result);
+          }
+          fileReader.onerror = (error) => {
+            reject(error);
+          }
+        })
+      
+      }
 
     return (
         <>
@@ -197,7 +220,11 @@ function Signup() {
                                     <input type="text" placeholder="Google Location of the Restaurent Url" onChange={handleinputs} value={user.rurl} name="rurl" className="input" />
                                 </div>
                                 <div className="field input-field">
-                                    <input type="password" placeholder="Password" onChange={handleinputs} value={user.rpass} name="rpass" className="input" />
+                                    <input type="file" id="file-input" onChange={handleFile}/>
+                                    <label id="file-label" htmlFor="file-input"><i className='fa fa-upload'></i>&emsp;<span id="label">Choose a Image...</span>&ensp;<span id="nameoffile"></span></label>
+                                </div>
+                                <div className="field input-field">
+                                    <input type="password" placeholder="Confirm Password" onChange={handleinputs} value={user.rpass} name="rpass" className="input" />
                                 </div>
                                 <div className="field input-field">
                                     <input type="password" placeholder="Confirm Password" onChange={handleinputs} value={user.rcpass} name="rcpass" className="input" />

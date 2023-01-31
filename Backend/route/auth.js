@@ -41,14 +41,16 @@ router.post("/registerrestaurant", hashpassword, async (req, res) => {
       remail: req.body.remail,
       rurl: req.body.rurl,
       rcity: req.body.rcity,
+      rimage:req.body.rimage,
       rpass: req.body.rpass,
       rmenu: req.body.rmenu,
     });
 
     const data = await restaurantInfo.save();
+    console.log(data);
     res.status(200).send({
       data: data,
-      message: `Hello, ${data.data.roname} Your Restaurant ${data.data.rname} Registered Successfully`,
+      message: `Hello, ${data.roname} Your Restaurant ${data.rname} Registered Successfully`,
     });
   }
 });
