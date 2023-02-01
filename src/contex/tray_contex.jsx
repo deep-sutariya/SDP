@@ -11,8 +11,8 @@ export const TrayContexProvider = (props) => {
 
     const { Restaurant, RestaurantMenu } = useContext(UserSelectedResContex);  
     
-    const [cartItem, setCartItem] = useState([])
-    const [rmenu, setrmenu] = useState([]);
+    const [cartItem, setCartItem] = useState(null)
+    const [rmenu, setrmenu] = useState(null);
 
     useEffect(() => {
         setrmenu(RestaurantMenu);
@@ -29,20 +29,22 @@ export const TrayContexProvider = (props) => {
     const updateCartItemCount = (newAmount, ItemId) => {
             setCartItem((prev) => ({ ...prev, [ItemId]: (Number)(newAmount) }))
     };
+    const initializeCart = () => {
+        setCartItem(JSON.parse(localStorage.getItem("cart")));
+    }
 
     const getTotalCardAmount = () => {
         let totalAmount = 0;
         for (const item in cartItem) {
             if (cartItem[item] > 0) {
                 let itemindex = rmenu[item]
-                console.log(itemindex)
                 if (itemindex) totalAmount += cartItem[item] * Number(itemindex.price);
             }
         }
         return totalAmount
     };
 
-    const contexvalue = { setCartItem, cartItem, addToCart, removeFromCart, updateCartItemCount, getTotalCardAmount }
+    const contexvalue = { initializeCart, setCartItem, cartItem, addToCart, removeFromCart, updateCartItemCount, getTotalCardAmount }
 
     return (
         <TrayContex.Provider value={contexvalue}>{props.children}</TrayContex.Provider>

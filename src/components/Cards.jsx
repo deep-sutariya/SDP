@@ -25,7 +25,7 @@ const Cards = (props) => {
         setSelectedRestaurant(data.data);
         const cart = Array(data.data.rmenu.length).fill(0);
         setCartItem(cart);
-        
+        localStorage.removeItem("cart")
         navigate("/restaurentmenu");
 
     }

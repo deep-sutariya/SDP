@@ -63,12 +63,16 @@ function Login() {
           
           if (loginoption === "user") { // navigate to the user page 
             localStorage.setItem("userId",data.data._id.toString());
-            navigate("/", {
-              state: { data: data.data }
-            })
-            alert(`Hello ${data.data.uname}, you Logged in successfully.`);
-          }
-          else { // navigate to the restaurent page 
+            setloginuser(data.data);
+            // navigate("/", {
+              //   state: { data: data.data }
+              // })
+              window.history.back();
+              alert(`Hello ${data.data.uname}, you Logged in successfully.`);
+            }
+            else { // navigate to the restaurent page 
+              setloginrestaurant(data.data);
+              // console.log()
             localStorage.setItem("restaurantId",data.data._id.toString());
             navigate("/restaurenthome", {
               state: { data: data.data }

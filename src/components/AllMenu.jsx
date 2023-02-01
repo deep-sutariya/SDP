@@ -15,6 +15,32 @@ const AllMenu = () => {
 
   let [loading, setLoading] = useState(true);
 
+  const handleFile = async (e) => {
+    e.preventDefault();
+    document.getElementById("nameoffile").innerText = e.target.files[0].name; 
+    document.getElementById("label").innerText = ""; 
+    const file = e.target.files[0];
+    const Base64 = await convertToBase64(file);
+    setaddmenu({...addmenu, ["image"] : Base64});
+    console.log(addmenu.image);
+  }
+
+  // converting the file to the Base64 format
+  function convertToBase64(file){
+
+    return new Promise((resolve,reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+      fileReader.onload = () =>{
+        resolve(fileReader.result);
+      }
+      fileReader.onerror = (error) => {
+        reject(error);
+      }
+    })
+  
+  }
+
   const getData =  async() => {
     setLoading(true);
     const data = await axios.post("/getrestaurent",{
@@ -50,7 +76,8 @@ const AllMenu = () => {
         resid: Restaurant._id.toString(),
         iname: addmenu.name,
         iprice: addmenu.price,
-        ides: addmenu.des
+        ides: addmenu.des,
+        itype: addmenu.type
       })
 
       setRestaurantMenu({...RestaurantMenu,addmenu});
@@ -96,6 +123,9 @@ const AllMenu = () => {
               <input type="textarea" placeholder="Description" name="des" value={addmenu.des} onChange={updateMenu} />
               <label>Type:</label>
               <input type="textarea" placeholder="Type" name="type" value={addmenu.type} onChange={updateMenu} />
+              <input type="file" id="file-input" onChange={handleFile}/>
+              <label id="file-label" htmlFor="file-input"><i className='fa fa-upload'></i>&emsp;<span id="label">Choose a Image...</span>&ensp;<span id="nameoffile"></span></label>
+              <br />
               <span id="addmenuerror"></span>
             </div>
             <a className="popup_btn save" style={{margin:"7px 0px"}} href="" onClick={saveMenu}>Save</a>

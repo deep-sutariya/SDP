@@ -71,6 +71,7 @@ router.post("/updaterestaurant", async (req, res) => {
       restaurant.remail = req.body.remail;
       restaurant.rurl = req.body.rurl;
       restaurant.rcity = req.body.rcity;
+      restaurant.rimage = req.body.rimage;
       restaurant.rpass = req.body.rpass;
       restaurant.rmenu = req.body.rmenu;
 
@@ -167,6 +168,7 @@ router.post("/editmenu", async (req, res) => {
         restaurantMenu[menuIndex].name = newData.name;
         restaurantMenu[menuIndex].des = newData.des;
         restaurantMenu[menuIndex].price = newData.price;
+        restaurantMenu[menuIndex].type = newData.type;
 
         const updatedData = await data.save();
 

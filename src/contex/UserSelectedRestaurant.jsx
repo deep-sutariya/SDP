@@ -6,8 +6,8 @@ export const UserSelectedResContex = createContext(null);
 
 export const UserSelectedResContexProvider = (props) =>{
 
-    const [Restaurant, setRestaurant] = useState({});
-    const [RestaurantMenu, setRestaurantMenu] = useState([]);
+    const [Restaurant, setRestaurant] = useState(null);
+    const [RestaurantMenu, setRestaurantMenu] = useState(null);
 
     const setSelectedRestaurant = (resData) =>{
         setRestaurant({resData})

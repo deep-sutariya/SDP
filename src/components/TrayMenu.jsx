@@ -3,10 +3,20 @@ import { useState } from 'react'
 import './style/TrayMenu.css'
 import { TrayContex } from '../contex/tray_contex'
 import { useContext } from 'react'
+import { useEffect } from 'react'
 
 const TrayMenu = (props) => {
 
-    const {cartItem, addToCart, removeFromCart, updateCartItemCount} = useContext(TrayContex);
+    const {initializeCart,cartItem, addToCart, removeFromCart, updateCartItemCount} = useContext(TrayContex);
+
+    useEffect(()=>{
+        localStorage.setItem("cart", JSON.stringify(cartItem));
+
+    }, [cartItem])
+
+    useEffect(()=>{
+        initializeCart();
+    },[])
 
     return (
         <>

@@ -1,11 +1,15 @@
 import React, { useContext } from 'react'
+import { useNavigate } from 'react-router-dom';
 import "../components/style/popup.css"
 import TrayMenu from './TrayMenu';
 import { TrayContex } from '../contex/tray_contex'
+import { LoginDetails } from '../contex/Logincontex';
 
 const Popup = (props) => {
-
+    const navigate = useNavigate();
     const { cartItem, getTotalCardAmount } = useContext(TrayContex);
+
+    const { loginuser } = useContext(LoginDetails);
 
     const resmenu = props.resmenu;
 
@@ -15,6 +19,16 @@ const Popup = (props) => {
 
     function closeForm() {
         document.getElementById("myForm").style.display = "none";
+    }
+
+    const checkAuth = () =>{
+        console.log(loginuser);
+        if(loginuser !== null){
+            navigate("/orders");
+        }else{
+            alert("First login Plz !!!!");
+            navigate("/login");
+        }
     }
 
     return (
@@ -39,7 +53,7 @@ const Popup = (props) => {
 
                     </div>
                     <div className="popup_buttons">
-                        <button type="submit" className="btn confirm">Confirm Order</button>
+                        <button type="submit" className="btn confirm" onClick={checkAuth}>Confirm Order</button>
                         <button type="button" className="btn cancel" onClick={closeForm}>Close</button>
                     </div>
                 </div>

@@ -23,7 +23,7 @@ const ResMenuCard = ({ id, name, price, des, type, index }) => {
   })
 
   const [resMenu, setResMenu] = useState({
-    name: name, price: price, des: des
+    name: name, price: price, des: des, type: type
   })
 
   const doSomething = (e) => {
@@ -89,7 +89,7 @@ const ResMenuCard = ({ id, name, price, des, type, index }) => {
             </div>
             <div className="infoGrid">
               <label>Type :</label>
-              <p>Type</p>
+              <p>{resMenu.type}</p>
             </div>
             <div>
               <a className="modify_button modify_edit" href={placea}>
