@@ -9,14 +9,42 @@ import RestaurantHome from './components/RestaurantHome';
 import Profile from './components/Profile';
 import AllMenu from './components/AllMenu';
 import RestaurantOrders from './components/RestaurantOrders';
-import { useState } from 'react';
 import { TrayContexProvider } from './contex/tray_contex';
 import { UserSelectedResContexProvider } from './contex/UserSelectedRestaurant';
 import { LoginDetailsProvider } from './contex/Logincontex';
-import Navbar from './components/Navbar';
+import { useEffect } from 'react';
+import jwt_decode from "jwt-decode";
+
+import { LoginDetails } from "./contex/Logincontex";
+import { useContext } from "react";
+import axios from 'axios';
 
 function App() {
-  const [first, setfirst] = useState({});
+
+
+  function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+  }
+  
+  let data,token,type,decodedToken;
+  async function getData(type){
+      data = await axios.post(`/${type}login`, {
+      uemail: decodedToken.email,
+      upass: decodedToken.pass,
+    })
+    console.log(data.data);
+  }
+
+  useEffect(()=>{
+    token = getCookie("token");
+    type = getCookie("type");
+    decodedToken = jwt_decode(token);
+    getData(type);
+
+  },[])
+
   return (
     <>
     <UserSelectedResContexProvider>

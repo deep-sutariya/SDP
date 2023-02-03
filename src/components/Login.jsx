@@ -59,25 +59,22 @@ function Login() {
 
         
         if (data.status === 200) {
-          // console.log(data.data);
           
           if (loginoption === "user") { // navigate to the user page 
-            localStorage.setItem("userId",data.data._id.toString());
+
             setloginuser(data.data);
-            // navigate("/", {
-              //   state: { data: data.data }
-              // })
-              window.history.back();
+            navigate("/", {
+                state: { data: data.data }
+              })
               alert(`Hello ${data.data.uname}, you Logged in successfully.`);
             }
             else { // navigate to the restaurent page 
               setloginrestaurant(data.data);
-              // console.log()
-            localStorage.setItem("restaurantId",data.data._id.toString());
-            navigate("/restaurenthome", {
-              state: { data: data.data }
-            })
-            alert(`Hello ${data.data.rname}, you Logged in successfully.`);
+              localStorage.setItem("restaurantId",data.data._id.toString());
+              navigate("/restaurenthome", {
+                state: { data: data.data }
+              })
+              alert(`Hello ${data.data.rname}, you Logged in successfully.`);
           }
 
         } else {

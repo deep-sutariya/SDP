@@ -5,13 +5,17 @@ export const LoginDetails = createContext(null);
 
 export const LoginDetailsProvider = (props) =>{
 
-    const [loginrestaurant, setloginrestaurant] = useState(null);
+    const [loginrestaurant, setloginrestaurant] = useState({});
 
-    const [loginuser, setloginuser] = useState(null);
+    const [loginuser, setloginuser] = useState({});
 
 
     console.log("In Contex");
-    console.log(loginuser);
+
+    if(loginuser !== null)
+        console.log(loginuser);
+    else
+        console.log(loginrestaurant);
 
     const loginvalue = {setloginrestaurant, setloginuser, loginrestaurant, loginuser}
 

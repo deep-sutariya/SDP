@@ -6,6 +6,9 @@ const Restaurantinfo = require("../model/restaurantInfo");
 const hashpassword = require("../middleware/hashpassword");
 const pdf_generator = require("../service/pdf_generator");
 
+require('dotenv').config();
+const jwt = require('jsonwebtoken');
+
 // Sign Up
 router.post("/signup", async (req, res) => {
   const userexist = await UserInfo.findOne({ uemail: req.body.uemail });
@@ -93,7 +96,21 @@ router.post("/userlogin", async (req, res) => {
   const user = await UserInfo.findOne({ uemail: uemail });
   if (user) {
     if (await bcrypt.compare(upass, user.upass)) {
-      res.status(200).send(user);
+
+      var token = jwt.sign({ email: user.uemail, pass: upass}, `${process.env.TOCKEN_PRIVATE_KEY}`);
+
+      res.cookie("token", token, {
+        expires: new Date(Date.now() + 25892000000),
+        httpOnly:false
+      });
+
+      res.cookie("type", "user", {
+        expires: new Date(Date.now() + 25892000000),
+        httpOnly:false
+      });
+
+      res.status(200).send({data:user});
+
     } else
       res.status(201).send({ message: "Error! : *** Invalid Password ***" });
   } else {
@@ -107,6 +124,18 @@ router.post("/restaurentlogin", async (req, res) => {
   const restaurent = await Restaurantinfo.findOne({ remail: uemail });
   if (restaurent) {
     if (await bcrypt.compare(upass, restaurent.rpass)) {
+      
+      var token = jwt.sign({email: restaurent.remail, pass: upass}, `${process.env.TOCKEN_PRIVATE_KEY}`);
+
+      res.cookie("token", token, {
+        expires: new Date(Date.now() + 25892000000),
+        httpOnly:false
+      });
+      res.cookie("type", "restaurent", {
+        expires: new Date(Date.now() + 25892000000),
+        httpOnly:false
+      });
+
       res.status(200).send(restaurent);
       console.log(restaurent);
     } else
