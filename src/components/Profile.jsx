@@ -46,8 +46,8 @@ const Profile = () => {
   }
 
   useEffect(() => {
-      setResData(loginrestaurant.data);
-      setResInfo(loginrestaurant.data);
+    setResData(loginrestaurant.data);
+    setResInfo(loginrestaurant.data);
   }, [loginrestaurant]);
 
 

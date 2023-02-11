@@ -24,14 +24,18 @@ function Navbar(props) {
       uemail: decodedToken.email,
       upass: decodedToken.pass,
     })
+
+    // console.log(data.data);
+
     if(type==="user"){
+      console.log("User");
       setloginuser(data.data);
     }
     if(type == "restaurent"){
       setloginrestaurant(data.data);
-      console.log(loginrestaurant);
+      // console.log(loginrestaurant);
+      console.log("restaurent");
     }
-    // console.log(data.data);
   }
   
   
@@ -41,7 +45,6 @@ function Navbar(props) {
     if (token && type) {
       decodedToken = jwt_decode(token);
       getData(type);
-      console.log("askjdbas");
     }
   }, [])
 
@@ -63,6 +66,8 @@ function Navbar(props) {
   const finalCall= () => {
     localStorage.clear();
   }
+
+  console.log(loginrestaurant);
 
   return (
     <>

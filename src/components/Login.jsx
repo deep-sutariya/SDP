@@ -60,7 +60,7 @@ function Login({setNavType}) {
         if (data.status === 200) {
           
           if (loginoption === "user") { // navigate to the user page 
-              setloginuser(data.data);
+              setloginuser(data.data.data);
               navigate("/");
               alert(`${data.data.message}`);
           }
