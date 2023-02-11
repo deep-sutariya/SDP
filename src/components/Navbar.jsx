@@ -1,11 +1,49 @@
 import React from 'react'
-import { Link, Outlet ,useNavigate} from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import './style/Navbar.css';
-
+import { useEffect, useState } from 'react';
+import jwt_decode from "jwt-decode";
+import { useContext } from "react";
+import { LoginDetails } from '../contex/Logincontex';
+import axios from 'axios';
 
 function Navbar(props) {
+
+  const {setloginrestaurant,setloginuser} = useContext(LoginDetails);
+
+  // Set Contex 
+  function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+  }
+
+  var data, token, type, decodedToken;
+  async function getData(type) {
+    data = await axios.post(`/${type}login`, {
+      uemail: decodedToken.email,
+      upass: decodedToken.pass,
+    })
+    if(type==="user"){
+      setloginuser(data.data);
+    }
+    else{
+      setloginrestaurant(data.data);
+    }
+    console.log(data.data);
+  }
+
+  useEffect(() => {
+    token = getCookie("token");
+    type = getCookie("type");
+    if (token && type) {
+      decodedToken = jwt_decode(token);
+      getData(type);
+    }
+  }, [])
+
+
   var links = document.querySelectorAll('.navlinkss');
-  const navigate = useNavigate();
   if(links.length > 0){
     links.forEach((link) => {
       link.addEventListener('click', (e) => {
@@ -31,24 +69,28 @@ function Navbar(props) {
           <i className="fas fa-bars"></i>
         </label>
         <label className="logo">BookMyMeal</label>
+        
+        
+
         {
           props.type === "user" ?
 
             <ul>
-              <li><a className="navlinkss active" href="/" >Home</a></li>
-              <li><a className="navlinkss" href="orders" >orders</a></li>
-              <li><a className="navlinkss" href='login'>Login</a></li>
-              <li><a className="navlinkss" href="signup" >Signup</a></li>
+              <li><Link className="navlinkss active" to="" >Home</Link></li>
+              <li><Link className="navlinkss" to="orders" >orders</Link></li>
+              <li><Link className="navlinkss" to='login'>Login</Link></li>
+              <li><Link className="navlinkss" to="signup" >Signup</Link></li>
             </ul>
             :
             <ul>
-              <li><Link className='navlinkss active' to="" >Profile</Link></li>
-              <li><Link className='navlinkss' to="menus" >Menu</Link></li>
-              <li><Link className='navlinkss' to="restaurantorders" >Orders</Link></li>
+              <li><Link className='navlinkss active' to="restaurenthome" >Profile</Link></li>
+              <li><Link className='navlinkss' to="restaurenthome/menus" >Menu</Link></li>
+              <li><Link className='navlinkss' to="restaurenthome/restaurantorders" >Orders</Link></li>
               <li><Link className='navlinkss' onClick={finalCall} to="..\..\login" >LogOut</Link></li>
             </ul>
         }
       </nav>
+        <Outlet />
     </>
   )
 }

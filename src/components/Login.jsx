@@ -11,8 +11,8 @@ import login from '../assets/login.svg'
 import { LoginDetails } from "../contex/Logincontex";
 import { useContext } from "react";
 
-function Login() {
-
+function Login({setNavType}) {
+  setNavType("user");
   const {setloginrestaurant, setloginuser} = useContext(LoginDetails);
 
   var data = {};
@@ -56,25 +56,19 @@ function Login() {
           uemail: user.uemail,
           upass: user.upass,
         });
-
         
         if (data.status === 200) {
           
           if (loginoption === "user") { // navigate to the user page 
-
-            setloginuser(data.data);
-            navigate("/", {
-                state: { data: data.data }
-              })
-              alert(`Hello ${data.data.uname}, you Logged in successfully.`);
-            }
-            else { // navigate to the restaurent page 
-              setloginrestaurant(data.data);
-              localStorage.setItem("restaurantId",data.data._id.toString());
-              navigate("/restaurenthome", {
-                state: { data: data.data }
-              })
-              alert(`Hello ${data.data.rname}, you Logged in successfully.`);
+              setloginuser(data.data);
+              navigate("/");
+              alert(`${data.data.message}`);
+          }
+          else { // navigate to the restaurent page 
+            setloginrestaurant(data.data.data);
+            // localStorage.setItem("restaurantId",data.data.data._id.toString());
+            navigate("/restaurenthome")
+            alert(`${data.data.message}`);
           }
 
         } else {
@@ -88,7 +82,6 @@ function Login() {
   }
   return (
     <>
-      <Navbar type="user"/>
       <div className="container">
         <div className="contai">
           <img src={login} alt="loginimage"/>

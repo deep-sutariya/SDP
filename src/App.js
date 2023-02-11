@@ -12,62 +12,51 @@ import RestaurantOrders from './components/RestaurantOrders';
 import { TrayContexProvider } from './contex/tray_contex';
 import { UserSelectedResContexProvider } from './contex/UserSelectedRestaurant';
 import { LoginDetailsProvider } from './contex/Logincontex';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import jwt_decode from "jwt-decode";
 
 import { LoginDetails } from "./contex/Logincontex";
 import { useContext } from "react";
 import axios from 'axios';
+import Navbar from './components/Navbar';
 
 function App() {
 
-
-  function getCookie(name) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(';').shift();
-  }
   
-  let data,token,type,decodedToken;
-  async function getData(type){
-      data = await axios.post(`/${type}login`, {
-      uemail: decodedToken.email,
-      upass: decodedToken.pass,
-    })
-    console.log(data.data);
-  }
 
-  useEffect(()=>{
-    token = getCookie("token");
-    type = getCookie("type");
-    decodedToken = jwt_decode(token);
-    getData(type);
 
-  },[])
+  const [navtype, setNavType] = useState("user");
 
   return (
     <>
-    <UserSelectedResContexProvider>
-    <TrayContexProvider>
-    <LoginDetailsProvider>
-        <BrowserRouter>
-          <Routes>
+      <UserSelectedResContexProvider>
+        <TrayContexProvider>
+          <LoginDetailsProvider>
+            <BrowserRouter>
+              <Routes>
 
-            <Route path='/' element={<Home />} />
-            <Route path="orders" element={<Orders />} />
-            <Route path="login" element={<Login />} />
-            <Route path="signup" element={<Signup />} />
-            <Route path="restaurentmenu" element={<RestaurantMenu />} />
-            <Route path="restaurenthome" element={<RestaurantHome />}>
-              <Route path='' element={<Profile  />} />
-              <Route path='menus' element={<AllMenu />} />
-              <Route path='restaurantorders' element={<RestaurantOrders />} />
-            </Route>
-          </Routes>
+                <Route path="/" element={<Navbar type={navtype}/>} >
 
-        </BrowserRouter>
-      </LoginDetailsProvider>
-      </TrayContexProvider>
+                    <Route path="" element={<Home setNavType={setNavType}/>} />
+                    <Route path="orders" element={<Orders setNavType={setNavType}/>} />
+                    <Route path="login" element={<Login setNavType={setNavType}/>} />
+                    <Route path="signup" element={<Signup setNavType={setNavType}/>} />
+                    <Route path="restaurentmenu" element={<RestaurantMenu setNavType={setNavType}/>} />
+                  <Route path="user" element={<RestaurantHome setNavType={setNavType}/>} >
+                  </Route>
+                  
+                  <Route path="restaurenthome" element={<RestaurantHome setNavType={setNavType}/>}>
+                    <Route path='' element={<Profile setNavType={setNavType}/>} />
+                    <Route path='menus' element={<AllMenu setNavType={setNavType}/>} />
+                    <Route path='restaurantorders' element={<RestaurantOrders setNavType={setNavType}/>} />
+                  </Route>
+                </Route>
+
+              </Routes>
+
+            </BrowserRouter>
+          </LoginDetailsProvider>
+        </TrayContexProvider>
       </UserSelectedResContexProvider>
 
     </>

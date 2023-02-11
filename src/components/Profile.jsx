@@ -5,17 +5,20 @@ import { useEffect } from "react";
 import { LoginDetails } from "../contex/Logincontex";
 import { useContext } from "react";
 import "../components/style/profile.css";
-const Profile = (props) => {
+const Profile = () => {
+
   const [resData, setResData] = useState({});
   const [resInfo, setResInfo] = useState({});
   const [flag, setFlag] = useState(true);
-  const { setloginrestaurant, loginrestaurant } = useContext(LoginDetails);
-  const getData = async () => {
-    const data = await axios.post("/getrestaurent", {
-      id: localStorage.getItem("restaurantId")
-    })
-    setloginrestaurant(data.data);
-  }
+  const { loginrestaurant } = useContext(LoginDetails);
+  // console.log(loginrestaurant);
+
+  // const getData = async () => {
+  //   const data = await axios.post("/getrestaurent", {
+  //     id: localStorage.getItem("restaurantId")
+  //   })
+  //   setloginrestaurant(data.data);
+  // }
 
   const handleFile = async (e) => {
     e.preventDefault();
@@ -43,12 +46,12 @@ const Profile = (props) => {
   }
 
   useEffect(() => {
-    getData();
-    setResData(loginrestaurant);
-    setResInfo(loginrestaurant);
+    if(loginrestaurant){
+      console.log(loginrestaurant);
+      setResData(loginrestaurant.data);
+      setResInfo(loginrestaurant.data);
+    }
   }, []);
-
-
 
 
   let name, value;
@@ -70,18 +73,14 @@ const Profile = (props) => {
 
     if (data.status === 200) {
 
-      localStorage.setItem("data", JSON.stringify(data.data.data));
-      console.log(data.data.data);
       setResInfo(data.data.data);
       setFlag(!flag);
       doChange();
       alert(data.data.data.message);
-    } else {
-
-      alert(data.data.data.message);
-
     }
-
+    else {
+      alert(data.data.data.message);
+    }
   }
 
   const doChange = () => {
@@ -93,9 +92,9 @@ const Profile = (props) => {
       document.getElementById('edit_form').style.display = "block";
     }
   }
+  console.log(resInfo)
 
   return (
-
 
     (flag) ? <div className="profile" id="profile_a">
       <div className="profile_heading">
@@ -132,7 +131,11 @@ const Profile = (props) => {
           <a href={resData.rurl}>{resInfo.rurl}</a>
         </div>
       </div>
-    </div> : <div className="edit_container" id="edit_form">
+    </div> 
+    
+    : 
+    
+    <div className="edit_container" id="edit_form">
       <h1>Edit 😎</h1>
       <form onSubmit={updateData}>
         <div className="row">

@@ -3,13 +3,13 @@ import Navbar from './Navbar';
 import './style/orders.css';
 
 
-function Orders() {
+function Orders({setNavType}) {
+  setNavType("user");
   // const location = useLocation();
   // const data = location.state.data;
   // console.log(data);
   return (
     <>
-    <Navbar type="user" />
       <div className='mainorder'>orders Page</div>
     </>
   )

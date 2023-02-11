@@ -8,7 +8,10 @@ import user_img from '../assets/CustomerLI.jpg';
 import Navbar from '../components/Navbar';
 var validator = require("email-validator");
 
-function Signup() {
+function Signup({setNavType}) {
+    
+    setNavType("user");
+
     const navigate = useNavigate();
     const [option, setOption] = useState("user");
     const [user, setuser] = useState({
@@ -162,7 +165,6 @@ function Signup() {
 
     return (
         <>
-        <Navbar type="user"/>
         <div className="signup_main">
             <div className="signup">
                 <div className="signup_option">

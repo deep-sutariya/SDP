@@ -22,8 +22,10 @@ function RestaurantMenu() {
     const getData = () => {
         setLoading(true);
 
-        setResmenu(RestaurantMenu);
-        setResdata(Restaurant);
+        if(RestaurantMenu && Restaurant){
+            setResmenu(RestaurantMenu);
+            setResdata(Restaurant);
+        }
 
         setLoading(false);
     }
@@ -44,10 +46,12 @@ function RestaurantMenu() {
                         color="black"
                         aria-label="Loading Spinner"
                         data-testid="loader"
-                    /> </div>:Object.keys(resmenu).length > 0 &&
-                    resmenu.map(({ _id, name, des, price },index) => {
-                        return (<Menu key={index} index={index} id={_id} name={name} des={des} price={price} />);
-                    })
+                    /> </div> : 
+                    
+                        Object.keys(resmenu).length > 0 &&
+                        resmenu.map(({ _id, name, des, price },index) => {
+                            return (<Menu key={index} index={index} id={_id} name={name} des={des} price={price} />);
+                        })
                 }
             </div>
             <Popup resmenu = {resmenu}/>

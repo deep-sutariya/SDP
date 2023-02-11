@@ -1,29 +1,29 @@
-import React from "react";
-import { useEffect } from "react";
-import {  Outlet } from "react-router-dom";
-import Navbar from "../components/Navbar";
+import React, { useEffect } from "react";
 import "../components/style/restauranthome.css";
 import { LoginDetails } from "../contex/Logincontex";
 import { useContext } from "react";
-import axios from "axios";
-const RestaurantHome = ({props}) => {
+import { Outlet } from "react-router-dom";
 
-  const {setloginrestaurant} = useContext(LoginDetails);
-  const getData = async () => {
-    const data = await axios.post("/getrestaurent",{
-      id: localStorage.getItem("restaurantId")
-    })
-    setloginrestaurant(data.data);
-  }
-  useEffect(()=>{
-    getData();
-  },[]);
+const RestaurantHome = ({setNavType}) => {
+
+  setNavType("restaurant");
+
+  const {loginrestaurant} = useContext(LoginDetails);
+
+  // const getData = async () => {
+  //   const data = await axios.post("/getrestaurent",{
+  //     id: localStorage.getItem("restaurantId")
+  //   })
+  //   setloginrestaurant(data.data);
+  // }
+  
+  // useEffect(()=>{
+  //   console.log("Refresh")
+  // },[]);
 
   return (
     <>
-      <Navbar type="restaurant" />
-      
-        <Outlet />
+      <Outlet />  
     </>
   );
 };

@@ -12,9 +12,9 @@ export const LoginDetailsProvider = (props) =>{
 
     console.log("In Contex");
 
-    if(loginuser !== null)
-        console.log(loginuser);
-    else
+    // if(loginuser !== null)
+    //     console.log(loginuser);
+    // else
         console.log(loginrestaurant);
 
     const loginvalue = {setloginrestaurant, setloginuser, loginrestaurant, loginuser}

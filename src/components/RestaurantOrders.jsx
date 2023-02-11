@@ -1,6 +1,7 @@
 import React from 'react'
 
-const RestaurantOrders = () => {
+const RestaurantOrders = ({setNavType}) => {
+  setNavType("restaurant");
   return (
     <>
         <div>RestaurantOrders</div>

@@ -9,8 +9,8 @@ import BounceLoader from "react-spinners/BounceLoader";
 
 const AllMenu = () => {
 
-  const {loginrestaurant ,setloginrestaurant} = useContext(LoginDetails);
-  const [Restaurant, setRestaurant] = useState({});
+  const {loginrestaurant} = useContext(LoginDetails);
+  // const [Restaurant, setRestaurant] = useState({});
   const [RestaurantMenu, setRestaurantMenu] = useState([]);
 
   let [loading, setLoading] = useState(true);
@@ -36,19 +36,8 @@ const AllMenu = () => {
       }
       fileReader.onerror = (error) => {
         reject(error);
-      }
-    })
-  
-  }
-
-  const getData =  async() => {
-    setLoading(true);
-    const data = await axios.post("/getrestaurent",{
-      id: localStorage.getItem("restaurantId")
-    });
-    setRestaurantMenu(data.data.rmenu);
-    setRestaurant(data.data);
-    setLoading(false);
+      }
+      })
   }
 
   const [addmenu, setaddmenu] = useState({
@@ -73,7 +62,7 @@ const AllMenu = () => {
     if(addmenu.price && addmenu.des && addmenu.name && addmenu.type){
      
       const data = await axios.post("/addmenu", {
-        resid: Restaurant._id.toString(),
+        resid: loginrestaurant._id.toString(),
         iname: addmenu.name,
         iprice: addmenu.price,
         ides: addmenu.des,
@@ -82,7 +71,6 @@ const AllMenu = () => {
 
       setRestaurantMenu({...RestaurantMenu,addmenu});
       console.log(RestaurantMenu);
-      console.log(data.data.data);
     }
 
     else{
@@ -92,7 +80,12 @@ const AllMenu = () => {
   }
 
   useEffect(() => {
-    getData();
+    if(loginrestaurant){
+      setLoading(true);
+      setRestaurantMenu(loginrestaurant.rmenu);
+      // setRestaurant(loginrestaurant);
+      setLoading(false);
+    }
   },[]); 
 
   return (
@@ -125,7 +118,7 @@ const AllMenu = () => {
               <input type="textarea" placeholder="Type" name="type" value={addmenu.type} onChange={updateMenu} />
               <input type="file" id="file-input" onChange={handleFile}/>
               <label id="file-label" htmlFor="file-input"><i className='fa fa-upload'></i>&emsp;<span id="label">Choose a Image...</span>&ensp;<span id="nameoffile"></span></label>
-              <br />
+            <br/>
               <span id="addmenuerror"></span>
             </div>
             <a className="popup_btn save" style={{margin:"7px 0px"}} href="" onClick={saveMenu}>Save</a>

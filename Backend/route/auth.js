@@ -109,7 +109,10 @@ router.post("/userlogin", async (req, res) => {
         httpOnly:false
       });
 
-      res.status(200).send({data:user});
+      res.status(200).send({
+        data: user,
+        message: `Hello ${user.uname}, You Logged in successfully!`,
+      });
 
     } else
       res.status(201).send({ message: "Error! : *** Invalid Password ***" });
@@ -136,8 +139,12 @@ router.post("/restaurentlogin", async (req, res) => {
         httpOnly:false
       });
 
-      res.status(200).send(restaurent);
+      res.status(200).send({
+        data: restaurent,
+        message: `Hello ${restaurent.rname}, You Logged in successfully!`,
+      });
       console.log(restaurent);
+      
     } else
       res.status(201).send({ message: "Error! : *** Invalid Password ***" });
   } else {
@@ -165,6 +172,7 @@ router.post("/addmenu", async (req, res) => {
     res.status(202).send({ message: "Error" });
   }
 });
+
 
 // Remove Menu Item
 router.post("/removemenu", async (req, res) => {
@@ -256,5 +264,6 @@ router.get("/generatebill", async (req, res) => {
     { rname: "Deep's Cafe" }
   );
 });
+
 
 module.exports = router;

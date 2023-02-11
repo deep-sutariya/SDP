@@ -7,10 +7,15 @@ import Cards from '../components/Cards';
 import BounceLoader from "react-spinners/BounceLoader";
 import '../components/style/home.css'
 import "../components/style/cards.css"
-function Home() {
+
+function Home({setNavType}) {
+    
+    setNavType("user");
+    
+
     const [restaurents,setRestaurents] = useState([]);
     let [loading, setLoading] = useState(true);
-
+    
     const getData = async ()=>{
         setLoading(true);
         const data = await axios.post("/res");
@@ -20,10 +25,11 @@ function Home() {
     useEffect(()=>{
         getData();
     },[]);
+    
 
     return (
         <>
-        <Navbar type="user"/>
+        
         <h1 style={{textAlign : "center",margin: "40px 0px"}}>Categories</h1>
         <Types />
         <h1 style={{textAlign : "center",margin :"10px 0px"}}>Restaurants</h1>
