@@ -4,22 +4,12 @@ import { LoginDetails } from "../contex/Logincontex";
 import { useContext } from "react";
 import { Outlet } from "react-router-dom";
 
+import jwt_decode from "jwt-decode";
+import axios from 'axios';
 const RestaurantHome = ({setNavType}) => {
 
-  setNavType("restaurant");
+  setNavType("restaurant")
 
-  const {loginrestaurant} = useContext(LoginDetails);
-
-  // const getData = async () => {
-  //   const data = await axios.post("/getrestaurent",{
-  //     id: localStorage.getItem("restaurantId")
-  //   })
-  //   setloginrestaurant(data.data);
-  // }
-  
-  // useEffect(()=>{
-  //   console.log("Refresh")
-  // },[]);
 
   return (
     <>

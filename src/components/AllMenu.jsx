@@ -10,8 +10,7 @@ import BounceLoader from "react-spinners/BounceLoader";
 const AllMenu = () => {
 
   const {loginrestaurant} = useContext(LoginDetails);
-  // const [Restaurant, setRestaurant] = useState({});
-  const [RestaurantMenu, setRestaurantMenu] = useState([]);
+  const [RestaurantMenu, setRestaurantMenu] = useState();
 
   let [loading, setLoading] = useState(true);
 
@@ -80,17 +79,19 @@ const AllMenu = () => {
   }
 
   useEffect(() => {
-    if(loginrestaurant){
+      console.log("oppopopopo");
       setLoading(true);
-      setRestaurantMenu(loginrestaurant.rmenu);
-      // setRestaurant(loginrestaurant);
-      setLoading(false);
-    }
+      // if(loginrestaurant)
+      
+      console.log(RestaurantMenu);
+      setLoading(false)
+
   },[]); 
 
   return (
 
-    <>
+     
+    (RestaurantMenu) ? <>
       <div className="res_menus">
 
         <div className="addbutton">
@@ -140,6 +141,8 @@ const AllMenu = () => {
           </div>}
       </div>
     </>
+    :
+    <>Loading...</>
   );
 };
 

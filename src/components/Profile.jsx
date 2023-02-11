@@ -46,12 +46,9 @@ const Profile = () => {
   }
 
   useEffect(() => {
-    if(loginrestaurant){
-      console.log(loginrestaurant);
       setResData(loginrestaurant.data);
       setResInfo(loginrestaurant.data);
-    }
-  }, []);
+  }, [loginrestaurant]);
 
 
   let name, value;
@@ -92,181 +89,183 @@ const Profile = () => {
       document.getElementById('edit_form').style.display = "block";
     }
   }
-  console.log(resInfo)
 
   return (
 
-    (flag) ? <div className="profile" id="profile_a">
-      <div className="profile_heading">
-        <h1>PROFILE</h1>
-        <span className="material-symbols-outlined" onClick={handleEvent} style={{ padding: "10px", borderRadius: "30px" }}>edit_square</span>
-      </div>
-      <hr />
-      <div className="profile_info">
-        <div className="imgname">
-          <div className="profile_image">
-            <img src={resInfo.rimage} alt="image" />
-          </div>
-          <div className="profile_header_details">
-            <h1 >{resInfo.rname}</h1>
-            <p>{resInfo.roname}</p>
-            <p>{resInfo.remail}</p>
-            <p>{resInfo.rphone}</p>
-          </div>
-        </div>
-        <div className="res_info">
-          <p style={{ fontWeight: "bold" }}>City :</p>
-          <p style={{ color: "rgb(69, 69, 69)" }}>{resInfo.rcity}</p>
-        </div>
-        <div className="res_info">
-          <p style={{ fontWeight: "bold" }}>Address :</p>
-          <p style={{ color: "rgb(69, 69, 69)" }}>{resInfo.raddress}</p>
-        </div>
-        <div className="res_info">
-          <p style={{ fontWeight: "bold" }}>Owner Name :</p>
-          <p style={{ color: "rgb(69, 69, 69)" }}>{resInfo.roname}</p>
-        </div>
-        <div className="res_info">
-          <p style={{ fontWeight: "bold" }}>Location :</p>
-          <a href={resData.rurl}>{resInfo.rurl}</a>
-        </div>
-      </div>
-    </div> 
+    (resData && resInfo) ?
     
-    : 
-    
-    <div className="edit_container" id="edit_form">
-      <h1>Edit 😎</h1>
-      <form onSubmit={updateData}>
-        <div className="row">
-          <div className="col-25">
-            <label htmlFor="fname">Restaurant Name</label>
+      (flag) ? <div className="profile" id="profile_a">
+        <div className="profile_heading">
+          <h1>PROFILE</h1>
+          <span className="material-symbols-outlined" onClick={handleEvent} style={{ padding: "10px", borderRadius: "30px" }}>edit_square</span>
+        </div>
+        <hr />
+        <div className="profile_info">
+          <div className="imgname">
+            <div className="profile_image">
+              <img src={resInfo.rimage} alt="image" />
+            </div>
+            <div className="profile_header_details">
+              <h1 >{resInfo.rname}</h1>
+              <p>{resInfo.roname}</p>
+              <p>{resInfo.remail}</p>
+              <p>{resInfo.rphone}</p>
+            </div>
           </div>
-          <div className="col-75">
-            <input
-              type="text"
-              id="fname"
-              name="rname"
-              placeholder="Restaurant Name"
-              onChange={change}
-              value={resData.rname}
-            />
+          <div className="res_info">
+            <p style={{ fontWeight: "bold" }}>City :</p>
+            <p style={{ color: "rgb(69, 69, 69)" }}>{resInfo.rcity}</p>
+          </div>
+          <div className="res_info">
+            <p style={{ fontWeight: "bold" }}>Address :</p>
+            <p style={{ color: "rgb(69, 69, 69)" }}>{resInfo.raddress}</p>
+          </div>
+          <div className="res_info">
+            <p style={{ fontWeight: "bold" }}>Owner Name :</p>
+            <p style={{ color: "rgb(69, 69, 69)" }}>{resInfo.roname}</p>
+          </div>
+          <div className="res_info">
+            <p style={{ fontWeight: "bold" }}>Location :</p>
+            <a href={resData.rurl}>{resInfo.rurl}</a>
           </div>
         </div>
+      </div> 
+      
+      : 
+      
+      <div className="edit_container" id="edit_form">
+        <h1>Edit 😎</h1>
+        <form onSubmit={updateData}>
+          <div className="row">
+            <div className="col-25">
+              <label htmlFor="fname">Restaurant Name</label>
+            </div>
+            <div className="col-75">
+              <input
+                type="text"
+                id="fname"
+                name="rname"
+                placeholder="Restaurant Name"
+                onChange={change}
+                value={resData.rname}
+              />
+            </div>
+          </div>
 
-        <div className="row">
-          <div className="col-25">
-            <label htmlFor="country">Owner Name</label>
+          <div className="row">
+            <div className="col-25">
+              <label htmlFor="country">Owner Name</label>
+            </div>
+            <div className="col-75">
+              <input
+                type="text"
+                id="lname"
+                name="roname"
+                placeholder="Owner Name"
+                onChange={change}
+                value={resData.roname}
+              />
+            </div>
           </div>
-          <div className="col-75">
-            <input
-              type="text"
-              id="lname"
-              name="roname"
-              placeholder="Owner Name"
-              onChange={change}
-              value={resData.roname}
-            />
-          </div>
-        </div>
 
-        <div className="row">
-          <div className="col-25">
-            <label htmlFor="country">Phone No</label>
+          <div className="row">
+            <div className="col-25">
+              <label htmlFor="country">Phone No</label>
+            </div>
+            <div className="col-75">
+              <input
+                type="text"
+                id="lname"
+                name="rphone"
+                placeholder="Phone No"
+                onChange={change}
+                value={resData.rphone}
+              />
+            </div>
           </div>
-          <div className="col-75">
-            <input
-              type="text"
-              id="lname"
-              name="rphone"
-              placeholder="Phone No"
-              onChange={change}
-              value={resData.rphone}
-            />
-          </div>
-        </div>
 
-        <div className="row">
-          <div className="col-25">
-            <label htmlFor="subject">Address</label>
+          <div className="row">
+            <div className="col-25">
+              <label htmlFor="subject">Address</label>
+            </div>
+            <div className="col-75">
+              <textarea
+                id="subject"
+                name="raddress"
+                placeholder="Address of Reaturant"
+                onChange={change}
+                value={resData.raddress}
+                style={{ height: "200px" }}
+              ></textarea>
+            </div>
           </div>
-          <div className="col-75">
-            <textarea
-              id="subject"
-              name="raddress"
-              placeholder="Address of Reaturant"
-              onChange={change}
-              value={resData.raddress}
-              style={{ height: "200px" }}
-            ></textarea>
-          </div>
-        </div>
 
-        <div className="row">
-          <div className="col-25">
-            <label htmlFor="lname">Email </label>
+          <div className="row">
+            <div className="col-25">
+              <label htmlFor="lname">Email </label>
+            </div>
+            <div className="col-75">
+              <input
+                type="text"
+                id="lname"
+                name="remail"
+                placeholder="Email"
+                readOnly
+                onChange={change}
+                value={resData.remail}
+                style={{ background: "var(--offwhite)" }}
+              />
+            </div>
           </div>
-          <div className="col-75">
-            <input
-              type="text"
-              id="lname"
-              name="remail"
-              placeholder="Email"
-              readOnly
-              onChange={change}
-              value={resData.remail}
-              style={{ background: "var(--offwhite)" }}
-            />
-          </div>
-        </div>
 
-        <div className="row">
-          <div className="col-25">
-            <label htmlFor="country">City</label>
+          <div className="row">
+            <div className="col-25">
+              <label htmlFor="country">City</label>
+            </div>
+            <div className="col-75">
+              <input
+                type="text"
+                id="lname"
+                name="rcity"
+                placeholder="City"
+                onChange={change}
+                value={resData.rcity}
+              />
+            </div>
           </div>
-          <div className="col-75">
-            <input
-              type="text"
-              id="lname"
-              name="rcity"
-              placeholder="City"
-              onChange={change}
-              value={resData.rcity}
-            />
-          </div>
-        </div>
 
-        <div className="row">
-          <div className="col-25">
-            <label htmlFor="country">Location</label>
+          <div className="row">
+            <div className="col-25">
+              <label htmlFor="country">Location</label>
+            </div>
+            <div className="col-75">
+              <input type="file" id="file-input" onChange={handleFile}/>
+              <label id="file-label" htmlFor="file-input"><i className='fa fa-upload'></i>&emsp;<span id="label">Choose a Image...</span>&ensp;<span id="nameoffile"></span></label>
+            </div>
           </div>
-          <div className="col-75">
-            <input type="file" id="file-input" onChange={handleFile}/>
-            <label id="file-label" htmlFor="file-input"><i className='fa fa-upload'></i>&emsp;<span id="label">Choose a Image...</span>&ensp;<span id="nameoffile"></span></label>
-          </div>
-        </div>
 
-        <div className="row">
-          <div className="col-25">
-            <label htmlFor="country">Location</label>
+          <div className="row">
+            <div className="col-25">
+              <label htmlFor="country">Location</label>
+            </div>
+            <div className="col-75">
+              <input
+                type="text"
+                id="lname"
+                name="rurl"
+                placeholder="URL of Location of Restaurant"
+                onChange={change}
+                value={resData.rurl}
+              />
+            </div>
           </div>
-          <div className="col-75">
-            <input
-              type="text"
-              id="lname"
-              name="rurl"
-              placeholder="URL of Location of Restaurant"
-              onChange={change}
-              value={resData.rurl}
-            />
+          <div className="row">
+            <input style={{ margin: "0px 10px", background: "red" }} onClick={handleEvent} type="submit" value="Close" />
+            <input type="submit" value="Submit" />
           </div>
-        </div>
-        <div className="row">
-          <input style={{ margin: "0px 10px", background: "red" }} onClick={handleEvent} type="submit" value="Close" />
-          <input type="submit" value="Submit" />
-        </div>
-      </form>
-    </div>
+        </form>
+      </div>
+    : <>Loding .....</>
   );
 };
 

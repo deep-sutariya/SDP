@@ -9,7 +9,7 @@ import axios from 'axios';
 
 function Navbar(props) {
 
-  const {setloginrestaurant,setloginuser} = useContext(LoginDetails);
+  const {setloginrestaurant,setloginuser,loginrestaurant, loginuser} = useContext(LoginDetails);
 
   // Set Contex 
   function getCookie(name) {
@@ -27,18 +27,21 @@ function Navbar(props) {
     if(type==="user"){
       setloginuser(data.data);
     }
-    else{
+    if(type == "restaurent"){
       setloginrestaurant(data.data);
+      console.log(loginrestaurant);
     }
-    console.log(data.data);
+    // console.log(data.data);
   }
-
+  
+  
   useEffect(() => {
     token = getCookie("token");
     type = getCookie("type");
     if (token && type) {
       decodedToken = jwt_decode(token);
       getData(type);
+      console.log("askjdbas");
     }
   }, [])
 

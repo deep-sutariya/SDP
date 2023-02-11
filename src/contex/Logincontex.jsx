@@ -15,7 +15,7 @@ export const LoginDetailsProvider = (props) =>{
     // if(loginuser !== null)
     //     console.log(loginuser);
     // else
-        console.log(loginrestaurant);
+    loginrestaurant && console.log(loginrestaurant);
 
     const loginvalue = {setloginrestaurant, setloginuser, loginrestaurant, loginuser}
 
