@@ -14,4 +14,10 @@
 }
 .menublock{
     max-width: 80vw;
+    margin: auto;
+}
+
+/* Order Card CSS */
+.ordercard{
+    margin-top: 50px;
 }

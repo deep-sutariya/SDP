@@ -1,0 +1,57 @@
+import React from "react";
+import "../components/style/ResMenuCard.css";
+
+const ResMenuCard = () => {
+
+
+  const doSomething = (e) => {
+    console.log("in function");
+    const ele = document.getElementById("show");
+    if (ele.style.display === "block") {
+      ele.style.display = "none";
+    } else {
+      ele.style.display = "block";
+      ele.style.border = "1px solid rgba(128, 128, 128, 0.581);";
+    }
+  };
+
+
+  return (
+    <>
+      <div className="resmenucardmain">
+        {/* <button className="menuBtn" id="pop" onClick={doSomething}>
+          OrderItem
+        </button> */}
+        <div className="menuBtn" style={{display: "flex", justifyContent: "space-between",alignItems: "center"}} id="pop" onClick={doSomething}>
+            <h3>OrderName</h3>
+
+            <h3>{new Date().toDateString()}</h3>
+        </div>
+
+
+        <div className="panel" id="show">
+          <div className="menuPanel">
+            <div className="infoGrid">
+              <label>Description :</label>
+              <p>
+                "Gaurav is great"
+              </p>
+            </div>
+            <div className="infoGrid">
+              <label>Price :</label>
+              <p>1002</p>
+            </div>
+            <div className="infoGrid">
+              <label>Type :</label>
+              <p>Type</p>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+    </>
+  )
+}
+
+export default ResMenuCard;

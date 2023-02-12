@@ -34,6 +34,7 @@
     padding: 0px 18px;
     display: none;
     background-color: white;
+    box-shadow: inset -1px -1px 8px grey;
 }
 .menuPanel{
     display: flex;
