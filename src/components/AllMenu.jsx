@@ -7,10 +7,10 @@ import axios from "axios";
 import { LoginDetails } from "../contex/Logincontex";
 import BounceLoader from "react-spinners/BounceLoader";
 
-const AllMenu = () => {
+const AllMenu = (props) => {
 
   const {loginrestaurant} = useContext(LoginDetails);
-  const [RestaurantMenu, setRestaurantMenu] = useState();
+  const [RestaurantMenu, setRestaurantMenu] = useState([]);
 
   let [loading, setLoading] = useState(true);
 
@@ -79,19 +79,16 @@ const AllMenu = () => {
   }
 
   useEffect(() => {
-      console.log("oppopopopo");
       setLoading(true);
-      // if(loginrestaurant)
-      
-      console.log(RestaurantMenu);
-      setLoading(false)
+      // console.log(loginrestaurant?.data?.rmenu);
+      setRestaurantMenu(loginrestaurant?.rmenu);
+      setLoading(false);
 
-  },[]); 
+  },[loginrestaurant]); 
 
   return (
 
-     
-    (RestaurantMenu) ? <>
+     (RestaurantMenu) ?
       <div className="res_menus">
 
         <div className="addbutton">
@@ -139,10 +136,7 @@ const AllMenu = () => {
                   })
                 }
           </div>}
-      </div>
-    </>
-    :
-    <>Loading...</>
+      </div> : <></>
   );
 };
 

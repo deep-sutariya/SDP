@@ -13,7 +13,7 @@ import { useContext } from "react";
 
 function Login({setNavType}) {
   setNavType("user");
-  const {setloginrestaurant, setloginuser} = useContext(LoginDetails);
+  const {setloginrestaurant,loginrestaurant, setloginuser} = useContext(LoginDetails);
 
   var data = {};
   const navigate = useNavigate();
@@ -60,12 +60,16 @@ function Login({setNavType}) {
         if (data.status === 200) {
           
           if (loginoption === "user") { // navigate to the user page 
+            setNavType("user");
               setloginuser(data.data.data);
               navigate("/");
               alert(`${data.data.message}`);
           }
           else { // navigate to the restaurent page 
+            setNavType("restaurent");
+            console.log(data.data.data);
             setloginrestaurant(data.data.data);
+            console.log(loginrestaurant);
             // localStorage.setItem("restaurantId",data.data.data._id.toString());
             navigate("/restaurenthome")
             alert(`${data.data.message}`);

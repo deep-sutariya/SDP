@@ -24,7 +24,7 @@ function App() {
 
   
 
-
+  const [menu,setMenu] = useState({});
   const [navtype, setNavType] = useState("user");
 
   return (
@@ -35,19 +35,16 @@ function App() {
             <BrowserRouter>
               <Routes>
 
-                <Route path="/" element={<Navbar type={navtype}/>} >
-
+                <Route path="/" element={<Navbar menu={menu} setmenu={(m) => setMenu(m)} type={navtype}/>} >
                     <Route path="" element={<Home setNavType={setNavType}/>} />
                     <Route path="orders" element={<Orders setNavType={setNavType}/>} />
                     <Route path="login" element={<Login setNavType={setNavType}/>} />
                     <Route path="signup" element={<Signup setNavType={setNavType}/>} />
                     <Route path="restaurentmenu" element={<RestaurantMenu setNavType={setNavType}/>} />
-                  <Route path="user" element={<RestaurantHome setNavType={setNavType}/>} >
-                  </Route>
                   
-                  <Route path="restaurenthome" element={<RestaurantHome setNavType={setNavType}/>}>
+                  <Route path="restaurenthome" element={<RestaurantHome setNavType={ setNavType}/>}>
                     <Route path='' element={<Profile setNavType={setNavType}/>} />
-                    <Route path='menus' element={<AllMenu setNavType={setNavType}/>} />
+                    <Route path='menus' element={<AllMenu menu={menu} setNavType={setNavType}/>} />
                     <Route path='restaurantorders' element={<RestaurantOrders setNavType={setNavType}/>} />
                   </Route>
                 </Route>

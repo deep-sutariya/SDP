@@ -11,14 +11,8 @@ const Profile = () => {
   const [resInfo, setResInfo] = useState({});
   const [flag, setFlag] = useState(true);
   const { loginrestaurant } = useContext(LoginDetails);
-  // console.log(loginrestaurant);
 
-  // const getData = async () => {
-  //   const data = await axios.post("/getrestaurent", {
-  //     id: localStorage.getItem("restaurantId")
-  //   })
-  //   setloginrestaurant(data.data);
-  // }
+  const [loading , setloading] = useState(false);
 
   const handleFile = async (e) => {
     e.preventDefault();
@@ -46,10 +40,13 @@ const Profile = () => {
   }
 
   useEffect(() => {
-    setResData(loginrestaurant.data);
-    setResInfo(loginrestaurant.data);
+    setloading(true)
+    setResData(loginrestaurant);
+    setResInfo(loginrestaurant);
+    console.log(resData)
+    console.log(loginrestaurant)
+    setloading(false);
   }, [loginrestaurant]);
-
 
   let name, value;
   function change(e) {
@@ -90,11 +87,11 @@ const Profile = () => {
     }
   }
 
-  return (
 
-    (resData && resInfo) ?
-    
-      (flag) ? <div className="profile" id="profile_a">
+
+  return (
+    <>
+    {(!loading && resData && resInfo) ? ((flag) ?( <div className="profile" id="profile_a">
         <div className="profile_heading">
           <h1>PROFILE</h1>
           <span className="material-symbols-outlined" onClick={handleEvent} style={{ padding: "10px", borderRadius: "30px" }}>edit_square</span>
@@ -129,10 +126,8 @@ const Profile = () => {
             <a href={resData.rurl}>{resInfo.rurl}</a>
           </div>
         </div>
-      </div> 
-      
+      </div> )
       : 
-      
       <div className="edit_container" id="edit_form">
         <h1>Edit 😎</h1>
         <form onSubmit={updateData}>
@@ -264,8 +259,9 @@ const Profile = () => {
             <input type="submit" value="Submit" />
           </div>
         </form>
-      </div>
-    : <>Loding .....</>
+      </div>)
+    : <>Loding .....</>}
+    </>
   );
 };
 

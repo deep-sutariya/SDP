@@ -10,7 +10,7 @@ import axios from 'axios';
 function Navbar(props) {
 
   const {setloginrestaurant,setloginuser,loginrestaurant, loginuser} = useContext(LoginDetails);
-
+  const [first, setfirst] = useState({});
   // Set Contex 
   function getCookie(name) {
     const value = `; ${document.cookie}`;
@@ -25,27 +25,26 @@ function Navbar(props) {
       upass: decodedToken.pass,
     })
 
-    // console.log(data.data);
-
     if(type==="user"){
-      console.log("User");
       setloginuser(data.data);
     }
-    if(type == "restaurent"){
-      setloginrestaurant(data.data);
-      // console.log(loginrestaurant);
-      console.log("restaurent");
+    if(type === "restaurent"){
+      setfirst(data?.data?.data);
+      console.log(data.data.data);
     }
   }
+  
+  useEffect(()=>{
+    console.log(first);
+    setloginrestaurant(first);
+  },[first])
   
   
   useEffect(() => {
     token = getCookie("token");
     type = getCookie("type");
-    if (token && type) {
       decodedToken = jwt_decode(token);
       getData(type);
-    }
   }, [])
 
 
@@ -67,7 +66,7 @@ function Navbar(props) {
     localStorage.clear();
   }
 
-  console.log(loginrestaurant);
+  // console.log(loginrestaurant);
 
   return (
     <>
@@ -85,13 +84,13 @@ function Navbar(props) {
 
             <ul>
               <li><Link className="navlinkss active" to="" >Home</Link></li>
-              <li><Link className="navlinkss" to="orders" >orders</Link></li>
-              <li><Link className="navlinkss" to='login'>Login</Link></li>
-              <li><Link className="navlinkss" to="signup" >Signup</Link></li>
+              <li><Link className="navlinkss" to="../orders" >orders</Link></li>
+              <li><Link className="navlinkss" to='../login'>Login</Link></li>
+              <li><Link className="navlinkss" to="../signup" >Signup</Link></li>
             </ul>
             :
             <ul>
-              <li><Link className='navlinkss active' to="restaurenthome" >Profile</Link></li>
+              <li><Link className='navlinkss ${active}' to="restaurenthome" >Profile</Link></li>
               <li><Link className='navlinkss' to="restaurenthome/menus" >Menu</Link></li>
               <li><Link className='navlinkss' to="restaurenthome/restaurantorders" >Orders</Link></li>
               <li><Link className='navlinkss' onClick={finalCall} to="..\..\login" >LogOut</Link></li>
