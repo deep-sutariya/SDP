@@ -9,11 +9,6 @@ export const LoginDetailsProvider = (props) =>{
 
     const [loginuser, setloginuser] = useState({});
 
-    // console.log("In Contex");
-
-    // console.log(loginuser);
-    // console.log(loginrestaurant);
-
     const loginvalue = {setloginrestaurant, setloginuser, loginrestaurant, loginuser}
 
     return(

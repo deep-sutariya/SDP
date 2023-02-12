@@ -1,5 +1,5 @@
 import axios from "axios";
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import "./style/login.css";
 import { Link, useNavigate } from "react-router-dom";
@@ -11,18 +11,28 @@ import login from '../assets/login.svg'
 import { LoginDetails } from "../contex/Logincontex";
 import { useContext } from "react";
 
-function Login({setNavType}) {
-  setNavType("user");
-  const {setloginrestaurant,loginrestaurant, setloginuser} = useContext(LoginDetails);
+function Login({ setNavType }) {
+  const { setloginrestaurant, loginrestaurant, setloginuser, loginuser } = useContext(LoginDetails);
 
-  var data = {};
+  var data;
   const navigate = useNavigate();
   const [loginoption, setLoginOption] = useState("");
+  const[logindata, setlogindata] = useState({});
 
   const [user, setuser] = useState({
     uemail: "",
     upass: "",
   });
+
+  useEffect(() => {
+    setNavType("user");
+  }, [])
+
+  useEffect(()=>{
+    if(loginoption==='user') console.log(loginuser);
+    if(loginoption==="restaurent") console.log(loginrestaurant);
+  },[logindata])
+
 
   const handleRestaurent = () => {
     setLoginOption("restaurent");
@@ -56,23 +66,22 @@ function Login({setNavType}) {
           uemail: user.uemail,
           upass: user.upass,
         });
-        
         if (data.status === 200) {
+
           
-          if (loginoption === "user") { // navigate to the user page 
-            setNavType("user");
-              setloginuser(data.data.data);
-              navigate("/");
-              alert(`${data.data.message}`);
+          if (loginoption === "restaurent") { // navigate to the user page 
+            setloginuser(data?.data?.data);
+            setlogindata(data?.data?.data);
+            // console.log(loginuser)
+            alert(`${data.data.message}`);
+            navigate("/restaurenthome")
           }
           else { // navigate to the restaurent page 
-            setNavType("restaurent");
-            console.log(data.data.data);
-            setloginrestaurant(data.data.data);
-            console.log(loginrestaurant);
-            // localStorage.setItem("restaurantId",data.data.data._id.toString());
-            navigate("/restaurenthome")
+            setloginrestaurant(data?.data?.data);
+            setlogindata(data?.data?.data);
+            // console.log(loginrestaurant);
             alert(`${data.data.message}`);
+            navigate("/");
           }
 
         } else {
@@ -84,11 +93,13 @@ function Login({setNavType}) {
       }
     }
   }
+
+
   return (
     <>
       <div className="container">
         <div className="contai">
-          <img src={login} alt="loginimage"/>
+          <img src={login} alt="loginimage" />
           {/* <img src={reslogin} alt="loginimage"/> */}
         </div>
         <div className="form grid_container login">

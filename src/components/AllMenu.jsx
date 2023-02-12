@@ -7,7 +7,7 @@ import axios from "axios";
 import { LoginDetails } from "../contex/Logincontex";
 import BounceLoader from "react-spinners/BounceLoader";
 
-const AllMenu = (props) => {
+const AllMenu = () => {
 
   const {loginrestaurant} = useContext(LoginDetails);
   const [RestaurantMenu, setRestaurantMenu] = useState([]);

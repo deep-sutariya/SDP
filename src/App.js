@@ -12,17 +12,10 @@ import RestaurantOrders from './components/RestaurantOrders';
 import { TrayContexProvider } from './contex/tray_contex';
 import { UserSelectedResContexProvider } from './contex/UserSelectedRestaurant';
 import { LoginDetailsProvider } from './contex/Logincontex';
-import { useEffect, useState } from 'react';
-import jwt_decode from "jwt-decode";
-
-import { LoginDetails } from "./contex/Logincontex";
-import { useContext } from "react";
-import axios from 'axios';
+import { useState } from 'react';
 import Navbar from './components/Navbar';
 
 function App() {
-
-  
 
   const [menu,setMenu] = useState({});
   const [navtype, setNavType] = useState("user");

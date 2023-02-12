@@ -1,7 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate } from "react-router-dom";
 import "../components/style/cards.css"
-import demo_image from '../assets/RestaurantLI.jpg'
 import { UserSelectedResContex } from '../contex/UserSelectedRestaurant';
 import { useContext } from 'react';
 import { TrayContex } from '../contex/tray_contex';
@@ -9,26 +8,30 @@ import axios from 'axios';
 
 const Cards = (props) => {
 
-    const { setSelectedRestaurant } = useContext(UserSelectedResContex);
+    const { setSelectedRestaurantMenu,setSelectedRestaurant } = useContext(UserSelectedResContex);
 
     const { setCartItem } = useContext(TrayContex);
 
     const navigate = useNavigate();
 
     const toMenuPage = async (e) =>{
-        console.log(e.target.id);
+        const SelectedResId = e.target.id;
+
         const data = await axios.post("/getrestaurent", {
-          id: e.target.id
+          id: SelectedResId
         });
+
+        console.log(data);
         
         // setting the context values before reaching tp the restaurantmenu page....
         // also initializing the value of cart before reaching the reatuarant menu page.
-        setSelectedRestaurant(data.data);
+        setSelectedRestaurant(data?.data);
+        setSelectedRestaurantMenu(data?.data?.rmenu);
         const cart = Array(data.data.rmenu.length).fill(0);
         setCartItem(cart);
+
         localStorage.removeItem("cart")
         navigate("/restaurentmenu");
-
     }
 
   return (

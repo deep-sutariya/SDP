@@ -6,16 +6,11 @@ export const UserSelectedResContex = createContext(null);
 
 export const UserSelectedResContexProvider = (props) =>{
 
-    const [Restaurant, setRestaurant] = useState(null);
-    const [RestaurantMenu, setRestaurantMenu] = useState(null);
+    const [SelectedRestaurant, setSelectedRestaurant] = useState({});
+    const [SelectedRestaurantMenu, setSelectedRestaurantMenu] = useState([]);
 
-    const setSelectedRestaurant = (resData) =>{
-        setRestaurant({resData})
-        const data = resData.rmenu;
-        setRestaurantMenu(data);
-    }
-
-    const Rescontexvalue = {Restaurant,RestaurantMenu,setSelectedRestaurant}
+    // console.log(SelectedRestaurantMenu);
+    const Rescontexvalue = {SelectedRestaurant,SelectedRestaurantMenu,setSelectedRestaurant,setSelectedRestaurantMenu}
 
     return (
         <UserSelectedResContex.Provider value={Rescontexvalue}>{props.children}</UserSelectedResContex.Provider>

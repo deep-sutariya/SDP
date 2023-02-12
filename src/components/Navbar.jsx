@@ -11,6 +11,7 @@ function Navbar(props) {
 
   const {setloginrestaurant,setloginuser,loginrestaurant, loginuser} = useContext(LoginDetails);
   const [first, setfirst] = useState({});
+
   // Set Contex 
   function getCookie(name) {
     const value = `; ${document.cookie}`;
@@ -24,28 +25,43 @@ function Navbar(props) {
       uemail: decodedToken.email,
       upass: decodedToken.pass,
     })
-
-    if(type==="user"){
-      setloginuser(data.data);
-    }
     if(type === "restaurent"){
-      setfirst(data?.data?.data);
-      console.log(data.data.data);
+      setfirst(data.data.data);
+    }
+    if(type === "user"){
+      setfirst(data.data.data);
     }
   }
-  
-  useEffect(()=>{
-    console.log(first);
-    setloginrestaurant(first);
-  },[first])
-  
   
   useEffect(() => {
     token = getCookie("token");
     type = getCookie("type");
-      decodedToken = jwt_decode(token);
-      getData(type);
+    decodedToken = jwt_decode(token);
+    getData(type);
   }, [])
+  
+  useEffect(()=>{
+    let type = getCookie("type");
+    console.log('->'  + type);
+    if(type === "restaurent"){
+      setloginrestaurant(first);
+    }
+    if(type === "user"){
+      setloginuser(first)
+    }
+  }, [first])
+  
+  useEffect(()=>{
+    let type = getCookie("type");
+    console.log(type);
+    console.log(loginuser);
+  }, [loginuser]);
+  
+  useEffect(()=>{
+    let type = getCookie("type");
+    console.log(type);
+    console.log(loginrestaurant);
+  }, [loginrestaurant]);
 
 
   var links = document.querySelectorAll('.navlinkss');
@@ -65,8 +81,6 @@ function Navbar(props) {
   const finalCall= () => {
     localStorage.clear();
   }
-
-  // console.log(loginrestaurant);
 
   return (
     <>

@@ -43,8 +43,6 @@ const Profile = () => {
     setloading(true)
     setResData(loginrestaurant);
     setResInfo(loginrestaurant);
-    console.log(resData)
-    console.log(loginrestaurant)
     setloading(false);
   }, [loginrestaurant]);
 

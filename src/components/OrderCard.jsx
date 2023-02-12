@@ -5,7 +5,6 @@ const ResMenuCard = () => {
 
 
   const doSomething = (e) => {
-    console.log("in function");
     const ele = document.getElementById("show");
     if (ele.style.display === "block") {
       ele.style.display = "none";
@@ -25,7 +24,7 @@ const ResMenuCard = () => {
         <div className="menuBtn" style={{display: "flex", justifyContent: "space-between",alignItems: "center"}} id="pop" onClick={doSomething}>
             <h3>OrderName</h3>
 
-            <h3>{new Date().toDateString()}</h3>
+            <h3>{new Date().toLocaleString()}</h3>
         </div>
 
 

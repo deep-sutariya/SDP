@@ -19,3 +19,10 @@ body::-webkit-scrollbar-thumb{
     border: solid 1px transparent;
     border-radius: 20px;
 }
+*{
+    margin: 0px;
+    padding: 0px;
+}
+body{
+    background-image: url("../src/assets/background.jpg");
+}

@@ -10,7 +10,9 @@ import "../components/style/cards.css"
 
 function Home({setNavType}) {
     
-    setNavType("user");
+    useEffect(()=>{
+        setNavType("user");
+    },[])
     
 
     const [restaurents,setRestaurents] = useState([]);

@@ -18,7 +18,6 @@ function RestaurantMenu() {
     const [resmenu, setResmenu] = useState([]);
     let [loading, setLoading] = useState(true);
 
-
     const getData = () => {
         setLoading(true);
 
@@ -38,7 +37,6 @@ function RestaurantMenu() {
     
     return (
         <>
-            <Navbar type="user" />
             <div style={{ textAlign: 'center', marginTop: '60px', marginBottom: '60px', textDecoration: 'underline' }} className="menuParent"><h2>{resdata.rname}</h2></div>
             <div className="allmenuitems">
                 {loading ?<div className="loader"><BounceLoader
