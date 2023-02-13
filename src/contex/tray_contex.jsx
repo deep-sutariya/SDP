@@ -33,6 +33,8 @@ export const TrayContexProvider = (props) => {
         setCartItem(JSON.parse(localStorage.getItem("cart")));
     }
 
+    
+
     const getTotalCardAmount = () => {
         let totalAmount = 0;
         for (const item in cartItem) {

@@ -11,33 +11,42 @@ import { TrayContex } from '../contex/tray_contex';
 
 function RestaurantMenu() {
 
-    const { RestaurantMenu ,Restaurant } = useContext(UserSelectedResContex);
-    const { cartItem } = useContext(TrayContex);
+    const { SelectedRestaurant ,SelectedRestaurantMenu } = useContext(UserSelectedResContex);
+    // const { cartItem } = useContext(TrayContex);
+    const { setCartItem ,cartItem } = useContext(TrayContex);
 
-    const [resdata, setResdata] = useState({});
-    const [resmenu, setResmenu] = useState([]);
+    const [resdata, setResdata] = useState();
+    const [resmenu, setResmenu] = useState();
     let [loading, setLoading] = useState(true);
 
     const getData = () => {
         setLoading(true);
-
-        if(RestaurantMenu && Restaurant){
-            setResmenu(RestaurantMenu);
-            setResdata(Restaurant);
+        if(SelectedRestaurant && SelectedRestaurantMenu){
+            console.log(SelectedRestaurantMenu);
+            setResdata(SelectedRestaurant);
+            setResmenu(SelectedRestaurantMenu);
         }
-
         setLoading(false);
     }
 
+    useEffect(() => {
+        
+        const cart = Array(SelectedRestaurantMenu.length).fill(0);
+        console.log(cart);
+        setCartItem(cart);
+        localStorage.setItem("cart", JSON.stringify(cart))
+        
+    },[SelectedRestaurantMenu])
     
     useEffect(() => {
         getData();
     }, []);
+
     
     
     return (
         <>
-            <div style={{ textAlign: 'center', marginTop: '60px', marginBottom: '60px', textDecoration: 'underline' }} className="menuParent"><h2>{resdata.rname}</h2></div>
+            <div style={{ textAlign: 'center', marginTop: '60px', marginBottom: '60px', textDecoration: 'underline' }} className="menuParent"><h2>{resdata?.rname}</h2></div>
             <div className="allmenuitems">
                 {loading ?<div className="loader"><BounceLoader
                         size={50}
@@ -52,7 +61,7 @@ function RestaurantMenu() {
                         })
                 }
             </div>
-            <Popup resmenu = {resmenu}/>
+            <Popup/>
         </>
     )
 }

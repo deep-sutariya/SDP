@@ -8,9 +8,9 @@ import axios from 'axios';
 
 const Cards = (props) => {
 
-    const { setSelectedRestaurantMenu,setSelectedRestaurant } = useContext(UserSelectedResContex);
+    const { setSelectedRestaurantMenu,setSelectedRestaurant ,SelectedRestaurant,SelectedRestaurantMenu} = useContext(UserSelectedResContex);
 
-    const { setCartItem } = useContext(TrayContex);
+    const { setCartItem ,cartItem } = useContext(TrayContex);
 
     const navigate = useNavigate();
 
@@ -21,18 +21,20 @@ const Cards = (props) => {
           id: SelectedResId
         });
 
-        console.log(data);
-        
         // setting the context values before reaching tp the restaurantmenu page....
         // also initializing the value of cart before reaching the reatuarant menu page.
         setSelectedRestaurant(data?.data);
         setSelectedRestaurantMenu(data?.data?.rmenu);
-        const cart = Array(data.data.rmenu.length).fill(0);
-        setCartItem(cart);
-
-        localStorage.removeItem("cart")
         navigate("/restaurentmenu");
-    }
+      }
+      // useEffect(() => {
+
+      //   const cart = Array(SelectedRestaurantMenu.length).fill(0);
+      //   console.log(cart);
+      //   setCartItem(cart);
+      //   localStorage.setItem("cart", JSON.stringify(cart))
+        
+      // },[SelectedRestaurant,SelectedRestaurantMenu])
 
   return (
 

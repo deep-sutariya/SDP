@@ -5,13 +5,17 @@ import { useEffect, useState } from 'react';
 import jwt_decode from "jwt-decode";
 import { useContext } from "react";
 import { LoginDetails } from '../contex/Logincontex';
+import { UserSelectedResContex } from '../contex/UserSelectedRestaurant';
 import axios from 'axios';
+import { TrayContex } from '../contex/tray_contex';
 
 function Navbar(props) {
-
   const {setloginrestaurant,setloginuser,loginrestaurant, loginuser} = useContext(LoginDetails);
+  const {SelectedRestaurant,SelectedRestaurantMenu,setSelectedRestaurant,setSelectedRestaurantMenu} = useContext(UserSelectedResContex);
+  
+  const { setCartItem ,cartItem } = useContext(TrayContex);
   const [first, setfirst] = useState({});
-
+  const [selectedres, setSelectedres] = useState({});
   // Set Contex 
   function getCookie(name) {
     const value = `; ${document.cookie}`;
@@ -19,50 +23,43 @@ function Navbar(props) {
     if (parts.length === 2) return parts.pop().split(';').shift();
   }
 
-  var data, token, type, decodedToken;
+  var  token, decodedToken;
   async function getData(type) {
-    data = await axios.post(`/${type}login`, {
+    token = getCookie("token");
+    decodedToken = jwt_decode(token);
+    setfirst(await axios.post(`/${type}login`, {
       uemail: decodedToken.email,
       upass: decodedToken.pass,
-    })
-    if(type === "restaurent"){
-      setfirst(data.data.data);
-    }
-    if(type === "user"){
-      setfirst(data.data.data);
-    }
+    }));
+  }
+  const getSelectedRes = async (token) => {
+
+    let decodedTokenRestaurent = jwt_decode(token);
+    const data = await axios.post(`/getrestaurent`, {
+      id : decodedTokenRestaurent.id
+    });
+    setSelectedres(data);
   }
   
-  useEffect(() => {
-    token = getCookie("token");
-    type = getCookie("type");
-    decodedToken = jwt_decode(token);
-    getData(type);
-  }, [])
-  
   useEffect(()=>{
-    let type = getCookie("type");
-    console.log('->'  + type);
-    if(type === "restaurent"){
-      setloginrestaurant(first);
-    }
-    if(type === "user"){
-      setloginuser(first)
-    }
-  }, [first])
-  
-  useEffect(()=>{
-    let type = getCookie("type");
-    console.log(type);
-    console.log(loginuser);
-  }, [loginuser]);
-  
-  useEffect(()=>{
-    let type = getCookie("type");
-    console.log(type);
-    console.log(loginrestaurant);
-  }, [loginrestaurant]);
+    console.log(selectedres.data);
+    setSelectedRestaurant(selectedres?.data);
+    setSelectedRestaurantMenu(selectedres?.data?.rmenu);
+  }, [selectedres]);
 
+  useEffect(() => {
+    getData(getCookie("type"));
+    getSelectedRes(getCookie("selectedrestaurent"));
+  },[]);
+
+
+  useEffect(() => {
+    if(getCookie("type") === "restaurent"){
+      setloginrestaurant(first?.data?.data);
+    }else{
+      setloginuser(first?.data?.data);
+    }
+  },[first])
 
   var links = document.querySelectorAll('.navlinkss');
   if(links.length > 0){
@@ -89,7 +86,9 @@ function Navbar(props) {
         <label htmlFor="check" className="checkbtn">
           <i className="fas fa-bars"></i>
         </label>
-        <label className="logo">BookMyMeal</label>
+        {
+          loginuser && props.type === "user" ? <label className="logo">{loginuser.uname}</label> : <label className="logo">BookMyMeal</label>
+        }
         
         
 

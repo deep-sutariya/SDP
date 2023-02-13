@@ -238,7 +238,15 @@ router.post("/res", async (req, res) => {
 router.post("/getrestaurent", async (req, res) => {
   try {
     const { id } = req.body;
+    var token = jwt.sign({ id: id}, `${process.env.TOCKEN_PRIVATE_KEY}`);
+
+      res.cookie("selectedrestaurent", token, {
+        expires: new Date(Date.now() + 1800000),
+        httpOnly:false
+      });
+
     const data = await Restaurantinfo.findById(id);
+    console.log(data);
     res.status(200).send(data);
   } catch (err) {
     console.log(err);

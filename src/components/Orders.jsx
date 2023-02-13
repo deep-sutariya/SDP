@@ -10,7 +10,9 @@ function Orders({setNavType}) {
   // console.log(data);
   return (
     <>
-      <div className='mainorder'>orders Page</div>
+      <div className='mainorder'>
+        Your Order
+      </div>
     </>
   )
 }

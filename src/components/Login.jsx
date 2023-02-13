@@ -17,21 +17,11 @@ function Login({ setNavType }) {
   var data;
   const navigate = useNavigate();
   const [loginoption, setLoginOption] = useState("");
-  const[logindata, setlogindata] = useState({});
 
   const [user, setuser] = useState({
     uemail: "",
     upass: "",
   });
-
-  useEffect(() => {
-    setNavType("user");
-  }, [])
-
-  useEffect(()=>{
-    if(loginoption==='user') console.log(loginuser);
-    if(loginoption==="restaurent") console.log(loginrestaurant);
-  },[logindata])
 
 
   const handleRestaurent = () => {
@@ -69,19 +59,17 @@ function Login({ setNavType }) {
         if (data.status === 200) {
 
           
-          if (loginoption === "restaurent") { // navigate to the user page 
+          if (loginoption === "user") { // navigate to the user page 
             setloginuser(data?.data?.data);
-            setlogindata(data?.data?.data);
-            // console.log(loginuser)
+            setNavType("user");
             alert(`${data.data.message}`);
-            navigate("/restaurenthome")
+            navigate("/")
           }
           else { // navigate to the restaurent page 
             setloginrestaurant(data?.data?.data);
-            setlogindata(data?.data?.data);
-            // console.log(loginrestaurant);
+            setNavType("restaurent");
             alert(`${data.data.message}`);
-            navigate("/");
+            navigate("/restaurenthome");
           }
 
         } else {
