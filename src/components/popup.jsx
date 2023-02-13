@@ -23,11 +23,15 @@ const Popup = (props) => {
 
     const checkAuth = () =>{
         console.log(loginuser);
-        if(loginuser !== null){
+        if(loginuser !== undefined){
             navigate("/orders");
         }else{
             alert("First login Plz !!!!");
-            navigate("/login");
+            navigate("/login",{
+                state: {
+                    fromCart: true
+                }
+            });
         }
     }
 
@@ -43,13 +47,13 @@ const Popup = (props) => {
                 <div className="form-container">
                     <div className="menulist">
 
-                        {/* {
-                            Object.keys(resmenu).length > 0 &&
+                        {
+                            resmenu && Object.keys(resmenu).length > 0 &&
                             resmenu.map(({ _id, name, des, price }, index) => {
                                 if (cartItem[index] !== 0)
                                     return (<TrayMenu key={index} index={index} id={_id} name={name} des={des} price={price} />);
                             })
-                        } */}
+                        }
 
                     </div>
                     <div className="popup_buttons">

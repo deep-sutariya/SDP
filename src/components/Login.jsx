@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import "./style/login.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate ,useLocation} from "react-router-dom";
 import restaurentlogo from '../assets/restaurentlogo.jfif';
 import userlogo from '../assets/userlogo.jfif';
 import Navbar from '../components/Navbar';
@@ -15,6 +15,7 @@ function Login({ setNavType }) {
   const { setloginrestaurant, loginrestaurant, setloginuser, loginuser } = useContext(LoginDetails);
 
   var data;
+  const location = useLocation();
   const navigate = useNavigate();
   const [loginoption, setLoginOption] = useState("");
 
@@ -63,7 +64,11 @@ function Login({ setNavType }) {
             setloginuser(data?.data?.data);
             setNavType("user");
             alert(`${data.data.message}`);
-            navigate("/")
+            if(location?.state?.fromCart){
+              navigate("/restaurentmenu")
+            }else{
+              navigate("/")
+            }
           }
           else { // navigate to the restaurent page 
             setloginrestaurant(data?.data?.data);

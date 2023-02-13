@@ -8,16 +8,23 @@ import BounceLoader from "react-spinners/BounceLoader";
 import { UserSelectedResContex } from '../contex/UserSelectedRestaurant';
 import { useContext } from 'react';
 import { TrayContex } from '../contex/tray_contex';
+import jwt_decode from "jwt-decode";
+import axios from 'axios';
 
 function RestaurantMenu() {
 
-    const { SelectedRestaurant ,SelectedRestaurantMenu } = useContext(UserSelectedResContex);
-    // const { cartItem } = useContext(TrayContex);
+    const { SelectedRestaurant ,SelectedRestaurantMenu,setSelectedRestaurant,setSelectedRestaurantMenu } = useContext(UserSelectedResContex);
     const { setCartItem ,cartItem } = useContext(TrayContex);
-
+    const [selectedres, setSelectedres] = useState({});
     const [resdata, setResdata] = useState();
     const [resmenu, setResmenu] = useState();
     let [loading, setLoading] = useState(true);
+
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+      }
 
     const getData = () => {
         setLoading(true);
@@ -29,17 +36,33 @@ function RestaurantMenu() {
         setLoading(false);
     }
 
-    useEffect(() => {
-        
-        const cart = Array(SelectedRestaurantMenu.length).fill(0);
-        console.log(cart);
+    const getSelectedRes = async (token) => {
+
+        let decodedTokenRestaurent = jwt_decode(token);
+    
+        const data = await axios.post(`/getrestaurent`, {
+          id : decodedTokenRestaurent.id
+        });
+    
+        setSelectedres(data);
+      }
+
+
+    useEffect(()=>{
+        setSelectedRestaurant(selectedres?.data);
+        setSelectedRestaurantMenu(selectedres?.data?.rmenu);
+        setResmenu(selectedres?.data?.rmenu); //
+        setResdata(selectedres?.data); //
+        let size = SelectedRestaurantMenu?.length
+        const cart = Array(size).fill(0);
         setCartItem(cart);
-        localStorage.setItem("cart", JSON.stringify(cart))
-        
-    },[SelectedRestaurantMenu])
+        localStorage.setItem("cart", JSON.stringify(cart));
+      }, [selectedres]);
+
     
     useEffect(() => {
         getData();
+        getSelectedRes(getCookie("selectedrestaurent"));
     }, []);
 
     
@@ -61,7 +84,7 @@ function RestaurantMenu() {
                         })
                 }
             </div>
-            <Popup/>
+            <Popup resmenu = {resmenu}/>
         </>
     )
 }

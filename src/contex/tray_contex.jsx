@@ -9,14 +9,15 @@ export const TrayContex = createContext(null);
 
 export const TrayContexProvider = (props) => {
 
-    const { Restaurant, RestaurantMenu } = useContext(UserSelectedResContex);  
+    const { SelectedRestaurant, SelectedRestaurantMenu } = useContext(UserSelectedResContex);  
     
     const [cartItem, setCartItem] = useState(null)
     const [rmenu, setrmenu] = useState(null);
 
     useEffect(() => {
-        setrmenu(RestaurantMenu);
-    }, [RestaurantMenu,Restaurant])
+        setrmenu(SelectedRestaurantMenu);
+        console.log(rmenu);
+    }, [SelectedRestaurantMenu])
     
     const addToCart = (ItemId) => {
         setCartItem((prev) => ({ ...prev, [ItemId]: prev[ItemId] + 1 }))

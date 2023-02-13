@@ -11,7 +11,6 @@ import { TrayContex } from '../contex/tray_contex';
 
 function Navbar(props) {
   const {setloginrestaurant,setloginuser,loginrestaurant, loginuser} = useContext(LoginDetails);
-  const {SelectedRestaurant,SelectedRestaurantMenu,setSelectedRestaurant,setSelectedRestaurantMenu} = useContext(UserSelectedResContex);
   
   const { setCartItem ,cartItem } = useContext(TrayContex);
   const [first, setfirst] = useState({});
@@ -27,29 +26,16 @@ function Navbar(props) {
   async function getData(type) {
     token = getCookie("token");
     decodedToken = jwt_decode(token);
+    console.log(decodedToken);
+    console.log(type);
     setfirst(await axios.post(`/${type}login`, {
       uemail: decodedToken.email,
       upass: decodedToken.pass,
     }));
   }
-  const getSelectedRes = async (token) => {
-
-    let decodedTokenRestaurent = jwt_decode(token);
-    const data = await axios.post(`/getrestaurent`, {
-      id : decodedTokenRestaurent.id
-    });
-    setSelectedres(data);
-  }
-  
-  useEffect(()=>{
-    console.log(selectedres.data);
-    setSelectedRestaurant(selectedres?.data);
-    setSelectedRestaurantMenu(selectedres?.data?.rmenu);
-  }, [selectedres]);
 
   useEffect(() => {
     getData(getCookie("type"));
-    getSelectedRes(getCookie("selectedrestaurent"));
   },[]);
 
 
