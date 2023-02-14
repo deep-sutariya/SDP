@@ -1,7 +1,7 @@
 import React from 'react';
 import Navbar from './Navbar';
 import './style/orders.css';
-
+import UserOrderCard from './UserOrderCard';
 
 function Orders({setNavType}) {
   setNavType("user");
@@ -10,9 +10,7 @@ function Orders({setNavType}) {
   // console.log(data);
   return (
     <>
-      <div className='mainorder'>
-        Your Order
-      </div>
+      <UserOrderCard />
     </>
   )
 }

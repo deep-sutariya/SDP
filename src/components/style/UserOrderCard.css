@@ -1,0 +1,18 @@
+.OrderContainer{
+    width: 80vw;
+    margin: auto;
+    margin-top: 20px ;
+    border-radius: 20px;
+    padding: 20px;
+}
+.OrderContainer h1{
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
+    background-color: grey;
+    padding: 10px;
+}
+@media screen and (max-width: 600px) {
+    .OrderContainer{
+        width: 90vw;
+    }
+}
