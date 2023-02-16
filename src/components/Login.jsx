@@ -5,7 +5,6 @@ import "./style/login.css";
 import { Link, useNavigate ,useLocation} from "react-router-dom";
 import restaurentlogo from '../assets/restaurentlogo.jfif';
 import userlogo from '../assets/userlogo.jfif';
-import Navbar from '../components/Navbar';
 import login from '../assets/login.svg'
 
 import { LoginDetails } from "../contex/Logincontex";

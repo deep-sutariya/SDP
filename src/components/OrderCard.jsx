@@ -1,7 +1,7 @@
 import React from "react";
 import "../components/style/ResMenuCard.css";
 
-const ResMenuCard = () => {
+const ResMenuCard = (props) => {
 
 
   const doSomething = (e) => {
@@ -45,7 +45,6 @@ const ResMenuCard = () => {
               <p>Type</p>
             </div>
           </div>
-
 
         </div>
       </div>

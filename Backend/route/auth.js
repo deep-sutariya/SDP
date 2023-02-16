@@ -4,13 +4,14 @@ const UserInfo = require("../model/userinfo");
 const bcrypt = require("bcryptjs");
 const Restaurantinfo = require("../model/restaurantInfo");
 const hashpassword = require("../middleware/hashpassword");
+const userhashpassword = require("../middleware/userhashpassword");
 const pdf_generator = require("../service/pdf_generator");
 
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
 
 // Sign Up
-router.post("/signup", async (req, res) => {
+router.post("/signup", userhashpassword, async (req, res) => {
   const userexist = await UserInfo.findOne({ uemail: req.body.uemail });
   if (userexist) res.status(202).send({ message: "Email already exists" });
   else {
@@ -100,12 +101,12 @@ router.post("/userlogin", async (req, res) => {
       var token = jwt.sign({ email: user.uemail, pass: upass}, `${process.env.TOCKEN_PRIVATE_KEY}`);
 
       res.cookie("token", token, {
-        expires: new Date(Date.now() + 25892000000),
+        expires: new Date(Date.now() + 600000),
         httpOnly:false
       });
 
       res.cookie("type", "user", {
-        expires: new Date(Date.now() + 25892000000),
+        expires: new Date(Date.now() + 600000),
         httpOnly:false
       });
 
@@ -131,11 +132,11 @@ router.post("/restaurentlogin", async (req, res) => {
       var token = jwt.sign({email: restaurent.remail, pass: upass}, `${process.env.TOCKEN_PRIVATE_KEY}`);
 
       res.cookie("token", token, {
-        expires: new Date(Date.now() + 25892000000),
+        expires: new Date(Date.now() + 6000000),
         httpOnly:false
       });
       res.cookie("type", "restaurent", {
-        expires: new Date(Date.now() + 25892000000),
+        expires: new Date(Date.now() + 6000000),
         httpOnly:false
       });
 
@@ -154,7 +155,8 @@ router.post("/restaurentlogin", async (req, res) => {
 
 // Add MEnu Item
 router.post("/addmenu", async (req, res) => {
-  const { resid, iname, iprice, ides, itype } = req.body;
+  console.log(req.body);
+  const { resid, iname, iprice, ides, itype,iimage } = req.body;
   const restaurent = await Restaurantinfo.findById(resid);
 
   if (restaurent) {
@@ -162,7 +164,8 @@ router.post("/addmenu", async (req, res) => {
       name: iname,
       des: ides,
       price: iprice,
-      type: itype
+      type: itype,
+      image: iimage
     });
     const update = await restaurent.save();
     res
@@ -194,7 +197,7 @@ router.post("/removemenu", async (req, res) => {
 router.post("/editmenu", async (req, res) => {
   try {
     let { resid, menuIndex, newData } = req.body;
-    console.log(resid, menuIndex, newData);
+    // console.log(resid, menuIndex, newData);
 
     const data = await Restaurantinfo.findById(resid);
     if (data) {
@@ -206,7 +209,7 @@ router.post("/editmenu", async (req, res) => {
         restaurantMenu[menuIndex].des = newData.des;
         restaurantMenu[menuIndex].price = newData.price;
         restaurantMenu[menuIndex].type = newData.type;
-
+        restaurantMenu[menuIndex].image = newData.image;
         const updatedData = await data.save();
 
         res.status(200).send({ updatedData, message: "Menu Updated Successfully!" });
@@ -241,7 +244,7 @@ router.post("/getrestaurent", async (req, res) => {
     var token = jwt.sign({ id: id}, `${process.env.TOCKEN_PRIVATE_KEY}`);
 
       res.cookie("selectedrestaurent", token, {
-        expires: new Date(Date.now() + 1800000),
+        expires: new Date(Date.now() + 18000000),
         httpOnly:false
       });
 
@@ -256,6 +259,37 @@ router.post("/getrestaurent", async (req, res) => {
 
 
 // Fetch Orders
+router.post('/saveorder', async(req,res) => {
+  const {userid,orderres,ordermenu,ordertotal} = req.body;
+  const ordertime = new Date().toLocaleString();
+
+  const user = await UserInfo.findById(userid);
+  const restaurant = await Restaurantinfo.findById(orderres);
+  
+  const userorderData = {
+    orderres: orderres,
+    ordermenu: ordermenu,
+    ordertotal: ordertotal,
+    ordertime: ordertime
+  }
+  const resorderData = {
+    orderuser: userid,
+    ordermenu: ordermenu,
+    ordertotal: ordertotal,
+    ordertime: ordertime
+  }
+  
+  user.uorders.unshift(userorderData);
+  restaurant.rorders.unshift(resorderData);
+
+  const updateuser = await user.save();
+  const updateres = await restaurant.save();
+  console.log(updateuser);
+  console.log(updateres);
+
+  res.status(200).send({message: `${user.uname}, Your Order Is Placed`});
+
+})
 
 
 
@@ -272,6 +306,5 @@ router.get("/generatebill", async (req, res) => {
     { rname: "Deep's Cafe" }
   );
 });
-
 
 module.exports = router;

@@ -17,7 +17,7 @@ const Types = () => {
                         <img src="https://tse2.mm.bing.net/th?id=OIP.79R9vNeEd0djN6RZhTfbAgHaE8&pid=Api&P=0" alt="" />
                     </div>
                     <div className="card_type">
-                        <p>South Indian</p>
+                        <p>Italian</p>
                     </div>
                 </div>
                 <div className="card">
@@ -25,7 +25,7 @@ const Types = () => {
                         <img src="https://tse2.mm.bing.net/th?id=OIP.79R9vNeEd0djN6RZhTfbAgHaE8&pid=Api&P=0" alt="" />
                     </div>
                     <div className="card_type">
-                        <p>South Indian</p>
+                        <p>FastFood</p>
                     </div>
                 </div>
                 <div className="card">
@@ -33,7 +33,7 @@ const Types = () => {
                         <img src="https://tse2.mm.bing.net/th?id=OIP.79R9vNeEd0djN6RZhTfbAgHaE8&pid=Api&P=0" alt="" />
                     </div>
                     <div className="card_type">
-                        <p>South Indian</p>
+                        <p>North Indian</p>
                     </div>
                 </div>
                 <div className="card">
@@ -41,7 +41,7 @@ const Types = () => {
                         <img src="https://tse2.mm.bing.net/th?id=OIP.79R9vNeEd0djN6RZhTfbAgHaE8&pid=Api&P=0" alt="" />
                     </div>
                     <div className="card_type">
-                        <p>South Indian</p>
+                        <p>Mexican</p>
                     </div>
                 </div>
                 <div className="card">
@@ -49,7 +49,7 @@ const Types = () => {
                         <img src="https://tse2.mm.bing.net/th?id=OIP.79R9vNeEd0djN6RZhTfbAgHaE8&pid=Api&P=0" alt="" />
                     </div>
                     <div className="card_type">
-                        <p>South Indian</p>
+                        <p>American</p>
                     </div>
                 </div>
                 <div className="card">
@@ -57,7 +57,7 @@ const Types = () => {
                         <img src="https://tse2.mm.bing.net/th?id=OIP.79R9vNeEd0djN6RZhTfbAgHaE8&pid=Api&P=0" alt="" />
                     </div>
                     <div className="card_type">
-                        <p>South Indian</p>
+                        <p>Chinese</p>
                     </div>
                 </div>
                 <div className="card">
@@ -65,7 +65,7 @@ const Types = () => {
                         <img src="https://tse2.mm.bing.net/th?id=OIP.79R9vNeEd0djN6RZhTfbAgHaE8&pid=Api&P=0" alt="" />
                     </div>
                     <div className="card_type">
-                        <p>South Indian</p>
+                        <p>Japanise</p>
                     </div>
                 </div>
                 <div className="card">
@@ -73,7 +73,7 @@ const Types = () => {
                         <img src="https://tse2.mm.bing.net/th?id=OIP.79R9vNeEd0djN6RZhTfbAgHaE8&pid=Api&P=0" alt="" />
                     </div>
                     <div className="card_type">
-                        <p>South Indian</p>
+                        <p>Sea Food</p>
                     </div>
                 </div>
                 <div className="card">
@@ -81,7 +81,7 @@ const Types = () => {
                         <img src="https://tse2.mm.bing.net/th?id=OIP.79R9vNeEd0djN6RZhTfbAgHaE8&pid=Api&P=0" alt="" />
                     </div>
                     <div className="card_type">
-                        <p>South Indian</p>
+                        <p>Rajasthani</p>
                     </div>
                 </div>
                 <div className="card">
@@ -89,55 +89,7 @@ const Types = () => {
                         <img src="https://tse2.mm.bing.net/th?id=OIP.79R9vNeEd0djN6RZhTfbAgHaE8&pid=Api&P=0" alt="" />
                     </div>
                     <div className="card_type">
-                        <p>South Indian</p>
-                    </div>
-                </div>
-                <div className="card">
-                    <div className="card_img">
-                        <img src="https://tse2.mm.bing.net/th?id=OIP.79R9vNeEd0djN6RZhTfbAgHaE8&pid=Api&P=0" alt="" />
-                    </div>
-                    <div className="card_type">
-                        <p>South Indian</p>
-                    </div>
-                </div>
-                <div className="card">
-                    <div className="card_img">
-                        <img src="https://tse2.mm.bing.net/th?id=OIP.79R9vNeEd0djN6RZhTfbAgHaE8&pid=Api&P=0" alt="" />
-                    </div>
-                    <div className="card_type">
-                        <p>South Indian</p>
-                    </div>
-                </div>
-                <div className="card">
-                    <div className="card_img">
-                        <img src="https://tse2.mm.bing.net/th?id=OIP.79R9vNeEd0djN6RZhTfbAgHaE8&pid=Api&P=0" alt="" />
-                    </div>
-                    <div className="card_type">
-                        <p>South Indian</p>
-                    </div>
-                </div>
-                <div className="card">
-                    <div className="card_img">
-                        <img src="https://tse2.mm.bing.net/th?id=OIP.79R9vNeEd0djN6RZhTfbAgHaE8&pid=Api&P=0" alt="" />
-                    </div>
-                    <div className="card_type">
-                        <p>South Indian</p>
-                    </div>
-                </div>
-                <div className="card">
-                    <div className="card_img">
-                        <img src="https://tse2.mm.bing.net/th?id=OIP.79R9vNeEd0djN6RZhTfbAgHaE8&pid=Api&P=0" alt="" />
-                    </div>
-                    <div className="card_type">
-                        <p>South Indian</p>
-                    </div>
-                </div>
-                <div className="card">
-                    <div className="card_img">
-                        <img src="https://tse2.mm.bing.net/th?id=OIP.79R9vNeEd0djN6RZhTfbAgHaE8&pid=Api&P=0" alt="" />
-                    </div>
-                    <div className="card_type">
-                        <p>South Indian</p>
+                        <p>Kathiyavadi</p>
                     </div>
                 </div>
             </div>

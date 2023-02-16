@@ -229,7 +229,7 @@ const Profile = () => {
 
           <div className="row">
             <div className="col-25">
-              <label htmlFor="country">Location</label>
+              <label htmlFor="country">Image</label>
             </div>
             <div className="col-75">
               <input type="file" id="file-input" onChange={handleFile}/>

@@ -55,17 +55,14 @@ function RestaurantMenu() {
         setResdata(selectedres?.data); //
         let size = SelectedRestaurantMenu?.length
         const cart = Array(size).fill(0);
-        setCartItem(cart);
+        setCartItem(cart); 
         localStorage.setItem("cart", JSON.stringify(cart));
-      }, [selectedres]);
-
+    }, [selectedres]);
     
     useEffect(() => {
         getData();
         getSelectedRes(getCookie("selectedrestaurent"));
-    }, []);
-
-    
+    }, []);   
     
     return (
         <>
@@ -79,8 +76,8 @@ function RestaurantMenu() {
                     /> </div> : 
                     
                         Object.keys(resmenu).length > 0 &&
-                        resmenu.map(({ _id, name, des, price },index) => {
-                            return (<Menu key={index} index={index} id={_id} name={name} des={des} price={price} />);
+                        resmenu.map(({ _id, name, des, price,image },index) => {
+                            return (<Menu key={index} index={index} id={_id} name={name} des={des} price={price} image={image} />);
                         })
                 }
             </div>

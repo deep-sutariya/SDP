@@ -5,16 +5,16 @@ import { useEffect, useState } from 'react';
 import jwt_decode from "jwt-decode";
 import { useContext } from "react";
 import { LoginDetails } from '../contex/Logincontex';
-import { UserSelectedResContex } from '../contex/UserSelectedRestaurant';
 import axios from 'axios';
 import { TrayContex } from '../contex/tray_contex';
+import Cookies from 'js-cookie';
 
 function Navbar(props) {
-  const {setloginrestaurant,setloginuser,loginrestaurant, loginuser} = useContext(LoginDetails);
-  
-  const { setCartItem ,cartItem } = useContext(TrayContex);
+  const { setloginrestaurant, setloginuser, loginrestaurant, loginuser } = useContext(LoginDetails);
+
+  const { setCartItem, cartItem } = useContext(TrayContex);
   const [first, setfirst] = useState({});
-  const [selectedres, setSelectedres] = useState({});
+
   // Set Contex 
   function getCookie(name) {
     const value = `; ${document.cookie}`;
@@ -22,7 +22,7 @@ function Navbar(props) {
     if (parts.length === 2) return parts.pop().split(';').shift();
   }
 
-  var  token, decodedToken;
+  var token, decodedToken;
   async function getData(type) {
     token = getCookie("token");
     decodedToken = jwt_decode(token);
@@ -36,34 +36,39 @@ function Navbar(props) {
 
   useEffect(() => {
     getData(getCookie("type"));
-  },[]);
+  }, []);
 
 
   useEffect(() => {
-    if(getCookie("type") === "restaurent"){
+    if (getCookie("type") === "restaurent") {
       setloginrestaurant(first?.data?.data);
-    }else{
+    } else {
       setloginuser(first?.data?.data);
     }
-  },[first])
+  }, [first])
 
   var links = document.querySelectorAll('.navlinkss');
-  if(links.length > 0){
+  if (links.length > 0) {
     links.forEach((link) => {
       link.addEventListener('click', (e) => {
 
         links.forEach((link) => {
           link.classList.remove('active');
         });
-        
+
         link.classList.add('active');
       });
     });
   }
 
-  const finalCall= () => {
+  const finalCall = () => {
+    Cookies.remove('token')
+    Cookies.remove('type')
+    Cookies.remove('selectedrestaurant')
+    // cookie.remove("selectedrestaurant");
     localStorage.clear();
   }
+
 
   return (
     <>
@@ -72,11 +77,8 @@ function Navbar(props) {
         <label htmlFor="check" className="checkbtn">
           <i className="fas fa-bars"></i>
         </label>
-        {
-          loginuser && props.type === "user" ? <label className="logo">{loginuser.uname}</label> : <label className="logo">BookMyMeal</label>
-        }
-        
-        
+
+        <label className="logo">BookMyMeal</label>
 
         {
           props.type === "user" ?
@@ -84,19 +86,48 @@ function Navbar(props) {
             <ul>
               <li><Link className="navlinkss active" to="" >Home</Link></li>
               <li><Link className="navlinkss" to="../orders" >orders</Link></li>
-              <li><Link className="navlinkss" to='../login'>Login</Link></li>
               <li><Link className="navlinkss" to="../signup" >Signup</Link></li>
+              {
+                loginuser ?
+                  <>
+                    <li>
+                      <select name="username" id="username">
+                        <option value="username"><li>{loginuser.uname}</li></option>
+                        <option value="logoutbtn"><li><Link className='navlinkss' onSelect={finalCall} to="/" >LogOut</Link></li></option>
+                      </select>
+                    </li>
+                  </>
+                  :
+                  <>
+                    <li><Link className="navlinkss" to='../login'>Login</Link></li>
+                  </>
+              }
             </ul>
             :
             <ul>
               <li><Link className='navlinkss ${active}' to="restaurenthome" >Profile</Link></li>
               <li><Link className='navlinkss' to="restaurenthome/menus" >Menu</Link></li>
               <li><Link className='navlinkss' to="restaurenthome/restaurantorders" >Orders</Link></li>
-              <li><Link className='navlinkss' onClick={finalCall} to="..\..\login" >LogOut</Link></li>
+              <li><Link className="navlinkss" to="../signup" >Signup</Link></li>
+              {
+                loginrestaurant ?
+                  <>
+                    <li>
+                      <select name="username" id="username">
+                        <option value="username"><li>{loginrestaurant.rname}</li></option>
+                        <option value="logoutbtn" onSelect={console.log('fbuydsiuriu')}><li><Link className='navlinkss' onClick={finalCall} to="/" >LogOut</Link></li></option>
+                      </select>
+                    </li>
+                  </>
+                  :
+                  <>
+                    <li><Link className="navlinkss" to='../login'>Login</Link></li>
+                  </>
+              }
             </ul>
         }
       </nav>
-        <Outlet />
+      <Outlet />
     </>
   )
 }

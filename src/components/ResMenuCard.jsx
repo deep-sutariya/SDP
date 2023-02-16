@@ -19,7 +19,8 @@ const ResMenuCard = ({ id, name, price, des, type, index }) => {
     name: name,
     des: des,
     price: price,
-    type: type
+    type: type,
+    image:""
   })
 
   const [resMenu, setResMenu] = useState({
@@ -36,6 +37,31 @@ const ResMenuCard = ({ id, name, price, des, type, index }) => {
       ele.style.border = "1px solid rgba(128, 128, 128, 0.581);";
     }
   };
+
+  const handleFile = async (e) => {
+    e.preventDefault();
+    document.getElementById("nameoffile").innerText = e.target.files[0].name; 
+    document.getElementById("label").innerText = ""; 
+    const file = e.target.files[0];
+    const Base64 = await convertToBase64(file);
+    console.log(Base64);
+    menu({...menu, ["image"] : Base64});
+  }
+
+  // converting the file to the Base64 format
+  function convertToBase64(file){
+
+    return new Promise((resolve,reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+      fileReader.onload = () =>{
+        resolve(fileReader.result);
+      }
+      fileReader.onerror = (error) => {
+        reject(error);
+      }
+      })
+  }
 
   const EditMenu = async (e) => {
 
@@ -131,7 +157,9 @@ const ResMenuCard = ({ id, name, price, des, type, index }) => {
                 <input type="textarea" placeholder="Description" name="des" value={menu.des} onChange={updateMenu} />
                 <label>Type:</label>
                 <input type="textarea" placeholder="Type" name="type" value={menu.type} onChange={updateMenu} />
-              </div>
+                <input type="file" id="file-input" onChange={handleFile} />
+              <label id="file-label" htmlFor="file-input"><i className='fa fa-upload'></i>&emsp;<span id="label">Choose a Image...</span>&ensp;<span id="nameoffile"></span></label>
+              <br /></div>
               <button className="popup_btn save" id={index} onClick={EditMenu}>Save</button>
             </div>
           </div>
@@ -142,5 +170,6 @@ const ResMenuCard = ({ id, name, price, des, type, index }) => {
     </>
   )
 }
+
 
 export default ResMenuCard;

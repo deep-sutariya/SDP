@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-// const bcrypt = require('bcryptjs');
-const jwt = require("jsonwebtoken");
 
 const RestaurantInfoSchema = new Schema({
     rname: { type: String, required: true },
@@ -11,16 +9,26 @@ const RestaurantInfoSchema = new Schema({
     remail: { type: String, required: true},
     rurl: { type: String, required: true},
     rcity: { type: String, required: true},
-    rimage:{type:String, required: false},
+    rimage:{type: String, required: false},
     rpass: { type: String, required: true },
     rmenu: [
         {
             name:{ type: String, required: false},
             des:{ type: String, required: false},
             price:{ type: String, required: false},
-            type:{type: String, required: false}
+            type:{type: String, required: false},
+            image:{type:String,required: false}
         }
     ],
+    rorders: [
+        {
+            orderres: { type: String, required: false },
+            ordermenu: { type: Object, required: false },
+            ordertotal: { type: String, required: false },
+            ordertime: { type: String, required: false }
+        }
+    ],
+
 }, { timestamps: true });
 
 

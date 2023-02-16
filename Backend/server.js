@@ -6,7 +6,9 @@ const PORT = 5000;
 const connectDB = require('./db/db');
 connectDB();
 
-const userinfo = require('./model/userinfo');
+var bodyParser = require('body-parser');
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
 const cors = require('cors');
 app.use(cors());

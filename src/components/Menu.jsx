@@ -14,7 +14,9 @@ const Menu = (props) => {
 
       <div className="menu_card">
 
-        <div className="menu_img"></div>
+        <div className="menu_img">
+          <img src={props.image} alt="" />
+        </div>
 
         <div className="infoGridofMenu">
 

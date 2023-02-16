@@ -7,13 +7,19 @@ const UserinfoSchema = new Schema({
     uname: { type: String, required: true },
     uphone: { type: String, required: true },
     upass: { type: String, required: true },
-    utockens: { type: String, required: false },
+    uorders: [
+        {
+            orderres: { type: String, required: false },
+            ordermenu: { type: Object, required: false },
+            ordertotal: { type: String, required: false },
+            ordertime: { type: String, required: false }
+        }
+    ],
 
 }, { timestamps: true });
 
-UserinfoSchema.pre("save", async function (next) {
-        this.upass = await bcrypt.hash(this.upass, 10);
-});
-
+// UserinfoSchema.pre("save", async function (next) {
+//         this.upass = await bcrypt.hash(this.upass, 10);
+// });
 
 module.exports = mongoose.model('Userinfo', UserinfoSchema);

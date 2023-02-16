@@ -4,10 +4,14 @@ import "../components/style/popup.css"
 import TrayMenu from './TrayMenu';
 import { TrayContex } from '../contex/tray_contex'
 import { LoginDetails } from '../contex/Logincontex';
+import { UserSelectedResContex } from '../contex/UserSelectedRestaurant';
+import axios from 'axios';
 
 const Popup = (props) => {
     const navigate = useNavigate();
     const { cartItem, getTotalCardAmount } = useContext(TrayContex);
+
+    const {SelectedRestaurant,SelectedRestaurantMenu} = useContext(UserSelectedResContex);
 
     const { loginuser } = useContext(LoginDetails);
 
@@ -21,9 +25,19 @@ const Popup = (props) => {
         document.getElementById("myForm").style.display = "none";
     }
 
-    const checkAuth = () =>{
-        console.log(loginuser);
+    const checkAuth = async() =>{
         if(loginuser !== undefined){
+            console.log("orderpage");
+            const total = getTotalCardAmount();
+            
+            const data = await axios.post('/saveorder',{
+                userid : loginuser._id,
+                orderres : SelectedRestaurant._id,
+                ordermenu : cartItem,
+                ordertotal: total,
+            });
+            console.log(data);
+
             navigate("/orders");
         }else{
             alert("First login Plz !!!!");
@@ -49,9 +63,9 @@ const Popup = (props) => {
 
                         {
                             resmenu && Object.keys(resmenu).length > 0 &&
-                            resmenu.map(({ _id, name, des, price }, index) => {
+                            resmenu.map(({ _id, name, des, price,image }, index) => {
                                 if (cartItem[index] !== 0)
-                                    return (<TrayMenu key={index} index={index} id={_id} name={name} des={des} price={price} />);
+                                    return (<TrayMenu key={index} index={index} id={_id} name={name} des={des} price={price} image={image}/>);
                             })
                         }
 

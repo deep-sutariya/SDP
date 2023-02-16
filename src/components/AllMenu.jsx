@@ -14,14 +14,22 @@ const AllMenu = () => {
 
   let [loading, setLoading] = useState(true);
 
+  const [addmenu, setaddmenu] = useState({
+    name:"",
+    des:"",
+    price:"",
+    type:"",
+    image: ""
+  });
   const handleFile = async (e) => {
     e.preventDefault();
     document.getElementById("nameoffile").innerText = e.target.files[0].name; 
     document.getElementById("label").innerText = ""; 
     const file = e.target.files[0];
     const Base64 = await convertToBase64(file);
+    console.log(Base64);
     setaddmenu({...addmenu, ["image"] : Base64});
-    console.log(addmenu.image);
+    console.log(Base64);
   }
 
   // converting the file to the Base64 format
@@ -39,12 +47,6 @@ const AllMenu = () => {
       })
   }
 
-  const [addmenu, setaddmenu] = useState({
-    name:"",
-    des:"",
-    price:"",
-    type:"",
-  });
 
 
   let name , value;
@@ -57,7 +59,6 @@ const AllMenu = () => {
   const errmag = document.getElementById('addmenuerror');
 
   const saveMenu = async () =>{
-    
     if(addmenu.price && addmenu.des && addmenu.name && addmenu.type){
      
       const data = await axios.post("/addmenu", {
@@ -65,7 +66,8 @@ const AllMenu = () => {
         iname: addmenu.name,
         iprice: addmenu.price,
         ides: addmenu.des,
-        itype: addmenu.type
+        itype: addmenu.type,
+        iimage: addmenu.image
       })
 
       setRestaurantMenu({...RestaurantMenu,addmenu});

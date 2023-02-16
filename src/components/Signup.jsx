@@ -71,6 +71,7 @@ function Signup({setNavType}) {
             }
             else if (user.rpass === user.rcpass && user.rphone.length === 10 && valid && user.rname && user.rcity) {
                 errmsg.innerText = "";
+                console.log(user);
                 try {
                     const data = await axios.post('/registerrestaurant', {
                         rname: user.rname,
@@ -84,7 +85,7 @@ function Signup({setNavType}) {
                         rpass: user.rpass,
                         rmenu: user.rmenu
                     })
-
+                    console.log(data);
                     if(data.status === 202){
                         errmsg.innerText = `***${data.data.message}***`;
                     }

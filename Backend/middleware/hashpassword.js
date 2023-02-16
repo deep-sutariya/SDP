@@ -10,5 +10,4 @@ const hashpassword = async (req, res, next) => {
     }
 }
 
-
 module.exports = hashpassword;
