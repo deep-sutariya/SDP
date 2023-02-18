@@ -23,7 +23,7 @@ router.post("/signup", userhashpassword, async (req, res) => {
     });
 
     const data = await user.save();
-    console.log(data);
+    // console.log(data);
     res.status(200).send({
       data: data,
       message: `Hello, ${data.uname} You Registered Successfully`,
@@ -51,7 +51,7 @@ router.post("/registerrestaurant", hashpassword, async (req, res) => {
     });
 
     const data = await restaurantInfo.save();
-    console.log(data);
+    // console.log(data);
     res.status(200).send({
       data: data,
       message: `Hello, ${data.roname} Your Restaurant ${data.rname} Registered Successfully`,
@@ -80,7 +80,7 @@ router.post("/updaterestaurant", async (req, res) => {
       restaurant.rmenu = req.body.rmenu;
 
       const data = await restaurant.save();
-      console.log(data);
+      // console.log(data);
       res.status(200).send({
         data: data,
         message: `Updation has been done SuccessFully !`,
@@ -101,12 +101,12 @@ router.post("/userlogin", async (req, res) => {
       var token = jwt.sign({ email: user.uemail, pass: upass}, `${process.env.TOCKEN_PRIVATE_KEY}`);
 
       res.cookie("token", token, {
-        expires: new Date(Date.now() + 600000),
+        expires: new Date(Date.now() + 60000000),
         httpOnly:false
       });
 
       res.cookie("type", "user", {
-        expires: new Date(Date.now() + 600000),
+        expires: new Date(Date.now() + 60000000),
         httpOnly:false
       });
 
@@ -132,11 +132,11 @@ router.post("/restaurentlogin", async (req, res) => {
       var token = jwt.sign({email: restaurent.remail, pass: upass}, `${process.env.TOCKEN_PRIVATE_KEY}`);
 
       res.cookie("token", token, {
-        expires: new Date(Date.now() + 6000000),
+        expires: new Date(Date.now() + 600000000),
         httpOnly:false
       });
       res.cookie("type", "restaurent", {
-        expires: new Date(Date.now() + 6000000),
+        expires: new Date(Date.now() + 600000000),
         httpOnly:false
       });
 
@@ -155,7 +155,7 @@ router.post("/restaurentlogin", async (req, res) => {
 
 // Add MEnu Item
 router.post("/addmenu", async (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   const { resid, iname, iprice, ides, itype,iimage } = req.body;
   const restaurent = await Restaurantinfo.findById(resid);
 
@@ -204,7 +204,7 @@ router.post("/editmenu", async (req, res) => {
       let restaurantMenu = data.rmenu;
       if (restaurantMenu) {
         menuIndex = parseInt(menuIndex);
-        console.log(restaurantMenu[menuIndex]);
+        // console.log(restaurantMenu[menuIndex]);
         restaurantMenu[menuIndex].name = newData.name;
         restaurantMenu[menuIndex].des = newData.des;
         restaurantMenu[menuIndex].price = newData.price;
@@ -249,7 +249,7 @@ router.post("/getrestaurent", async (req, res) => {
       });
 
     const data = await Restaurantinfo.findById(id);
-    console.log(data);
+    // console.log(data);
     res.status(200).send(data);
   } catch (err) {
     console.log(err);
@@ -260,37 +260,117 @@ router.post("/getrestaurent", async (req, res) => {
 
 // Fetch Orders
 router.post('/saveorder', async(req,res) => {
-  const {userid,orderres,ordermenu,ordertotal} = req.body;
-  const ordertime = new Date().toLocaleString();
+  const {userid,orderres,order,ordertotal} = req.body;
+  const month = ["january","february","march","april","may","june","july","august","september","october","november","december"];
 
+  const date = new Date();
+  const ordertime = date.toDateString();
+  const ordermonth = date.getMonth();
   const user = await UserInfo.findById(userid);
   const restaurant = await Restaurantinfo.findById(orderres);
-  
+  const orderid = "id" + Math.random().toString(16).slice(2);
   const userorderData = {
-    orderres: orderres,
-    ordermenu: ordermenu,
+    orderid : orderid,
+    resname: restaurant.rname,
+    ordermenu: order,
     ordertotal: ordertotal,
-    ordertime: ordertime
+    ordertime: ordertime,
+    ordermonth:month[ordermonth],
+    orderstatus: "1"
   }
   const resorderData = {
+    orderid : orderid,
     orderuser: userid,
-    ordermenu: ordermenu,
+    username: user.uname,
+    ordermenu: order,
     ordertotal: ordertotal,
-    ordertime: ordertime
+    ordertime: ordertime,
+    ordermonth:month[ordermonth],
+    orderstatus: "1"
   }
-  
-  user.uorders.unshift(userorderData);
-  restaurant.rorders.unshift(resorderData);
-
+  let uorders = user.uorders;
+  uorders.unshift(userorderData);
+  console.log(uorders);
+  user.uorders = uorders;
+  let resorders = restaurant.rorders;
+  resorders.unshift(resorderData);
+  restaurant.rorders = resorders;
   const updateuser = await user.save();
   const updateres = await restaurant.save();
-  console.log(updateuser);
-  console.log(updateres);
+  console.log("asdsad");
 
   res.status(200).send({message: `${user.uname}, Your Order Is Placed`});
 
 })
 
+router.post("/getuserorder",async (req,res) => {
+
+  const { email ,month} = req.body;
+  // console.log(req.body);
+  const user = await UserInfo.findOne({uemail :email});
+  const data = [];
+  const orders = user.uorders;
+  if(month === "all"){
+    res.status(200).send(orders);
+  }else{
+    orders.forEach(element => {
+      if(element.ordermonth === month){
+        data.push(element);
+      }
+    })
+    console.log(data);
+    res.status(200).send(data);
+  }
+
+});
+
+router.post("/getrestaurantorder", async(req,res) => {
+  const { email,month } = req.body;
+
+  // console.log(req.body);
+  const restaurant = await Restaurantinfo.findOne({remail :email});
+  const data = [];
+  const orders = restaurant.rorders;
+  if(month === "all"){
+    res.status(200).send(orders);
+  }else{
+    orders.forEach(element => {
+      if(element.ordermonth === month){
+        data.push(element);
+      }
+    })
+    // console.log(data);
+    res.status(200).send(data);
+  }
+
+
+});
+
+router.post("/updatestatus", async(req,res) =>{
+  const {email ,orderid ,status} = req.body;
+  const restaurant = await Restaurantinfo.findOne({remail :email});
+  let id;
+  const orders = restaurant.rorders;
+  orders.forEach(element => {
+    if(element.orderid === orderid){
+      element.orderstatus = status;
+      id = element.orderuser;
+    }
+  });
+  const user = await UserInfo.findById(id);
+  console.log(user);
+  const userorder = user?.uorders;
+  userorder.forEach(element => {
+    if(element.orderid === orderid){
+      element.orderstatus = status;
+    }
+  });
+  await Restaurantinfo.updateOne({remail : email},{$set : {rorders : orders}})
+  await UserInfo.updateOne({uemail : user.uemail},{$set : {uorders : userorder}})
+  res.status(200).send({});
+  
+
+});
 
 
 // GenerateBill

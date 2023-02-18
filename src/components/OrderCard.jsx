@@ -18,9 +18,6 @@ const ResMenuCard = (props) => {
   return (
     <>
       <div className="resmenucardmain">
-        {/* <button className="menuBtn" id="pop" onClick={doSomething}>
-          OrderItem
-        </button> */}
         <div className="menuBtn" style={{display: "flex", justifyContent: "space-between",alignItems: "center"}} id="pop" onClick={doSomething}>
             <h3>OrderName</h3>
 

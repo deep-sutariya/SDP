@@ -25,19 +25,36 @@ const Popup = (props) => {
         document.getElementById("myForm").style.display = "none";
     }
 
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+      }
+      const getOrder = () => {
+        let orderItem = new Array(); 
+            let menu = SelectedRestaurantMenu;
+            for (const item in cartItem) {
+                if (cartItem[item] > 0) {
+                    let obj = {
+                        itemname : menu[item].name,
+                        price : menu[item].price,
+                        noOfItem : cartItem[item],
+                    };
+                    orderItem.push(obj);
+                }
+            }
+            return orderItem;
+      }
     const checkAuth = async() =>{
-        if(loginuser !== undefined){
-            console.log("orderpage");
+        if(getCookie("type") === "user" && loginuser){
             const total = getTotalCardAmount();
-            
+            const order = getOrder();
             const data = await axios.post('/saveorder',{
                 userid : loginuser._id,
                 orderres : SelectedRestaurant._id,
-                ordermenu : cartItem,
+                order : order,
                 ordertotal: total,
             });
-            console.log(data);
-
             navigate("/orders");
         }else{
             alert("First login Plz !!!!");

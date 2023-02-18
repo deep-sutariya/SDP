@@ -20,14 +20,24 @@ const RestaurantInfoSchema = new Schema({
             image:{type:String,required: false}
         }
     ],
-    rorders: [
-        {
-            orderres: { type: String, required: false },
-            ordermenu: { type: Object, required: false },
-            ordertotal: { type: String, required: false },
-            ordertime: { type: String, required: false }
-        }
-    ],
+    rorders: { type: Array, required: true },
+    // [
+    //     {
+    //         orderid : { type: String, required: false },
+    //         user: { type: String, required: false },
+    //         ordermenu: [
+    //             {
+    //                 itemname : { type: String, required: false },
+    //                 price : { type: String, required: false },
+    //                 noOfItem : { type: String, required: false }
+    //             }
+    //         ],
+    //         ordertotal: { type: String, required: false },
+    //         ordertime: { type: String, required: false },
+    //         ordermonth: { type: String, required: false },
+    //         orderstatus: {type: String,required: false}
+    //     }
+    // ],
 
 }, { timestamps: true });
 

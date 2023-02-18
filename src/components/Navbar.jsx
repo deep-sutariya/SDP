@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet ,useNavigate} from "react-router-dom";
 import './style/Navbar.css';
 import { useEffect, useState } from 'react';
 import jwt_decode from "jwt-decode";
@@ -10,6 +10,9 @@ import { TrayContex } from '../contex/tray_contex';
 import Cookies from 'js-cookie';
 
 function Navbar(props) {
+
+  const navigate = useNavigate();
+
   const { setloginrestaurant, setloginuser, loginrestaurant, loginuser } = useContext(LoginDetails);
 
   const { setCartItem, cartItem } = useContext(TrayContex);
@@ -62,11 +65,12 @@ function Navbar(props) {
   }
 
   const finalCall = () => {
+    console.log("adas");
     Cookies.remove('token')
     Cookies.remove('type')
-    Cookies.remove('selectedrestaurant')
-    // cookie.remove("selectedrestaurant");
+    Cookies.remove('selectedrestaurent')
     localStorage.clear();
+    navigate("/");
   }
 
 
@@ -88,14 +92,14 @@ function Navbar(props) {
               <li><Link className="navlinkss" to="../orders" >orders</Link></li>
               <li><Link className="navlinkss" to="../signup" >Signup</Link></li>
               {
-                loginuser ?
+                getCookie("type") == "user"  ?
                   <>
-                    <li>
-                      <select name="username" id="username">
-                        <option value="username"><li>{loginuser.uname}</li></option>
-                        <option value="logoutbtn"><li><Link className='navlinkss' onSelect={finalCall} to="/" >LogOut</Link></li></option>
-                      </select>
-                    </li>
+                  <div class="dropdown">
+                    <button class="dropbtn">{loginuser?.uname}</button>
+                    <div class="dropdown-content">
+                      <Link to="/" onClick={finalCall}>Log Out</Link>
+                    </div>
+                  </div>
                   </>
                   :
                   <>
@@ -110,14 +114,14 @@ function Navbar(props) {
               <li><Link className='navlinkss' to="restaurenthome/restaurantorders" >Orders</Link></li>
               <li><Link className="navlinkss" to="../signup" >Signup</Link></li>
               {
-                loginrestaurant ?
+                getCookie("type") == "restaurent"  ?
                   <>
-                    <li>
-                      <select name="username" id="username">
-                        <option value="username"><li>{loginrestaurant.rname}</li></option>
-                        <option value="logoutbtn" onSelect={console.log('fbuydsiuriu')}><li><Link className='navlinkss' onClick={finalCall} to="/" >LogOut</Link></li></option>
-                      </select>
-                    </li>
+                  <div class="dropdown">
+                    <button class="dropbtn">{loginrestaurant?.rname}</button>
+                    <div class="dropdown-content">
+                      <Link to="/" onClick={finalCall}>Log Out</Link>
+                    </div>
+                  </div>
                   </>
                   :
                   <>

@@ -1,7 +1,20 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
-const app = express();
+const http = require("http");
+
 const PORT = 5000;
+
+const app = express();
+
+// creating a server
+const server = http.createServer(app);
+
+const { Server } = require("socket.io");
+const io = new Server(server,{
+  cors:{
+    origin: "*"
+  }
+});
 
 const connectDB = require('./db/db');
 connectDB();
@@ -19,6 +32,16 @@ app.use(express.json());
 
 app.use(require('./route/auth'));
 
-app.listen(PORT, () => {
+//   event V      
+io.on("connection", (socket) => { 
+  console.log("Socket is active to be connected");
+    const payload = {
+        message: "hey how are you get ready with socket"
+    }
+  io.emit("chat", payload);
+});
+
+
+server.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`);
 })

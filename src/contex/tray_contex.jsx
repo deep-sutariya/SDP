@@ -14,13 +14,13 @@ export const TrayContexProvider = (props) => {
     const [cartItem, setCartItem] = useState(null)
     const [rmenu, setrmenu] = useState(null);
 
+
     useEffect(() => {
         setrmenu(SelectedRestaurantMenu);
-        console.log(rmenu);
     }, [SelectedRestaurantMenu])
     
     const addToCart = (ItemId) => {
-        setCartItem((prev) => ({ ...prev, [ItemId]: prev[ItemId] + 1 }))
+        setCartItem((prev) => ({ ...prev, [ItemId]: prev[ItemId] + 1 }));
     };
 
     const removeFromCart = (ItemId) => {
@@ -34,7 +34,7 @@ export const TrayContexProvider = (props) => {
         setCartItem(JSON.parse(localStorage.getItem("cart")));
     }
 
-    
+
 
     const getTotalCardAmount = () => {
         let totalAmount = 0;
@@ -44,7 +44,7 @@ export const TrayContexProvider = (props) => {
                 if (itemindex) totalAmount += cartItem[item] * Number(itemindex.price);
             }
         }
-        return totalAmount
+        return totalAmount;
     };
 
     const contexvalue = { initializeCart, setCartItem, cartItem, addToCart, removeFromCart, updateCartItemCount, getTotalCardAmount }
