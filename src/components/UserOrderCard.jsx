@@ -58,8 +58,8 @@ const UserOrderCard = (props) => {
               <th>No Of Item</th>
               <th>Price</th>
             </tr>
-            {ordermenu &&
-              ordermenu.map((element, index) => {
+            {ordermenu && Object.keys(ordermenu).length > 0 &&
+              Object.keys(ordermenu).map((element, index) => {
                 return (
                   <tr>
                     <td>{element.itemname}</td>

@@ -51,7 +51,7 @@ function Orders() {
     <>
       <div className='custom-select'>
         <select onChange={handleChange}>
-          <option selected value="all">ALL</option>
+          <option defaultValue value="all">ALL</option>
           <option value="january">January</option>
           <option value="february">February</option>
           <option value="march">March</option>

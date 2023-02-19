@@ -28,13 +28,15 @@ function Navbar(props) {
   var token, decodedToken;
   async function getData(type) {
     token = getCookie("token");
-    decodedToken = jwt_decode(token);
+    if(token){
+      decodedToken = jwt_decode(token);
+      setfirst(await axios.post(`/${type}login`, {
+        uemail: decodedToken.email,
+        upass: decodedToken.pass,
+      }));
+    }
     console.log(decodedToken);
     console.log(type);
-    setfirst(await axios.post(`/${type}login`, {
-      uemail: decodedToken.email,
-      upass: decodedToken.pass,
-    }));
   }
 
   useEffect(() => {
@@ -94,9 +96,9 @@ function Navbar(props) {
               {
                 getCookie("type") == "user"  ?
                   <>
-                  <div class="dropdown">
-                    <button class="dropbtn">{loginuser?.uname}</button>
-                    <div class="dropdown-content">
+                  <div className="dropdown">
+                    <button className="dropbtn">{loginuser?.uname}</button>
+                    <div className="dropdown-content">
                       <Link to="/" onClick={finalCall}>Log Out</Link>
                     </div>
                   </div>
@@ -116,9 +118,9 @@ function Navbar(props) {
               {
                 getCookie("type") == "restaurent"  ?
                   <>
-                  <div class="dropdown">
-                    <button class="dropbtn">{loginrestaurant?.rname}</button>
-                    <div class="dropdown-content">
+                  <div className="dropdown">
+                    <button className="dropbtn">{loginrestaurant?.rname}</button>
+                    <div className="dropdown-content">
                       <Link to="/" onClick={finalCall}>Log Out</Link>
                     </div>
                   </div>
