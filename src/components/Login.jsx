@@ -56,6 +56,10 @@ function Login({ setNavType }) {
           uemail: user.uemail,
           upass: user.upass,
         });
+
+        sessionStorage.setItem("token",data?.data?.cookie);
+        sessionStorage.setItem("type",data?.data?.type);
+        
         if (data.status === 200) {
 
           

@@ -10,13 +10,12 @@ function Orders() {
   const [orderData,setorderData] = useState();
   
 
-  // const socket = io.connect("http://localhost:5000");
+  const socket = io.connect("http://localhost:5000");
 
-  function getCookie(name) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(';').shift();
-  }
+  socket.on("statuschanged",(payload) =>{
+    console.log(payload);
+    getOrder(sessionStorage.getItem("token"),"all");
+  })
 
   const getOrder = async (token,month) => {
 
@@ -34,17 +33,14 @@ function Orders() {
 
   const handleChange = (e) => {
       let month = e.target.value;
-     getOrder(getCookie("token"),month);
+     getOrder(sessionStorage.getItem("token"),month);
   }
 
   useEffect(() => {
-    getOrder(getCookie("token"),"all");
+    getOrder(sessionStorage.getItem("token"),"all");
   },[])
   useEffect(() => {
     console.log(orderData);
-    // socket.on("chat",(payload) => {
-    //   console.log(payload);
-    // })
   },[orderData])
 
   return (

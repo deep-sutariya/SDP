@@ -11,8 +11,9 @@ const server = http.createServer(app);
 
 const { Server } = require("socket.io");
 const io = new Server(server,{
-  cors:{
-    origin: "*"
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET","POST"]
   }
 });
 
@@ -31,14 +32,19 @@ app.use(cookieParser());
 app.use(express.json());
 
 app.use(require('./route/auth'));
+require('events').EventEmitter.defaultMaxListeners = 15;
 
 //   event V      
-io.on("connection", (socket) => { 
-  console.log("Socket is active to be connected");
+io.on("connection", (socket) => {
+  console.log("connected");
     const payload = {
         message: "hey how are you get ready with socket"
     }
-  io.emit("chat", payload);
+  socket.on("changeinstatus",(payload)=>{
+    console.log(payload);
+
+    io.emit("statuschanged",{message: "statuschanged"});
+  })
 });
 
 

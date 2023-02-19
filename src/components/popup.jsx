@@ -24,12 +24,6 @@ const Popup = (props) => {
     function closeForm() {
         document.getElementById("myForm").style.display = "none";
     }
-
-    function getCookie(name) {
-        const value = `; ${document.cookie}`;
-        const parts = value.split(`; ${name}=`);
-        if (parts.length === 2) return parts.pop().split(';').shift();
-      }
       const getOrder = () => {
         let orderItem = new Array(); 
             let menu = SelectedRestaurantMenu;
@@ -46,7 +40,7 @@ const Popup = (props) => {
             return orderItem;
       }
     const checkAuth = async() =>{
-        if(getCookie("type") === "user" && loginuser){
+        if(sessionStorage.getItem("type") === "user" && loginuser){
             const total = getTotalCardAmount();
             const order = getOrder();
             const data = await axios.post('/saveorder',{
