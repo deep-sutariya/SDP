@@ -18,15 +18,10 @@ function Navbar(props) {
   const { setCartItem, cartItem } = useContext(TrayContex);
   const [first, setfirst] = useState({});
 
-  // Set Contex 
-  function getCookie(name) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(';').shift();
-  }
 
   var token, decodedToken;
   async function getData(type) {
+<<<<<<< HEAD
     token = getCookie("token");
     if(token){
       decodedToken = jwt_decode(token);
@@ -35,17 +30,21 @@ function Navbar(props) {
         upass: decodedToken.pass,
       }));
     }
+=======
+    token = sessionStorage.getItem("token");
+    decodedToken = jwt_decode(token);
+>>>>>>> e7d727e2f9c6204b3bb80ed0e2987b1cf792346d
     console.log(decodedToken);
     console.log(type);
   }
 
   useEffect(() => {
-    getData(getCookie("type"));
+    getData(sessionStorage.getItem("type"));
   }, []);
 
 
   useEffect(() => {
-    if (getCookie("type") === "restaurent") {
+    if (sessionStorage.getItem("type") === "restaurent") {
       setloginrestaurant(first?.data?.data);
     } else {
       setloginuser(first?.data?.data);
@@ -68,10 +67,8 @@ function Navbar(props) {
 
   const finalCall = () => {
     console.log("adas");
-    Cookies.remove('token')
-    Cookies.remove('type')
     Cookies.remove('selectedrestaurent')
-    localStorage.clear();
+    sessionStorage.clear();
     navigate("/");
   }
 
@@ -94,7 +91,7 @@ function Navbar(props) {
               <li><Link className="navlinkss" to="../orders" >orders</Link></li>
               <li><Link className="navlinkss" to="../signup" >Signup</Link></li>
               {
-                getCookie("type") == "user"  ?
+                sessionStorage.getItem("type") == "user"  ?
                   <>
                   <div className="dropdown">
                     <button className="dropbtn">{loginuser?.uname}</button>
@@ -116,7 +113,7 @@ function Navbar(props) {
               <li><Link className='navlinkss' to="restaurenthome/restaurantorders" >Orders</Link></li>
               <li><Link className="navlinkss" to="../signup" >Signup</Link></li>
               {
-                getCookie("type") == "restaurent"  ?
+                sessionStorage.getItem("type") == "restaurent"  ?
                   <>
                   <div className="dropdown">
                     <button className="dropbtn">{loginrestaurant?.rname}</button>

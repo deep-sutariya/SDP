@@ -4,14 +4,16 @@ import OrderCard from "../components/OrderCard";
 import UserOrderCard from "./UserOrderCard";
 import { useEffect } from "react";
 import jwt_decode from "jwt-decode";
+import { io } from 'socket.io-client'
 import axios from "axios";
 const RestaurantOrders = () => {
-  function getCookie(name) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(";").shift();
-  }
-  
+  const socket = io.connect("http://localhost:5000");
+  const [orderData, setorderData] = useState();
+  socket.on("statuschanged",(payload) =>{
+    console.log(payload);
+    getOrders(sessionStorage.getItem("token"),"all");
+  })
+
   const getOrders = async (token, month) => {
     let decodedTokenRestaurant = jwt_decode(token);
 
@@ -24,13 +26,15 @@ const RestaurantOrders = () => {
 
   const handleChange = (e) => {
       let month = e.target.value;
-      getOrders(getCookie("token"),month);
+      getOrders(sessionStorage.getItem("token"),month);
   }
-
+  socket.on("updateorders", (payload)=>{
+    console.log(payload);
+    getOrders(sessionStorage.getItem("token"), "all");
+  })
   useEffect(() => {
-    getOrders(getCookie("token"), "all");
+    getOrders(sessionStorage.getItem("token"), "all");
   },[]);
-  const [orderData, setorderData] = useState();
 
   return (
     <>
@@ -60,7 +64,7 @@ const RestaurantOrders = () => {
             return (
               <>
                 {" "}
-                <UserOrderCard key={element.orderid} orderData={element} />
+                <UserOrderCard orderData={element} />
               </>
             );
           })

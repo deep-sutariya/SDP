@@ -20,11 +20,6 @@ function RestaurantMenu() {
     const [resmenu, setResmenu] = useState();
     let [loading, setLoading] = useState(true);
 
-    function getCookie(name) {
-        const value = `; ${document.cookie}`;
-        const parts = value.split(`; ${name}=`);
-        if (parts.length === 2) return parts.pop().split(';').shift();
-      }
 
     const getData = () => {
         setLoading(true);
@@ -39,7 +34,7 @@ function RestaurantMenu() {
     const getSelectedRes = async (token) => {
 
         let decodedTokenRestaurent = jwt_decode(token);
-    
+        console.log(token);
         const data = await axios.post(`/getrestaurent`, {
           id : decodedTokenRestaurent.id
         });
@@ -49,10 +44,10 @@ function RestaurantMenu() {
 
 
     useEffect(()=>{
-        setSelectedRestaurant(selectedres?.data);
-        setSelectedRestaurantMenu(selectedres?.data?.rmenu);
-        setResmenu(selectedres?.data?.rmenu); //
-        setResdata(selectedres?.data); //
+        setSelectedRestaurant(selectedres?.data?.data);
+        setSelectedRestaurantMenu(selectedres?.data?.data?.rmenu);
+        setResmenu(selectedres?.data?.data?.rmenu); //
+        setResdata(selectedres?.data?.data); //
         let size = SelectedRestaurantMenu?.length
         const cart = Array(size).fill(0);
         setCartItem(cart); 
@@ -61,7 +56,7 @@ function RestaurantMenu() {
     
     useEffect(() => {
         getData();
-        getSelectedRes(getCookie("selectedrestaurent"));
+        getSelectedRes(sessionStorage.getItem("selectedrestaurent"));
     }, []);   
     
     return (

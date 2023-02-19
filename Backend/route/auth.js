@@ -100,18 +100,10 @@ router.post("/userlogin", async (req, res) => {
 
       var token = jwt.sign({ email: user.uemail, pass: upass}, `${process.env.TOCKEN_PRIVATE_KEY}`);
 
-      res.cookie("token", token, {
-        expires: new Date(Date.now() + 60000000),
-        httpOnly:false
-      });
-
-      res.cookie("type", "user", {
-        expires: new Date(Date.now() + 60000000),
-        httpOnly:false
-      });
-
       res.status(200).send({
         data: user,
+        cookie: token,
+        type: "user",
         message: `Hello ${user.uname}, You Logged in successfully!`,
       });
 
@@ -131,17 +123,10 @@ router.post("/restaurentlogin", async (req, res) => {
       
       var token = jwt.sign({email: restaurent.remail, pass: upass}, `${process.env.TOCKEN_PRIVATE_KEY}`);
 
-      res.cookie("token", token, {
-        expires: new Date(Date.now() + 600000000),
-        httpOnly:false
-      });
-      res.cookie("type", "restaurent", {
-        expires: new Date(Date.now() + 600000000),
-        httpOnly:false
-      });
-
       res.status(200).send({
         data: restaurent,
+        cookie: token,
+        type: "restaurent",
         message: `Hello ${restaurent.rname}, You Logged in successfully!`,
       });
       console.log(restaurent);
@@ -243,17 +228,12 @@ router.post("/getrestaurent", async (req, res) => {
     const { id } = req.body;
     var token = jwt.sign({ id: id}, `${process.env.TOCKEN_PRIVATE_KEY}`);
 
-      res.cookie("selectedrestaurent", token, {
-        expires: new Date(Date.now() + 18000000),
-        httpOnly:false
-      });
-
     const data = await Restaurantinfo.findById(id);
     // console.log(data);
-    res.status(200).send(data);
+    res.status(200).send( {data: data, selectedrestaurenttoken : token} );
   } catch (err) {
     console.log(err);
-    res.status(202).send({ message: "Error ocuured" });
+    res.status(202).send({ message: "Error ocuured",selectedrestaurenttoken: token });
   }
 });
 
@@ -358,7 +338,6 @@ router.post("/updatestatus", async(req,res) =>{
     }
   });
   const user = await UserInfo.findById(id);
-  console.log(user);
   const userorder = user?.uorders;
   userorder.forEach(element => {
     if(element.orderid === orderid){
@@ -367,7 +346,7 @@ router.post("/updatestatus", async(req,res) =>{
   });
   await Restaurantinfo.updateOne({remail : email},{$set : {rorders : orders}})
   await UserInfo.updateOne({uemail : user.uemail},{$set : {uorders : userorder}})
-  res.status(200).send({});
+  res.status(200).send({orders : orders});
   
 
 });

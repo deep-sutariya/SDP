@@ -25,11 +25,11 @@ const Cards = (props) => {
         const data = await axios.post("/getrestaurent", {
           id: SelectedResId
         });
-
+        sessionStorage.setItem("selectedrestaurent",data?.data?.selectedrestaurenttoken);
         // setting the context values before reaching tp the restaurantmenu page....
         // also initializing the value of cart before reaching the reatuarant menu page.
-        setSelectedRestaurant(data?.data);
-        setSelectedRestaurantMenu(data?.data?.rmenu);
+        setSelectedRestaurant(data?.data?.data);
+        setSelectedRestaurantMenu(data?.data?.data?.rmenu);
         navigate("/restaurentmenu");
       }
       // useEffect(() => {
