@@ -21,6 +21,7 @@ const RestaurantInfoSchema = new Schema({
         }
     ],
     rorders: { type: Array, required: true },
+    rating: {type: Number, required: true}
     // [
     //     {
     //         orderid : { type: String, required: false },

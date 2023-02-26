@@ -1,18 +1,34 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../components/style/UserOrderCard.css";
 import { io } from "socket.io-client";
+import starimage from '../assets/rating.png'
 import jwt_decode from "jwt-decode";
 const UserOrderCard = (props) => {
   const ordermenu = props.orderData.ordermenu;
   const orderid = props.orderData.orderid;
   const ordermonth = props.orderData.ordermonth;
+  const restaurantid = props.orderData.restaurantid;
   const ordertime = props.orderData.ordertime;
   const ordertotal = props.orderData.ordertotal;
   const orderstatus = props.orderData.orderstatus;
-  const [first, setfirst] = useState(ordertotal);
+  const resname = props.orderData.resname;
+  const [rating, setRating] = useState(3);
+  const [help, setHelp] = useState("");
 
-  const socket = io.connect("http://localhost:5000");
+  const changeRating = (e) => {
+    let n = parseInt(e.target.id);
+    setRating(n);
+    for(let i = 1;i <= 5;i++){
+      let ele = document.getElementById(i+"");
+      if(i <= n){
+        ele.classList.add("checked");
+      }else{
+        ele.classList.remove("checked");
+      }
+    }
+  }
+
 
   const handleChange = async (e) => {
     const decodedTokenRestaurant = jwt_decode(sessionStorage.getItem("token"));
@@ -22,19 +38,29 @@ const UserOrderCard = (props) => {
       orderid: e.target.id,
       status: e.target.value,
     });
-    socket.emit("changeinstatus", { message: "status changed" });
-
     console.log(data);
   };
+  function openPopup(e){
+    let popup = document.getElementById("popup");
+    popup?.classList.add("open-popup");
+  }
+  async function closePopup(e){
+    let popup = document.getElementById("popup");
+    popup?.classList.remove("open-popup");
+    const data = await axios.post("/updaterating",{
+      rating:rating,
+      resid: e.target.id
+    })
+
+    console.log(data);
+  }
 
   return (
     <>
       <div className="OrderContainer" id="OrderContainer">
         <hr />
         <div className="orderinfo">
-          <p>
-            OrderID : {orderid} {"     "} {orderstatus}
-          </p>
+          <p>OrderID : {orderid}</p>
           <p>{ordertime}</p>
         </div>
         <table id="customers">
@@ -47,7 +73,7 @@ const UserOrderCard = (props) => {
             {ordermenu &&
               ordermenu.map((element, index) => {
                 return (
-                  <tr key={index} >
+                  <tr key={index}>
                     <td>{element.itemname}</td>
                     <td>{element.noOfItem}</td>
                     <td>{element.price}</td>
@@ -70,20 +96,36 @@ const UserOrderCard = (props) => {
               alignItems: "center",
             }}
           >
-            <button
-              style={{
-                marginBottom: "5px",
-                width: "auto",
-                borderRadius: "5px",
-                backgroundColor: "#04AA6D",
-                border: "none",
-                padding: "10px",
-                color: "white",
-                fontWeight: "bolder",
-              }}
-            >
-              Download Reciept{" "}
-            </button>
+            <div>
+              <button
+                style={{
+                  marginBottom: "5px",
+                  width: "auto",
+                  borderRadius: "5px",
+                  backgroundColor: "#04AA6D",
+                  border: "none",
+                  padding: "10px",
+                  color: "white",
+                  fontWeight: "bolder",
+                }}
+              >
+                Download Reciept{" "}
+              </button>
+                <button type="submit" className="ratingbtn" id={orderid} onClick={openPopup}>
+                  Rating
+                </button>
+                <div className="ratingpopup" id="popup">
+                  <img src={starimage} alt="rating" />
+                  <h2>Thank You for Ordering !</h2>
+                  <p>Tea Post</p>
+                  <span id="1" onClick={changeRating} className="fa fa-star checked"></span>
+                  <span id="2" onClick={changeRating} className="fa fa-star checked"></span>
+                  <span id="3" onClick={changeRating} className="fa fa-star checked"></span>
+                  <span id="4" onClick={changeRating} className="fa fa-star"></span>
+                  <span id="5" onClick={changeRating} className="fa fa-star"></span>
+                  <button id={restaurantid} onClick={closePopup}>Submit</button>
+                </div>
+            </div>
             {orderstatus === "0" ? (
               <p className="status accept">order Not Accepted</p>
             ) : (

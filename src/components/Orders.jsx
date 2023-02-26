@@ -10,12 +10,11 @@ function Orders() {
   const [orderData,setorderData] = useState();
   
 
-  const socket = io.connect("http://localhost:5000");
+  // const socket = io.connect("http://localhost:5000");
 
-  socket.on("statuschanged",(payload) =>{
-    console.log(payload);
-    getOrder(sessionStorage.getItem("token"),"all");
-  })
+  // socket.on("statuschanged",() =>{
+  //   getOrder(sessionStorage.getItem("token"),"all");
+  // })
 
   const getOrder = async (token,month) => {
 

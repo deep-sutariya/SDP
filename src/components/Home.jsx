@@ -42,12 +42,13 @@ function Home({setNavType}) {
                         data-testid="loader"
                     /> </div>:<div className="all_cards">
                 { Object.keys(restaurents).length > 0 &&
-                    restaurents.map(({_id,rname,raddress,rimage}) => (
+                    restaurents.map(({_id,rname,raddress,rimage,rating}) => (
                         <div key={_id}><Cards 
                             rimage = {rimage}
                             rname = {rname}
                             raddress = {raddress}
                             rid = {_id}
+                            rating = {rating}
                         /></div>
                     ))
                 }
