@@ -9,6 +9,7 @@ const RestaurantInfoSchema = new Schema({
     remail: { type: String, required: true},
     rurl: { type: String, required: true},
     rcity: { type: String, required: true},
+    rpincode: { type: String, required: true},
     rimage:{type: String, required: false},
     rpass: { type: String, required: true },
     rmenu: [
@@ -21,23 +22,9 @@ const RestaurantInfoSchema = new Schema({
         }
     ],
     rorders: { type: Array, required: true },
-    // [
-    //     {
-    //         orderid : { type: String, required: false },
-    //         user: { type: String, required: false },
-    //         ordermenu: [
-    //             {
-    //                 itemname : { type: String, required: false },
-    //                 price : { type: String, required: false },
-    //                 noOfItem : { type: String, required: false }
-    //             }
-    //         ],
-    //         ordertotal: { type: String, required: false },
-    //         ordertime: { type: String, required: false },
-    //         ordermonth: { type: String, required: false },
-    //         orderstatus: {type: String,required: false}
-    //     }
-    // ],
+    rating: {type: Number,default: 0},
+    totalrating: {type: Number, default: 0},
+    ratingcount: {type: Number, default: 0},
 
 }, { timestamps: true });
 

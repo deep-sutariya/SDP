@@ -23,7 +23,6 @@ router.post("/signup", userhashpassword, async (req, res) => {
     });
 
     const data = await user.save();
-    // console.log(data);
     res.status(200).send({
       data: data,
       message: `Hello, ${data.uname} You Registered Successfully`,
@@ -45,13 +44,14 @@ router.post("/registerrestaurant", hashpassword, async (req, res) => {
       remail: req.body.remail,
       rurl: req.body.rurl,
       rcity: req.body.rcity,
+      rpincode: req.body.rpincode,
       rimage:req.body.rimage,
       rpass: req.body.rpass,
       rmenu: req.body.rmenu,
+      rating: 0
     });
 
     const data = await restaurantInfo.save();
-    // console.log(data);
     res.status(200).send({
       data: data,
       message: `Hello, ${data.roname} Your Restaurant ${data.rname} Registered Successfully`,
@@ -252,6 +252,7 @@ router.post('/saveorder', async(req,res) => {
   const userorderData = {
     orderid : orderid,
     resname: restaurant.rname,
+    restaurantid: orderres,
     ordermenu: order,
     ordertotal: ordertotal,
     ordertime: ordertime,
@@ -298,7 +299,7 @@ router.post("/getuserorder",async (req,res) => {
         data.push(element);
       }
     })
-    console.log(data);
+    // console.log(data);
     res.status(200).send(data);
   }
 
@@ -350,6 +351,21 @@ router.post("/updatestatus", async(req,res) =>{
   
 
 });
+
+router.post("/updaterating",async (req,res) => {
+
+  const {rating, resid} = req.body;
+  const restaurant = await Restaurantinfo.findById(resid);
+  
+  let RatingCount = restaurant.ratingcount;
+  let TotalRating = restaurant.totalrating;
+
+  let newRating = (rating + TotalRating)/(RatingCount+1);
+  newRating = newRating.toFixed(1);
+  await Restaurantinfo.updateOne({remail: restaurant.remail},{$set : {rating: newRating,ratingcount: RatingCount+1,totalrating: TotalRating+rating}});
+  res.status(200).send({message: `Rating Updated to ${newRating}!`});
+
+})
 
 
 // GenerateBill

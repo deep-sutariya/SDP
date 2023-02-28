@@ -32,14 +32,6 @@ const Cards = (props) => {
         setSelectedRestaurantMenu(data?.data?.data?.rmenu);
         navigate("/restaurentmenu");
       }
-      // useEffect(() => {
-
-      //   const cart = Array(SelectedRestaurantMenu.length).fill(0);
-      //   console.log(cart);
-      //   setCartItem(cart);
-      //   localStorage.setItem("cart", JSON.stringify(cart))
-        
-      // },[SelectedRestaurant,SelectedRestaurantMenu])
 
   return (
 
@@ -50,6 +42,7 @@ const Cards = (props) => {
         <div className="res_details">
           <h2 className='res_heading'>{props.rname.toUpperCase()}</h2>
           <p>{props.raddress}</p>
+          <h2 style={{fontWeight: "bolder"}}>{props.rating + " ⭐"}</h2>
           <div className='res_btn'><button id={props.rid} onClick={toMenuPage} >VISIT</button></div>
         </div>
       </div>

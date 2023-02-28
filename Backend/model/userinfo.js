@@ -8,24 +8,6 @@ const UserinfoSchema = new Schema({
     uphone: { type: String, required: true },
     upass: { type: String, required: true },
     uorders: { type: Array, required: true },
-    // [
-    //     {
-    //         orderid : { type: String, required: false },
-    //         resname : { type: String, required: false },
-    //         orderres: { type: String, required: false },
-    //         ordermenu: [
-    //             {
-    //                 itemname : { type: String, required: false },
-    //                 price : { type: String, required: false },
-    //                 noOfItem : { type: String, required: false }
-    //             }
-    //         ],
-    //         ordertotal: { type: String, required: false },
-    //         ordertime: { type: String, required: false },
-    //         ordermonth: { type: String, required: false },
-    //         orderstatus: {type: String,required: false}
-    //     }
-    // ],
 
 }, { timestamps: true });
 

@@ -16,6 +16,18 @@
     grid-template-columns: 1fr 1fr;
     margin: 20px 0px;
 }
+.statistics{
+  margin: 50px auto;
+  width: 60vw;
+  height: 400px;
+  padding: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.694);
+  box-shadow: 1px 1px 10px black;
+  border-radius: 50px;
+}
 .profile{
     margin: auto;
     margin-top: 40px;
@@ -23,7 +35,7 @@
     width: 60vw;
     letter-spacing: 1px;
     background-color: rgba(255, 255, 255, 0.694);
-    border-radius: 10px;
+    border-radius: 60px;
     box-shadow: 0 0 20px -2px rgb(92, 85, 85);
     padding: 20px
 }
@@ -152,6 +164,10 @@
         width: 80vw;
     }
     .profile{
-        width: 80vw;
+        width: 90vw;
+      }
+    .statistics{
+      width: 90vw;
+
     }
   }

@@ -21,7 +21,7 @@ function Signup({setNavType}) {
         uphone: "",
         ucpass: "",
         rname: "",
-        roname: "", rphone: "", raddress: "", remail: "", rurl: "", rcity: "",image:"", rpass: "", rcpass: ""
+        roname: "", rphone: "", raddress: "", remail: "", rurl: "", rcity: "",rpincode: "",image:"", rpass: "", rcpass: "",
     });
 
     async function checkuser(e) {
@@ -81,6 +81,7 @@ function Signup({setNavType}) {
                         remail: user.remail,
                         rurl: user.rurl,
                         rcity: user.rcity,
+                        rpincode: user.rpincode,
                         rimage:user.image,
                         rpass: user.rpass,
                         rmenu: user.rmenu
@@ -218,6 +219,9 @@ function Signup({setNavType}) {
                                 </div>
                                 <div className="field input-field">
                                     <input type="text" placeholder="City" onChange={handleinputs} value={user.rcity} name="rcity" className="input" />
+                                </div>
+                                <div className="field input-field">
+                                    <input type="text" placeholder="Pincode" onChange={handleinputs} value={user.rpincode} name="rpincode" className="input" />
                                 </div>
                                 <div className="field input-field">
                                     <input type="text" placeholder="Google Location of the Restaurent Url" onChange={handleinputs} value={user.rurl} name="rurl" className="input" />

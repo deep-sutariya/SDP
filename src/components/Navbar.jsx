@@ -21,19 +21,8 @@ function Navbar(props) {
 
   var token, decodedToken;
   async function getData(type) {
-<<<<<<< HEAD
-    token = getCookie("token");
-    if(token){
-      decodedToken = jwt_decode(token);
-      setfirst(await axios.post(`/${type}login`, {
-        uemail: decodedToken.email,
-        upass: decodedToken.pass,
-      }));
-    }
-=======
     token = sessionStorage.getItem("token");
     decodedToken = jwt_decode(token);
->>>>>>> e7d727e2f9c6204b3bb80ed0e2987b1cf792346d
     console.log(decodedToken);
     console.log(type);
   }

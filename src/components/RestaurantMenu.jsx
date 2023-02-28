@@ -10,6 +10,7 @@ import { useContext } from 'react';
 import { TrayContex } from '../contex/tray_contex';
 import jwt_decode from "jwt-decode";
 import axios from 'axios';
+import Types from './Types';
 
 function RestaurantMenu() {
 
@@ -61,7 +62,13 @@ function RestaurantMenu() {
     
     return (
         <>
-            <div style={{ textAlign: 'center', marginTop: '60px', marginBottom: '60px', textDecoration: 'underline' }} className="menuParent"><h2>{resdata?.rname}</h2></div>
+            <div style={{ textAlign: 'center', marginTop: '60px', marginBottom: '50px', textDecoration: 'underline' }} className="menuParent"><h1>{resdata?.rname}</h1></div>
+
+            {/* <h2 style={{textAlign : "center",margin: "20px 0px"}}>Categories</h2> */}
+            <Types />
+
+            {/* <h2 style={{textAlign : "center", margin:"40px 0 20px 0"}}>Menu</h2> */}
+
             <div className="allmenuitems">
                 {loading ?<div className="loader"><BounceLoader
                         size={50}
