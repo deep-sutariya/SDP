@@ -10,6 +10,25 @@ const pdf_generator = require("../service/pdf_generator");
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
 
+router.post("/py",async (req,res) => {
+  const spawner = require('child_process').spawn;
+  const data_to_pass_in = 'send this to the py file';
+
+  console.log('Data sent to the python Script ',data_to_pass_in);
+
+  const python_process =  spawner('python',['route/ML/sdp.py',data_to_pass_in]);
+  let data1;
+  python_process.stdout.on('data', data => {
+    data1 = JSON.parse(data.toString());
+    res.send({data: data1});
+  });
+  python_process.stdout.on('close', data => {
+    console.log("close");
+    if(!data1)
+      res.send({message: "process Ended"});
+  })
+})
+
 // Sign Up
 router.post("/signup", userhashpassword, async (req, res) => {
   const userexist = await UserInfo.findOne({ uemail: req.body.uemail });
