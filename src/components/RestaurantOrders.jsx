@@ -4,10 +4,11 @@ import UserOrderCard from "./UserOrderCard";
 import { useEffect } from "react";
 import jwt_decode from "jwt-decode";
 import axios from "axios";
-const RestaurantOrders = () => {
-  
+import { io } from 'socket.io-client'
+const socket = io("http://localhost:5000");
+
+const RestaurantOrders = (props) => {
   const [orderData, setorderData] = useState();
-  
   const getOrders = async (token, month) => {
     let decodedTokenRestaurant = jwt_decode(token);
     
@@ -17,33 +18,35 @@ const RestaurantOrders = () => {
     });
     setorderData(data?.data);
   };
-  // const socket = io.connect("http://localhost:5000");
-  // socket.on("connect", () => {
-  //   console.log("connected at the Restaurant side");
-  //   socket.disconnect();
-  // });
-  // socket.on("disconnect",() => {
-  //   console.log("diconnected");
-  // })
-  // socket.on("statuschanged",(payload) => {
-  //   console.log(payload);
-  //   // const oD = orderData;
-  //   // oD.forEach(element => {
-  //   //   if(element.orderid === payload.orderid){
-  //   //     element.orderstatus = payload.status;
-  //   //   }
-  //   // });
-  //   // console.log(oD);
-  //   // setorderData(oD);
-  // });
   
   const handleChange = (e) => {
     let month = e.target.value;
     getOrders(sessionStorage.getItem("token"), month);
   };
+
   useEffect(() => {
-    getOrders(sessionStorage.getItem("token"), "all");
-  }, []);
+    
+    getOrders(sessionStorage.getItem("token"),"all");
+    
+    socket.on("connect", () => {
+			console.log("connected");
+		});
+		socket.on("disconnect", () => {
+      console.log("disconnected");
+      socket.disconnect();
+		});
+    
+    socket.on("load-resources",(payload) => {
+      getOrders(sessionStorage.getItem("token"),"all");
+    })
+
+		return () => {
+			socket.off("connect");
+			socket.off("disconnect");
+      socket.off("load-resources");
+		};
+
+  },[])
 
   return (
     <>
@@ -73,7 +76,7 @@ const RestaurantOrders = () => {
           return (
             <>
               {" "}
-              <UserOrderCard orderData={element} />
+              <UserOrderCard orderData={element} socket={props.socket} />
             </>
           );
         })

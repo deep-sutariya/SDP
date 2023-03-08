@@ -6,6 +6,8 @@ const Restaurantinfo = require("../model/restaurantInfo");
 const hashpassword = require("../middleware/hashpassword");
 const userhashpassword = require("../middleware/userhashpassword");
 const pdf_generator = require("../service/pdf_generator");
+const { io } = require("socket.io-client");
+const socket = io("http://localhost:5000");
 
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
@@ -22,6 +24,9 @@ router.post("/py",async (req,res) => {
     data1 = JSON.parse(data.toString());
     res.send({data: data1});
   });
+  python_process.stderr.on('error',(err) => {
+    console.log(err.toString());
+  })
   python_process.stdout.on('close', data => {
     console.log("close");
     if(!data1)
@@ -148,7 +153,7 @@ router.post("/restaurentlogin", async (req, res) => {
         type: "restaurent",
         message: `Hello ${restaurent.rname}, You Logged in successfully!`,
       });
-      console.log(restaurent);
+      // console.log(restaurent);
       
     } else
       res.status(201).send({ message: "Error! : *** Invalid Password ***" });
@@ -366,6 +371,9 @@ router.post("/updatestatus", async(req,res) =>{
   });
   await Restaurantinfo.updateOne({remail : email},{$set : {rorders : orders}})
   await UserInfo.updateOne({uemail : user.uemail},{$set : {uorders : userorder}})
+
+  socket.emit("statusupdated",req.body);
+  
   res.status(200).send({orders : orders});
   
 

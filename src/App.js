@@ -14,9 +14,8 @@ import { UserSelectedResContexProvider } from './contex/UserSelectedRestaurant';
 import { LoginDetailsProvider } from './contex/Logincontex';
 import { useState } from 'react';
 import Navbar from './components/Navbar';
-
+import { io } from 'socket.io-client';
 function App() {
-
   const [menu,setMenu] = useState({});
   const [navtype, setNavType] = useState("user");
 
@@ -30,7 +29,7 @@ function App() {
 
                 <Route path="/" element={<Navbar menu={menu} setmenu={(m) => setMenu(m)} type={navtype}/>} >
                     <Route path="" element={<Home setNavType={setNavType}/>} />
-                    <Route path="orders" element={<Orders setNavType={setNavType}/>} />
+                    <Route path="orders" element={<Orders setNavType={setNavType} />} />
                     <Route path="login" element={<Login setNavType={setNavType}/>} />
                     <Route path="signup" element={<Signup setNavType={setNavType}/>} />
                     <Route path="restaurentmenu" element={<RestaurantMenu setNavType={setNavType}/>} />
@@ -38,7 +37,7 @@ function App() {
                   <Route path="restaurenthome" element={<RestaurantHome setNavType={ setNavType}/>}>
                     <Route path='' element={<Profile setNavType={setNavType}/>} />
                     <Route path='menus' element={<AllMenu menu={menu} setNavType={setNavType}/>} />
-                    <Route path='restaurantorders' element={<RestaurantOrders setNavType={setNavType}/>} />
+                    <Route path='restaurantorders' element={<RestaurantOrders setNavType={setNavType} />} />
                   </Route>
                 </Route>
 

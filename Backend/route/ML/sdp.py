@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 # import matplotlib.pyplot as plt
 
-dataset = pd.read_csv('D:/College/SDP/Backend/route/ML/Indian Food Combo - Sheet1.csv', header=None);
+dataset = pd.read_csv('route/ML/Indian Food Combo - Sheet1.csv', header=None);
 
 transactions=[]
 for i in range(0, 155):
@@ -33,7 +33,7 @@ resultsinDataFrame = pd.DataFrame(inspect(results), columns = ['food1', 'food2',
 
 # displaying results by descending lift
 # print(resultsinDataFrame.nlargest(n=5, columns='Lift'))
-JsonFormattedOutput = resultsinDataFrame.nlargest(n=50, columns='Lift').to_json(orient='records');
+JsonFormattedOutput = resultsinDataFrame.nlargest(n=150, columns='Lift').to_json(orient='records');
 # import json;
 # print(JsonFormattedOutput);
 # print(JsonFormattedOutput.food1);
