@@ -4,27 +4,19 @@ import './style/orders.css';
 import UserOrderCard from './UserOrderCard';
 import jwt_decode from "jwt-decode";
 import { io } from 'socket.io-client'
-// import axios from 'axios';
+const socket = io("http://localhost:5000");
 
-function Orders() {
+function Orders(props) {
   const [orderData,setorderData] = useState();
-  
-
-  // const socket = io.connect("http://localhost:5000");
-
-  // socket.on("statuschanged",() =>{
-  //   getOrder(sessionStorage.getItem("token"),"all");
-  // })
 
   const getOrder = async (token,month) => {
 
     let decodedTokenUser = jwt_decode(token);
-    console.log(month);
     const data = await axios.post(`/getuserorder`, {
       email : decodedTokenUser.email,
       month: month
     });
-    console.log(data);
+    
     setorderData(data?.data);
 
   }
@@ -34,13 +26,34 @@ function Orders() {
       let month = e.target.value;
      getOrder(sessionStorage.getItem("token"),month);
   }
-
+  
   useEffect(() => {
+    
     getOrder(sessionStorage.getItem("token"),"all");
+    socket.on("connect", () => {
+			console.log("connected");
+		});
+		socket.on("disconnect", () => {
+      console.log("disconnected");
+      socket.disconnect();
+		});
+    
+    socket.on("load-resources",(payload) => {
+      getOrder(sessionStorage.getItem("token"),"all");
+      console.log(payload);
+    })
+
+		return () => {
+			socket.off("connect");
+			socket.off("disconnect");
+      socket.off("load-resources");
+		};
+
   },[])
-  useEffect(() => {
-    console.log(orderData);
-  },[orderData])
+
+  // useEffect(() => {
+  //   console.log(orderData);
+  // },[orderData])
 
   return (
     <>
@@ -64,7 +77,7 @@ function Orders() {
 
       {
         orderData && orderData.length > 0 ? orderData.map((element,index) => {
-          return ( <> <UserOrderCard key={element.orderid} orderData={element} /> 
+          return ( <> <UserOrderCard key={element.orderid} socket={props.socket} orderData={element} /> 
           </> )
         }) : <h1 style={{textAlign: "center"}}>No Orders in Selected Month</h1>
       }

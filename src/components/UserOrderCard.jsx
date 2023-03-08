@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../components/style/UserOrderCard.css";
-import { io } from "socket.io-client";
 import starimage from '../assets/rating.png'
 import jwt_decode from "jwt-decode";
+
+
 const UserOrderCard = (props) => {
-  console.log(props)
   const ordermenu = props.orderData.ordermenu;
   const orderid = props.orderData.orderid;
   const ordermonth = props.orderData.ordermonth;
@@ -30,16 +30,15 @@ const UserOrderCard = (props) => {
     }
   }
 
-
   const handleChange = async (e) => {
     const decodedTokenRestaurant = jwt_decode(sessionStorage.getItem("token"));
-    console.log(e.target.value);
+    
     const data = await axios.post("/updatestatus", {
       email: decodedTokenRestaurant.email,
       orderid: e.target.id,
       status: e.target.value,
     });
-    console.log(data);
+
   };
   function openPopup(e){
     let popup = document.getElementById("popup");
