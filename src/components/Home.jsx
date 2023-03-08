@@ -45,15 +45,14 @@ function Home({ setNavType }) {
                 setfilteredRes(restaurents?.filter(resData => {
                     console.log(resData.rcity.toLowerCase());
                     return (
-                        resData.rcity.toLowerCase() === data?.data[0].PostOffice[0].District.toLowerCase()
-                        ||
+                        // resData.rcity.toLowerCase() === data?.data[0].PostOffice[0].District.toLowerCase()
+                        // ||
                         resData.rcity.toLowerCase() === data?.data[0].PostOffice[0].Block.toLowerCase()
                         ||
                         resData.rpincode === data?.data[0].PostOffice[0].Pincode
                     )
                 })
                 )
-
             }
             else {
                 document.getElementById('searchid').value = "";
@@ -97,27 +96,29 @@ function Home({ setNavType }) {
             /> </div> : <div className="all_cards">
                 {
                     filteredRes.length > 0 ?
-                        filteredRes.map(({ _id, rname, raddress, rimage, rating }) => (
+                        filteredRes.map(({ _id, rname, raddress, rimage, rating, ratingcount }) => (
                             <div key={_id}><Cards
                                 rimage={rimage}
                                 rname={rname}
                                 raddress={raddress}
                                 rid={_id}
                                 rating={rating}
-                            /></div>
-                        ))
+                                ratingCount={ratingcount}
+                                /></div>
+                                ))
 
                         :
 
                         Object.keys(restaurents).length > 0 &&
-                        restaurents.map(({ _id, rname, raddress, rimage, rating }) => (
+                        restaurents.map(({ _id, rname, raddress, rimage, rating, ratingcount }) => (
                             <div key={_id}><Cards
-                                rimage={rimage}
-                                rname={rname}
+                            rimage={rimage}
+                            rname={rname}
                                 raddress={raddress}
                                 rid={_id}
                                 rating={rating}
-                            /></div>
+                                ratingCount={ratingcount}
+                                /></div>
                         ))
                 }
             </div>}

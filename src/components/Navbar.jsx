@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, Outlet ,useNavigate} from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import './style/Navbar.css';
 import { useEffect, useState } from 'react';
 import jwt_decode from "jwt-decode";
@@ -8,6 +8,7 @@ import { LoginDetails } from '../contex/Logincontex';
 import axios from 'axios';
 import { TrayContex } from '../contex/tray_contex';
 import Cookies from 'js-cookie';
+import Chatbox from './ChatBox';
 
 function Navbar(props) {
 
@@ -61,6 +62,19 @@ function Navbar(props) {
     navigate("/");
   }
 
+  const chaticon = () => {
+    console.log("chat");
+    var x = document.getElementById("chat-box");
+    console.log(x.style.display)
+    if (x.style.display === "none") {
+      x.style.display = "block";
+    } else {
+      x.style.display = "none";
+    }
+  }
+
+
+
 
   return (
     <>
@@ -80,14 +94,14 @@ function Navbar(props) {
               <li><Link className="navlinkss" to="../orders" >orders</Link></li>
               <li><Link className="navlinkss" to="../signup" >Signup</Link></li>
               {
-                sessionStorage.getItem("type") == "user"  ?
+                sessionStorage.getItem("type") === "user" ?
                   <>
-                  <div className="dropdown">
-                    <button className="dropbtn">{loginuser?.uname}</button>
-                    <div className="dropdown-content">
-                      <Link to="/" onClick={finalCall}>Log Out</Link>
+                    <div className="dropdown">
+                      <button className="dropbtn">{loginuser?.uname}</button>
+                      <div className="dropdown-content">
+                        <Link to="/" onClick={finalCall}>Log Out</Link>
+                      </div>
                     </div>
-                  </div>
                   </>
                   :
                   <>
@@ -102,14 +116,14 @@ function Navbar(props) {
               <li><Link className='navlinkss' to="restaurenthome/restaurantorders" >Orders</Link></li>
               <li><Link className="navlinkss" to="../signup" >Signup</Link></li>
               {
-                sessionStorage.getItem("type") == "restaurent"  ?
+                sessionStorage.getItem("type") === "restaurent" ?
                   <>
-                  <div className="dropdown">
-                    <button className="dropbtn">{loginrestaurant?.rname}</button>
-                    <div className="dropdown-content">
-                      <Link to="/" onClick={finalCall}>Log Out</Link>
+                    <div className="dropdown">
+                      <button className="dropbtn">{loginrestaurant?.rname}</button>
+                      <div className="dropdown-content">
+                        <Link to="/" onClick={finalCall}>Log Out</Link>
+                      </div>
                     </div>
-                  </div>
                   </>
                   :
                   <>
@@ -119,7 +133,16 @@ function Navbar(props) {
             </ul>
         }
       </nav>
-      <Outlet />
+
+        <Outlet />
+
+      <Chatbox />
+
+      {/*       
+      <div>
+      ok
+    </div> */}
+
     </>
   )
 }

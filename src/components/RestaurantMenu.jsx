@@ -43,7 +43,6 @@ function RestaurantMenu() {
         setSelectedres(data);
       }
 
-
     useEffect(()=>{
         setSelectedRestaurant(selectedres?.data?.data);
         setSelectedRestaurantMenu(selectedres?.data?.data?.rmenu);
@@ -62,10 +61,10 @@ function RestaurantMenu() {
     
     return (
         <>
-            <div style={{ textAlign: 'center', marginTop: '60px', marginBottom: '50px', textDecoration: 'underline' }} className="menuParent"><h1>{resdata?.rname}</h1></div>
+            <div style={{ textAlign: 'center', marginTop: '60px', marginBottom: '50px', textDecoration: 'underline' }} className="menuParent"><h1>{resdata?.rname.toUpperCase()}</h1></div>
 
             {/* <h2 style={{textAlign : "center",margin: "20px 0px"}}>Categories</h2> */}
-            <Types />
+            {/* <Types /> */}
 
             {/* <h2 style={{textAlign : "center", margin:"40px 0 20px 0"}}>Menu</h2> */}
 

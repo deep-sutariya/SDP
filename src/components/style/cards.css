@@ -56,6 +56,12 @@
     background-color: var(--light);
 }
 
+.ratingcount{
+    font-size: 15px;
+    color: rgb(189, 188, 188);
+}
+
+
 @media screen and (max-width : 1000px) {
     .all_cards{
         grid-template-columns: 1fr 1fr; 

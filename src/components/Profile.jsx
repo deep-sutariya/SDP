@@ -148,6 +148,10 @@ const Profile = () => {
                   <p style={{ color: "rgb(69, 69, 69)" }}>{resInfo.raddress}</p>
                 </div>
                 <div className="res_info">
+                  <p style={{ fontWeight: "bold" }}>Pincode :</p>
+                  <p style={{ color: "rgb(69, 69, 69)" }}>{resInfo.rpincode}</p>
+                </div>
+                <div className="res_info">
                   <p style={{ fontWeight: "bold" }}>Owner Name :</p>
                   <p style={{ color: "rgb(69, 69, 69)" }}>{resInfo.roname}</p>
                 </div>

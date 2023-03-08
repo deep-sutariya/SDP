@@ -1,8 +1,3 @@
-
-
-
-
-
 import React, { useEffect } from 'react'
 import { useNavigate } from "react-router-dom";
 import "../components/style/cards.css"
@@ -42,7 +37,7 @@ const Cards = (props) => {
         <div className="res_details">
           <h2 className='res_heading'>{props.rname.toUpperCase()}</h2>
           <p>{props.raddress}</p>
-          <h2 style={{fontWeight: "bolder"}}>{props.rating + " ⭐"}</h2>
+          <h2 style={{fontWeight: "bolder", alignItems: "center"}}>{props.rating + " ⭐"}<span className='ratingcount'>{"(" + props.ratingCount + ")"}</span></h2>
           <div className='res_btn'><button id={props.rid} onClick={toMenuPage} >VISIT</button></div>
         </div>
       </div>

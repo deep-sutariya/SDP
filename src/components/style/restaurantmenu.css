@@ -1,5 +1,8 @@
 .allmenuitems{
     padding-bottom: 70px;
-    width: 85%;
-    margin: 35px auto 20px auto;
+    margin: 35px 6% 20px 6%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    row-gap: 10px;
+    column-gap: 20px;
 }

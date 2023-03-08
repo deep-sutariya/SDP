@@ -1,0 +1,4 @@
+Make Restaurant Profile Page Responsive.
+Generate Bill In Front End.
+Socket.io
+Build application
