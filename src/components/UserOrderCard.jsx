@@ -4,6 +4,7 @@ import "../components/style/UserOrderCard.css";
 import starimage from '../assets/rating.png'
 import jwt_decode from "jwt-decode";
 
+import jsPDF from 'jspdf'
 
 const UserOrderCard = (props) => {
   const ordermenu = props.orderData.ordermenu;
@@ -15,16 +16,15 @@ const UserOrderCard = (props) => {
   const orderstatus = props.orderData.orderstatus;
   const resname = props.orderData.resname;
   const [rating, setRating] = useState(3);
-  const [help, setHelp] = useState("");
 
   const changeRating = (e) => {
     let n = parseInt(e.target.id);
     setRating(n);
-    for(let i = 1;i <= 5;i++){
-      let ele = document.getElementById(i+"");
-      if(i <= n){
+    for (let i = 1; i <= 5; i++) {
+      let ele = document.getElementById(i + "");
+      if (i <= n) {
         ele.classList.add("checked");
-      }else{
+      } else {
         ele.classList.remove("checked");
       }
     }
@@ -32,7 +32,7 @@ const UserOrderCard = (props) => {
 
   const handleChange = async (e) => {
     const decodedTokenRestaurant = jwt_decode(sessionStorage.getItem("token"));
-    
+
     const data = await axios.post("/updatestatus", {
       email: decodedTokenRestaurant.email,
       orderid: e.target.id,
@@ -40,18 +40,35 @@ const UserOrderCard = (props) => {
     });
 
   };
-  function openPopup(e){
+  function openPopup(e) {
     let popup = document.getElementById("popup");
     popup?.classList.add("open-popup");
   }
-  async function closePopup(e){
+  async function closePopup(e) {
     let popup = document.getElementById("popup");
     popup?.classList.remove("open-popup");
-    
-    const data = await axios.post("/updaterating",{
-      rating:rating,
+
+    const data = await axios.post("/updaterating", {
+      rating: rating,
       resid: e.target.id
     })
+  }
+
+  const DownloadRecipt = () => {
+    var doc = new jsPDF('p', 'pt');
+
+    // doc.text(width,height,text)
+    doc.text(280, 80, `${resname}`)
+
+    doc.addFont('helvetica', 'normal')
+    Object.entries(ordermenu).map((ele,index)=>{
+      doc.text(50, 200+(5*index), `${ele[1].itemname}`);
+      doc.text(200, 200+(5*index), `${ele[1].noOfItem}`);
+      doc.text(300, 200+(5*index), `${ele[1].price}`);
+    })
+    doc.text(100, 400, `Total Amount : ${ordertotal}`)
+
+    doc.save(`${orderid}.pdf`);
   }
 
   return (
@@ -96,7 +113,7 @@ const UserOrderCard = (props) => {
             }}
           >
             <div>
-              <button
+              <button id={orderid} onClick={DownloadRecipt}
                 style={{
                   marginBottom: "5px",
                   width: "auto",
@@ -110,20 +127,20 @@ const UserOrderCard = (props) => {
               >
                 Download Reciept{" "}
               </button>
-                <button type="submit" className="ratingbtn" id={orderid} onClick={openPopup}>
-                  Rating
-                </button>
-                <div className="ratingpopup" id="popup">
-                  <img src={starimage} alt="rating" />
-                  <h2>Thank You for Ordering !</h2>
-                  <p>{resname}</p>
-                  <span id="1" onClick={changeRating} className="fa fa-star checked"></span>
-                  <span id="2" onClick={changeRating} className="fa fa-star checked"></span>
-                  <span id="3" onClick={changeRating} className="fa fa-star checked"></span>
-                  <span id="4" onClick={changeRating} className="fa fa-star"></span>
-                  <span id="5" onClick={changeRating} className="fa fa-star"></span>
-                  <button id={restaurantid} onClick={closePopup}>Submit</button>
-                </div>
+              <button type="submit" className="ratingbtn" id={orderid} onClick={openPopup}>
+                Rating
+              </button>
+              <div className="ratingpopup" id="popup">
+                <img src={starimage} alt="rating" />
+                <h2>Thank You for Ordering !</h2>
+                <p>{resname}</p>
+                <span id="1" onClick={changeRating} className="fa fa-star checked"></span>
+                <span id="2" onClick={changeRating} className="fa fa-star checked"></span>
+                <span id="3" onClick={changeRating} className="fa fa-star checked"></span>
+                <span id="4" onClick={changeRating} className="fa fa-star"></span>
+                <span id="5" onClick={changeRating} className="fa fa-star"></span>
+                <button id={restaurantid} onClick={closePopup}>Submit</button>
+              </div>
             </div>
             {orderstatus === "0" ? (
               <p className="status accept">order Not Accepted</p>

@@ -51,10 +51,6 @@ function Orders(props) {
 
   },[])
 
-  // useEffect(() => {
-  //   console.log(orderData);
-  // },[orderData])
-
   return (
     <>
       <div className='custom-select'>

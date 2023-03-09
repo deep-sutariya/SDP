@@ -5,56 +5,54 @@ const bcrypt = require("bcryptjs");
 const Restaurantinfo = require("../model/restaurantInfo");
 const hashpassword = require("../middleware/hashpassword");
 const userhashpassword = require("../middleware/userhashpassword");
-const pdf_generator = require("../service/pdf_generator");
 const { io } = require("socket.io-client");
 const socket = io("http://localhost:5000");
 
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
 
-router.post("/py",async (req,res) => {
+router.post("/py", async (req, res) => {
   const spawner = require('child_process').spawn;
   const data_to_pass_in = 'send this to the py file';
 
-  console.log('Data sent to the python Script ',data_to_pass_in);
+  console.log('Data sent to the python Script ', data_to_pass_in);
 
-  const python_process =  spawner('python',['route/ML/sdp.py',data_to_pass_in]);
+  const python_process = spawner('python', ['route/ML/sdp.py', data_to_pass_in]);
   let data1;
   python_process.stdout.on('data', data => {
-    console.log(data.toString())
-    if(data.toString()) data1 = JSON.parse(data.toString());
+    if (data.toString()) data1 = JSON.parse(data.toString());
 
     console.log(req.body);
-    let flag=0;
+    let flag = 0;
 
     let ans = new Array();
 
-    data1.map((item,index)=>{
-      if(item.food1.toLowerCase().trim() === req.body.food.toLowerCase().trim()){
+    data1.map((item, index) => {
+      if (item.food1.toLowerCase().trim() === req.body.food.toLowerCase().trim()) {
         console.log(item.food2);
-        flag=1;
-        ans.push({"name":item.food2})
+        flag = 1;
+        ans.push({ "name": item.food2 })
         // res.status(200).send({data: item.food2});
       }
-      if(item.food2.toLowerCase().trim() === req.body.food.toLowerCase().trim()){
+      if (item.food2.toLowerCase().trim() === req.body.food.toLowerCase().trim()) {
         console.log(item.food1);
-        flag=1;
-        ans.push({"name":item.food1})
+        flag = 1;
+        ans.push({ "name": item.food1 })
         // res.status(200).send({data: item.food1});
       }
     })
 
     console.log(ans);
-    if(ans[0]) res.send(ans);
-    if(flag === 0){
-      res.send({message:"Currently i didn't find best pair. I'm still improving..!"});
+    if (ans[0]) res.send(ans);
+    if (flag === 0) {
+      res.send({ message: "Currently i didn't find best pair. I'm still improving..!" });
     }
-    
+
   });
   python_process.stdout.on('close', data => {
     console.log("close");
-    if(!data1)
-      res.send({message: "process Ended"});
+    if (!data1)
+      res.send({ message: "process Ended" });
   })
 })
 
@@ -93,7 +91,7 @@ router.post("/registerrestaurant", hashpassword, async (req, res) => {
       rurl: req.body.rurl,
       rcity: req.body.rcity,
       rpincode: req.body.rpincode,
-      rimage:req.body.rimage,
+      rimage: req.body.rimage,
       rpass: req.body.rpass,
       rmenu: req.body.rmenu,
       rating: 0
@@ -146,7 +144,7 @@ router.post("/userlogin", async (req, res) => {
   if (user) {
     if (await bcrypt.compare(upass, user.upass)) {
 
-      var token = jwt.sign({ email: user.uemail, pass: upass}, `${process.env.TOCKEN_PRIVATE_KEY}`);
+      var token = jwt.sign({ email: user.uemail, pass: upass }, `${process.env.TOCKEN_PRIVATE_KEY}`);
 
       res.status(200).send({
         data: user,
@@ -168,8 +166,8 @@ router.post("/restaurentlogin", async (req, res) => {
   const restaurent = await Restaurantinfo.findOne({ remail: uemail });
   if (restaurent) {
     if (await bcrypt.compare(upass, restaurent.rpass)) {
-      
-      var token = jwt.sign({email: restaurent.remail, pass: upass}, `${process.env.TOCKEN_PRIVATE_KEY}`);
+
+      var token = jwt.sign({ email: restaurent.remail, pass: upass }, `${process.env.TOCKEN_PRIVATE_KEY}`);
 
       res.status(200).send({
         data: restaurent,
@@ -178,7 +176,7 @@ router.post("/restaurentlogin", async (req, res) => {
         message: `Hello ${restaurent.rname}, You Logged in successfully!`,
       });
       // console.log(restaurent);
-      
+
     } else
       res.status(201).send({ message: "Error! : *** Invalid Password ***" });
   } else {
@@ -189,7 +187,7 @@ router.post("/restaurentlogin", async (req, res) => {
 // Add MEnu Item
 router.post("/addmenu", async (req, res) => {
   // console.log(req.body);
-  const { resid, iname, iprice, ides, itype,iimage } = req.body;
+  const { resid, iname, iprice, ides, itype, iimage } = req.body;
   const restaurent = await Restaurantinfo.findById(resid);
 
   if (restaurent) {
@@ -249,7 +247,7 @@ router.post("/editmenu", async (req, res) => {
       }
       else
         res.status(202).send({ message: "Menu not found" });
-    }else
+    } else
       res.status(201).send({ message: "Restaurant not found" });
   } catch (e) {
     // $Set
@@ -274,22 +272,22 @@ router.post("/res", async (req, res) => {
 router.post("/getrestaurent", async (req, res) => {
   try {
     const { id } = req.body;
-    var token = jwt.sign({ id: id}, `${process.env.TOCKEN_PRIVATE_KEY}`);
+    var token = jwt.sign({ id: id }, `${process.env.TOCKEN_PRIVATE_KEY}`);
 
     const data = await Restaurantinfo.findById(id);
     // console.log(data);
-    res.status(200).send( {data: data, selectedrestaurenttoken : token} );
+    res.status(200).send({ data: data, selectedrestaurenttoken: token });
   } catch (err) {
     console.log(err);
-    res.status(202).send({ message: "Error ocuured",selectedrestaurenttoken: token });
+    res.status(202).send({ message: "Error ocuured", selectedrestaurenttoken: token });
   }
 });
 
 
 // Fetch Orders
-router.post('/saveorder', async(req,res) => {
-  const {userid,orderres,order,ordertotal} = req.body;
-  const month = ["january","february","march","april","may","june","july","august","september","october","november","december"];
+router.post('/saveorder', async (req, res) => {
+  const { userid, orderres, order, ordertotal } = req.body;
+  const month = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"];
 
   const date = new Date();
   const ordertime = date.toDateString();
@@ -298,23 +296,23 @@ router.post('/saveorder', async(req,res) => {
   const restaurant = await Restaurantinfo.findById(orderres);
   const orderid = "id" + Math.random().toString(16).slice(2);
   const userorderData = {
-    orderid : orderid,
+    orderid: orderid,
     resname: restaurant.rname,
     restaurantid: orderres,
     ordermenu: order,
     ordertotal: ordertotal,
     ordertime: ordertime,
-    ordermonth:month[ordermonth],
+    ordermonth: month[ordermonth],
     orderstatus: "1"
   }
   const resorderData = {
-    orderid : orderid,
+    orderid: orderid,
     orderuser: userid,
     username: user.uname,
     ordermenu: order,
     ordertotal: ordertotal,
     ordertime: ordertime,
-    ordermonth:month[ordermonth],
+    ordermonth: month[ordermonth],
     orderstatus: "1"
   }
   let uorders = user.uorders;
@@ -328,22 +326,22 @@ router.post('/saveorder', async(req,res) => {
   const updateres = await restaurant.save();
   console.log("asdsad");
 
-  res.status(200).send({message: `${user.uname}, Your Order Is Placed`});
+  res.status(200).send({ message: `${user.uname}, Your Order Is Placed` });
 
 })
 
-router.post("/getuserorder",async (req,res) => {
+router.post("/getuserorder", async (req, res) => {
 
-  const { email ,month} = req.body;
+  const { email, month } = req.body;
   // console.log(req.body);
-  const user = await UserInfo.findOne({uemail :email});
+  const user = await UserInfo.findOne({ uemail: email });
   const data = [];
   const orders = user.uorders;
-  if(month === "all"){
+  if (month === "all") {
     res.status(200).send(orders);
-  }else{
+  } else {
     orders.forEach(element => {
-      if(element.ordermonth === month){
+      if (element.ordermonth === month) {
         data.push(element);
       }
     })
@@ -353,18 +351,18 @@ router.post("/getuserorder",async (req,res) => {
 
 });
 
-router.post("/getrestaurantorder", async(req,res) => {
-  const { email,month } = req.body;
+router.post("/getrestaurantorder", async (req, res) => {
+  const { email, month } = req.body;
 
   // console.log(req.body);
-  const restaurant = await Restaurantinfo.findOne({remail :email});
+  const restaurant = await Restaurantinfo.findOne({ remail: email });
   const data = [];
   const orders = restaurant.rorders;
-  if(month === "all"){
+  if (month === "all") {
     res.status(200).send(orders);
-  }else{
+  } else {
     orders.forEach(element => {
-      if(element.ordermonth === month){
+      if (element.ordermonth === month) {
         data.push(element);
       }
     })
@@ -375,13 +373,13 @@ router.post("/getrestaurantorder", async(req,res) => {
 
 });
 
-router.post("/updatestatus", async(req,res) =>{
-  const {email ,orderid ,status} = req.body;
-  const restaurant = await Restaurantinfo.findOne({remail :email});
+router.post("/updatestatus", async (req, res) => {
+  const { email, orderid, status } = req.body;
+  const restaurant = await Restaurantinfo.findOne({ remail: email });
   let id;
   const orders = restaurant.rorders;
   orders.forEach(element => {
-    if(element.orderid === orderid){
+    if (element.orderid === orderid) {
       element.orderstatus = status;
       id = element.orderuser;
     }
@@ -389,52 +387,67 @@ router.post("/updatestatus", async(req,res) =>{
   const user = await UserInfo.findById(id);
   const userorder = user?.uorders;
   userorder.forEach(element => {
-    if(element.orderid === orderid){
+    if (element.orderid === orderid) {
       element.orderstatus = status;
     }
   });
-  await Restaurantinfo.updateOne({remail : email},{$set : {rorders : orders}})
-  await UserInfo.updateOne({uemail : user.uemail},{$set : {uorders : userorder}})
+  await Restaurantinfo.updateOne({ remail: email }, { $set: { rorders: orders } })
+  await UserInfo.updateOne({ uemail: user.uemail }, { $set: { uorders: userorder } })
 
-  socket.emit("statusupdated",req.body);
-  
-  res.status(200).send({orders : orders});
-  
+  socket.emit("statusupdated", req.body);
+
+  res.status(200).send({ orders: orders });
+
 
 });
 
-router.post("/updaterating",async (req,res) => {
+router.post("/updaterating", async (req, res) => {
 
-  const {rating, resid} = req.body;
+  const { rating, resid } = req.body;
   const restaurant = await Restaurantinfo.findById(resid);
-  
+
   let RatingCount = restaurant.ratingcount;
   let TotalRating = restaurant.totalrating;
 
-  let newRating = (rating + TotalRating)/(RatingCount+1);
+  let newRating = (rating + TotalRating) / (RatingCount + 1);
   newRating = newRating.toFixed(1);
-  await Restaurantinfo.updateOne({remail: restaurant.remail},{$set : {rating: newRating,ratingcount: RatingCount+1,totalrating: TotalRating+rating}});
-  res.status(200).send({message: `Rating Updated to ${newRating}!`});
+  await Restaurantinfo.updateOne({ remail: restaurant.remail }, { $set: { rating: newRating, ratingcount: RatingCount + 1, totalrating: TotalRating + rating } });
+  res.status(200).send({ message: `Rating Updated to ${newRating}!` });
 
 })
 
 
-// ChatBox
+
+// BookTable
+
+router.post("/booktable", async(req,res)=>{
+  const {noofpeople,date,time,resid} = req.body;
+  console.log("Backend->",{noofpeople,date,time,resid})
+
+  const restaurant = await Restaurantinfo.findById(resid);
+
+  
+
+  res.send("ok");
+})
+
 
 
 
 // GenerateBill
-router.get("/generatebill", async (req, res) => {
-  const stream = res.writeHead(200, {
-    "Content-Type": "application/pdf",
-    "Content-Disposition": "attachment;filename=yourBill.pdf",
-  });
+// router.get("/generatebill", async (req, res) => {
+//   const stream = res.writeHead(200, {
+//     "Content-Type": "application/pdf",
+//     "Content-Disposition": "attachment;filename=yourBill.pdf",
+//   });
 
-  pdf_generator.billPdf(
-    (chunk) => stream.write(chunk),
-    () => stream.end(),
-    { rname: "Deep's Cafe" }
-  );
-});
+//   res.setHeader("Content-Type", "application/pdf",)
+//   const pdffile = pdf_generator.billPdf(
+//     (chunk) => stream.write(chunk),
+//     () => stream.end(),
+//     { rname: "Deep's Cafe" }
+//   );
+//   res.download(pdffile);
+// });
 
 module.exports = router;

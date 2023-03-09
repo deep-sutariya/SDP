@@ -14,7 +14,6 @@ import { UserSelectedResContexProvider } from './contex/UserSelectedRestaurant';
 import { LoginDetailsProvider } from './contex/Logincontex';
 import { useState } from 'react';
 import Navbar from './components/Navbar';
-import { io } from 'socket.io-client';
 function App() {
   const [menu,setMenu] = useState({});
   const [navtype, setNavType] = useState("user");

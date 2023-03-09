@@ -11,20 +11,31 @@ import { TrayContex } from '../contex/tray_contex';
 import jwt_decode from "jwt-decode";
 import axios from 'axios';
 import Types from './Types';
+import { dark } from '@material-ui/core/styles/createPalette';
 
 function RestaurantMenu() {
 
-    const { SelectedRestaurant ,SelectedRestaurantMenu,setSelectedRestaurant,setSelectedRestaurantMenu } = useContext(UserSelectedResContex);
-    const { setCartItem ,cartItem } = useContext(TrayContex);
+    const { SelectedRestaurant, SelectedRestaurantMenu, setSelectedRestaurant, setSelectedRestaurantMenu } = useContext(UserSelectedResContex);
+    const { setCartItem, cartItem } = useContext(TrayContex);
     const [selectedres, setSelectedres] = useState({});
     const [resdata, setResdata] = useState();
     const [resmenu, setResmenu] = useState();
     let [loading, setLoading] = useState(true);
 
+    const [open, setopen] = useState(false);
+
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = now.getMonth() + 1 < 10 ? `0${now.getMonth() + 1}` : now.getMonth() + 1;
+    const day = now.getDate() < 10 ? `0${now.getDate()}` : now.getDate();
+    const hour = now.getHours() < 10 ? `0${now.getHours()}` : now.getHours();
+    const minute = now.getMinutes() < 10 ? `0${now.getMinutes()}` : now.getMinutes();
+
+    const minDateTime = `${year}-${month}-${day}T${hour}:${minute}`;
 
     const getData = () => {
         setLoading(true);
-        if(SelectedRestaurant && SelectedRestaurantMenu){
+        if (SelectedRestaurant && SelectedRestaurantMenu) {
             console.log(SelectedRestaurantMenu);
             setResdata(SelectedRestaurant);
             setResmenu(SelectedRestaurantMenu);
@@ -37,28 +48,54 @@ function RestaurantMenu() {
         let decodedTokenRestaurent = jwt_decode(token);
         console.log(token);
         const data = await axios.post(`/getrestaurent`, {
-          id : decodedTokenRestaurent.id
+            id: decodedTokenRestaurent.id
         });
-    
-        setSelectedres(data);
-      }
 
-    useEffect(()=>{
+        setSelectedres(data);
+    }
+
+    const changeopen = () => {
+        console.log("->", open)
+        setopen(!open);
+    }
+
+    const booktable = async (e) => {
+        e.preventDefault();
+        const noofpeople = e.target[0].value;
+        const datetime = e.target[1].value;
+
+        const date = datetime.split('T')[0];
+        const time = datetime.split('T')[1];
+        
+        // console.log("-->", date.split('T'))
+
+        const data = await axios.post("/booktable",{
+            noofpeople,
+            date,
+            time,
+            resid : SelectedRestaurant._id,
+        })
+
+        console.log("FrontEnd->",data)
+
+    }
+
+    useEffect(() => {
         setSelectedRestaurant(selectedres?.data?.data);
         setSelectedRestaurantMenu(selectedres?.data?.data?.rmenu);
         setResmenu(selectedres?.data?.data?.rmenu); //
         setResdata(selectedres?.data?.data); //
         let size = SelectedRestaurantMenu?.length
         const cart = Array(size).fill(0);
-        setCartItem(cart); 
+        setCartItem(cart);
         localStorage.setItem("cart", JSON.stringify(cart));
     }, [selectedres]);
-    
+
     useEffect(() => {
         getData();
         getSelectedRes(sessionStorage.getItem("selectedrestaurent"));
-    }, []);   
-    
+    }, []);
+
     return (
         <>
             <div style={{ textAlign: 'center', marginTop: '60px', marginBottom: '50px', textDecoration: 'underline' }} className="menuParent"><h1>{resdata?.rname.toUpperCase()}</h1></div>
@@ -67,22 +104,43 @@ function RestaurantMenu() {
             {/* <Types /> */}
 
             {/* <h2 style={{textAlign : "center", margin:"40px 0 20px 0"}}>Menu</h2> */}
+            <div className="mainresmenu">
+                <div className='booktable'>
+                    {
+                        open?
+                        <button className="popup_button" style={{width: "20%"}} onClick={changeopen}>Close</button>
+                        :
+                        <button className="popup_button" onClick={changeopen}>Book Table</button>
+                    }
 
-            <div className="allmenuitems">
-                {loading ?<div className="loader"><BounceLoader
+                    {
+                        open && (
+                            <form className="form_booktable" onSubmit={booktable}>
+                                <input className="input-field-table" type="number" min={1} max={20} placeholder="Number of people" />
+                                <input className="input-field-table" type="datetime-local" min={minDateTime} placeholder="Number of people to book table" />
+                                <button className="submit-button" type="submit" >Submit</button>
+                            </form>
+                        )
+                    }
+
+                </div>
+
+                <div className="allmenuitems">
+                    {loading ? <div className="loader"><BounceLoader
                         size={50}
                         color="black"
                         aria-label="Loading Spinner"
                         data-testid="loader"
-                    /> </div> : 
-                    
+                    /> </div> :
+
                         Object.keys(resmenu).length > 0 &&
-                        resmenu.map(({ _id, name, des, price,image },index) => {
+                        resmenu.map(({ _id, name, des, price, image }, index) => {
                             return (<Menu key={index} index={index} id={_id} name={name} des={des} price={price} image={image} />);
                         })
-                }
+                    }
+                </div>
             </div>
-            <Popup resmenu = {resmenu}/>
+            <Popup resmenu={resmenu} />
         </>
     )
 }

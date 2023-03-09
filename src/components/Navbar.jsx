@@ -62,19 +62,6 @@ function Navbar(props) {
     navigate("/");
   }
 
-  const chaticon = () => {
-    console.log("chat");
-    var x = document.getElementById("chat-box");
-    console.log(x.style.display)
-    if (x.style.display === "none") {
-      x.style.display = "block";
-    } else {
-      x.style.display = "none";
-    }
-  }
-
-
-
 
   return (
     <>

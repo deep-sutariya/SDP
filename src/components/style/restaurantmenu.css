@@ -1,8 +1,80 @@
-.allmenuitems{
+.allmenuitems {
     padding-bottom: 70px;
     margin: 35px 6% 20px 6%;
     display: grid;
     grid-template-columns: 1fr 1fr;
     row-gap: 10px;
     column-gap: 20px;
+}
+
+.mainresmenu {
+    display: flex;
+    flex-direction: column;
+}
+
+.form_booktable {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+    height: 100%;
+    margin-top: 20px;
+    transition: all 0.5s ease-in-out;
+}
+
+.input-field-table {
+    padding: 8px;
+    border: none;
+    border-radius: 3px;
+    width: 20%;
+    font-size: 14px;
+    border: 2px dashed var(--dark);
+    outline: none;
+}
+
+.input-field-table:focus {
+    border: 2px solid var(--light);
+}
+
+.submit-button {
+    background-color: var(--dark);
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    width: 10%;
+    font-size: 14px;
+}
+
+
+.popup_button{
+    background-color: var(--dark);
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    width: 25%;
+    font-size: 16px;
+    margin: auto;
+    transition: all 0.5s ease-in-out;
+    letter-spacing: 2px;
+}
+
+.submit-button:hover,
+.popup_button:hover{
+    background-color: var(--light);
+}
+
+.booktable{
+    margin: auto;
+    width: 80%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
 }
