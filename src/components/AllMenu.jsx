@@ -69,7 +69,7 @@ const AllMenu = () => {
         itype: addmenu.type,
         iimage: addmenu.image
       })
-
+      console.lof(addmenu);
       setRestaurantMenu({...RestaurantMenu,addmenu});
       console.log(RestaurantMenu);
     }

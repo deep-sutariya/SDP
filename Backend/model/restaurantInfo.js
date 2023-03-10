@@ -11,6 +11,7 @@ const RestaurantInfoSchema = new Schema({
     rcity: { type: String, required: true},
     rtableno: { type: String, required: true},
     rtable: { type: Array, required: true },
+    registeredtableinfo: {type: Array,required: true},
     rpincode: { type: String, required: true},
     rimage:{type: String, required: false},
     rpass: { type: String, required: true },

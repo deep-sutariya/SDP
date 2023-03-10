@@ -150,6 +150,7 @@ router.post("/updaterestaurant", async (req, res) => {
 // User Login Details
 router.post("/userlogin", async (req, res) => {
   const { uemail, upass } = req.body;
+  console.log(req.body);
   const user = await UserInfo.findOne({ uemail: uemail });
   if (user) {
     if (await bcrypt.compare(upass, user.upass)) {

@@ -58,15 +58,29 @@ const UserOrderCard = (props) => {
     var doc = new jsPDF('p', 'pt');
 
     // doc.text(width,height,text)
-    doc.text(280, 80, `${resname}`)
-
-    doc.addFont('helvetica', 'normal')
+    doc.text(230,40,"BOOKMYMEAL");
+    doc.text(50, 100, "Restaurant Name: ");
+    doc.text(200, 100, `${resname}`);
+    doc.text(50, 120, "Ordertime: ");
+    doc.text(200,120,ordertime);
+    doc.text(50,140,"OrderId: ");
+    doc.text(200,140,`${orderid}`);
+    doc.text(50,160,"Order Items :- ");
+    doc.text(50,180,"Item Name");
+    doc.text(200,180,"no of item");
+    doc.text(300,180,"Price Per Item");
+    doc.text(480,180,"Total");
+    doc.addFont('helvetica', 'normal');
     Object.entries(ordermenu).map((ele,index)=>{
-      doc.text(50, 200+(5*index), `${ele[1].itemname}`);
-      doc.text(200, 200+(5*index), `${ele[1].noOfItem}`);
-      doc.text(300, 200+(5*index), `${ele[1].price}`);
+      doc.text(10,200+20*index,`${index+1}.)`)
+      doc.text(50, 200+(20*index), `${ele[1].itemname}`);
+      doc.text(200, 200+(20*index), `${ele[1].noOfItem}`);
+      doc.text(300, 200+(20*index), `${ele[1].price}`);
+      doc.text(480, 200+(20*index), `${parseInt(ele[1].price)*ele[1].noOfItem}`);
     })
-    doc.text(100, 400, `Total Amount : ${ordertotal}`)
+    doc.text(50,200+ordermenu.length*20+10,"-----------------------------------------------------------------------------------");
+    doc.text(50, 200+ordermenu.length*20+30, `Total Amount : ${ordertotal}`);
+    doc.text(230,800,"Thanks For Visiting !");
 
     doc.save(`${orderid}.pdf`);
   }

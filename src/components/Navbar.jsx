@@ -26,6 +26,20 @@ function Navbar(props) {
     decodedToken = jwt_decode(token);
     console.log(decodedToken);
     console.log(type);
+    let data;
+    if(type == "user"){
+      data = await axios.post("/userlogin",{
+        uemail: decodedToken.email,
+        upass: decodedToken.pass
+      });
+    }else{
+      data = await axios.post("/restaurentlogin",{
+        uemail: decodedToken.email,
+        upass: decodedToken.pass
+      });
+    }
+    console.log(data);
+    setfirst(data);
   }
 
   useEffect(() => {
