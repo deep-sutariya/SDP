@@ -2,14 +2,14 @@ import React from "react";
 import { useState } from "react";
 import "./style/signup.css";
 import axios from "axios";
-import {useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import res_img from '../assets/RestaurantLI.jpg';
 import user_img from '../assets/CustomerLI.jpg';
 import Navbar from '../components/Navbar';
 var validator = require("email-validator");
 
-function Signup({setNavType}) {
-    
+function Signup({ setNavType }) {
+
     setNavType("user");
 
     const navigate = useNavigate();
@@ -21,7 +21,7 @@ function Signup({setNavType}) {
         uphone: "",
         ucpass: "",
         rname: "",
-        roname: "", rphone: "", raddress: "", remail: "", rurl: "", rcity: "",rpincode: "",image:"", rpass: "", rcpass: "",
+        roname: "", rphone: "", raddress: "", remail: "", rurl: "", rcity: "", rpincode: "", image: "", rpass: "", rcpass: "", rtable: "",
     });
 
     async function checkuser(e) {
@@ -44,10 +44,10 @@ function Signup({setNavType}) {
                         upass: user.upass,
                         uphone: user.uphone,
                     });
-                    if(data.status === 202){
+                    if (data.status === 202) {
                         errmsg.innerText = `${data.data.message}`;
                     }
-                    else{
+                    else {
                         navigate("/login");
                         alert(`${data.data.message}`);
                     }
@@ -66,10 +66,10 @@ function Signup({setNavType}) {
         }
         else {
             const valid = validator.validate(user.remail);
-            if(!user.rname){
+            if (!user.rname) {
                 errmsg.innerText = "***Enter Restaurant Name***";
             }
-            else if (user.rpass === user.rcpass && user.rphone.length === 10 && valid && user.rname && user.rcity) {
+            else if (user.rpass === user.rcpass && user.rphone.length === 10 && valid && user.rname && user.rcity && user.rtable>1) {
                 errmsg.innerText = "";
                 console.log(user);
                 try {
@@ -81,16 +81,17 @@ function Signup({setNavType}) {
                         remail: user.remail,
                         rurl: user.rurl,
                         rcity: user.rcity,
+                        rtable: user.rtable,
                         rpincode: user.rpincode,
-                        rimage:user.image,
+                        rimage: user.image,
                         rpass: user.rpass,
                         rmenu: user.rmenu
                     })
                     console.log(data);
-                    if(data.status === 202){
+                    if (data.status === 202) {
                         errmsg.innerText = `***${data.data.message}***`;
                     }
-                    else{
+                    else {
                         navigate("/login");
                         alert(`${data.data.message}`);
                     }
@@ -111,7 +112,10 @@ function Signup({setNavType}) {
             else if (user.rpass !== user.rcpass) {
                 errmsg.innerText = "***Passwords are not maching!***";
             }
-            
+            else if (user.rtable<1) {
+                errmsg.innerText = "***Table Number Must Be Greater than 1***";
+            }
+
             errmsg.style.color = 'red';
         }
     }
@@ -123,10 +127,10 @@ function Signup({setNavType}) {
         setuser({ ...user, [name]: value });
         e.preventDefault();
     }
-    const handleFile = async (e)=>{
+    const handleFile = async (e) => {
         e.preventDefault();
-        document.getElementById("nameoffile").innerText = e.target.files[0].name; 
-        document.getElementById("label").innerText = ""; 
+        document.getElementById("nameoffile").innerText = e.target.files[0].name;
+        document.getElementById("label").innerText = "";
         const file = e.target.files[0];
         const Base64 = await convertToBase64(file);
         setuser({ ...user, ["image"]: Base64 });
@@ -150,100 +154,103 @@ function Signup({setNavType}) {
         document.getElementById('user').style.boxShadow = "0 0 20px 0px var(--light)";
     }
     // converting the file to the Base64 format
-    function convertToBase64(file){
+    function convertToBase64(file) {
 
-        return new Promise((resolve,reject) => {
-          const fileReader = new FileReader();
-          fileReader.readAsDataURL(file);
-          fileReader.onload = () =>{
-            resolve(fileReader.result);
-          }
-          fileReader.onerror = (error) => {
-            reject(error);
-          }
+        return new Promise((resolve, reject) => {
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(file);
+            fileReader.onload = () => {
+                resolve(fileReader.result);
+            }
+            fileReader.onerror = (error) => {
+                reject(error);
+            }
         })
-      
-      }
+
+    }
 
     return (
         <>
-        <div className="signup_main">
-            <div className="signup">
-                <div className="signup_option">
-                    <div className="signup_ login">
-                        <div className="inner_res">
-                            <div className="option_img"><img src={res_img} alt="restaurent_option img" /></div>
-                            <div className="option_heading" onClick={handleResOption} id='restaurant'>RESTAURENT</div>
+            <div className="signup_main">
+                <div className="signup">
+                    <div className="signup_option">
+                        <div className="signup_ login">
+                            <div className="inner_res">
+                                <div className="option_img"><img src={res_img} alt="restaurent_option img" /></div>
+                                <div className="option_heading" onClick={handleResOption} id='restaurant'>RESTAURENT</div>
+                            </div>
+                        </div>
+                        <div className="signup_">
+                            <div className="inner_user">
+                                <div className="option_img"><img src={user_img} alt="restaurent_option img" /></div>
+                                <div className="option_heading" onClick={handleUserOption} id='user'>USER</div>
+                            </div>
                         </div>
                     </div>
-                    <div className="signup_">
-                        <div className="inner_user">
-                            <div className="option_img"><img src={user_img} alt="restaurent_option img" /></div>
-                            <div className="option_heading" onClick={handleUserOption} id='user'>USER</div>
-                        </div>
+                    <div className="form-content">
+                        <form>
+                            {option === "user" ? <>
+                                <div className="field input-field">
+                                    <input type="text" placeholder="Name" onChange={handleinputs} value={user.uname} name="uname" className="input" />
+                                </div>
+                                <div className="field input-field">
+                                    <input type="email" placeholder="Email" onChange={handleinputs} value={user.uemail} name="uemail" className="input" />
+                                </div>
+                                <div className="field input-field">
+                                    <input type="text" placeholder="Phone No" onChange={handleinputs} value={user.uphone} name="uphone" className="input" />
+                                </div>
+                                <div className="field input-field">
+                                    <input type="password" placeholder="Password" onChange={handleinputs} value={user.upass} name="upass" className="input" />
+                                </div>
+                                <div className="field input-field">
+                                    <input type="password" placeholder="Confirm Password" onChange={handleinputs} value={user.ucpass} name="ucpass" className="input" />
+                                </div></>
+                                : <>
+                                    <div className="field input-field">
+                                        <input type="text" placeholder="Restaurant Name" onChange={handleinputs} value={user.rname} name="rname" className="input" />
+                                    </div>
+                                    <div className="field input-field">
+                                        <input type="text" placeholder="Owner Name" onChange={handleinputs} value={user.roname} name="roname" className="input" />
+                                    </div>
+                                    <div className="field input-field">
+                                        <input type="email" placeholder="Email" onChange={handleinputs} value={user.remail} name="remail" className="input" />
+                                    </div>
+                                    <div className="field input-field">
+                                        <input type="text" placeholder="Phone No" onChange={handleinputs} value={user.rphone} name="rphone" className="input" />
+                                    </div>
+                                    <div className="field input-field">
+                                        <input type="text" placeholder="Address" onChange={handleinputs} value={user.raddress} name="raddress" className="input" />
+                                    </div>
+                                    <div className="field input-field">
+                                        <input type="text" placeholder="City" onChange={handleinputs} value={user.rcity} name="rcity" className="input" />
+                                    </div>
+                                    <div className="field input-field">
+                                        <input type="number" min={1} max={100} placeholder="Number of table" onChange={handleinputs} value={user.rtable} name="rtable" className="input" />
+                                    </div>
+                                    <div className="field input-field">
+                                        <input type="text" placeholder="Pincode" onChange={handleinputs} value={user.rpincode} name="rpincode" className="input" />
+                                    </div>
+                                    <div className="field input-field">
+                                        <input type="text" placeholder="Google Location of the Restaurent Url" onChange={handleinputs} value={user.rurl} name="rurl" className="input" />
+                                    </div>
+                                    <div className="field input-field">
+                                        <input type="file" id="file-input" onChange={handleFile} />
+                                        <label id="file-label" htmlFor="file-input"><i className='fa fa-upload'></i>&emsp;<span id="label">Choose a Image...</span>&ensp;<span id="nameoffile"></span></label>
+                                    </div>
+                                    <div className="field input-field">
+                                        <input type="password" placeholder="Password" onChange={handleinputs} value={user.rpass} name="rpass" className="input" />
+                                    </div>
+                                    <div className="field input-field">
+                                        <input type="password" placeholder="Confirm Password" onChange={handleinputs} value={user.rcpass} name="rcpass" className="input" />
+                                    </div>
+                                </>}
+                        </form>
+                    </div>
+                    <span id="errmsg" className="errmsg"></span>
+                    <div className="field button-field">
+                        <button type="submit" onClick={checkuser}>Register</button>
                     </div>
                 </div>
-                <div className="form-content">
-                    <form>
-                        {option === "user" ? <>
-                            <div className="field input-field">
-                                <input type="text" placeholder="Name" onChange={handleinputs} value={user.uname} name="uname" className="input" />
-                            </div>
-                            <div className="field input-field">
-                                <input type="email" placeholder="Email" onChange={handleinputs} value={user.uemail} name="uemail" className="input" />
-                            </div>
-                            <div className="field input-field">
-                                <input type="text" placeholder="Phone No" onChange={handleinputs} value={user.uphone} name="uphone" className="input" />
-                            </div>
-                            <div className="field input-field">
-                                <input type="password" placeholder="Password" onChange={handleinputs} value={user.upass} name="upass" className="input" />
-                            </div>
-                            <div className="field input-field">
-                                <input type="password" placeholder="Confirm Password" onChange={handleinputs} value={user.ucpass} name="ucpass" className="input" />
-                            </div></>
-                            : <>
-                                <div className="field input-field">
-                                    <input type="text" placeholder="Restaurant Name" onChange={handleinputs} value={user.rname} name="rname" className="input" />
-                                </div>
-                                <div className="field input-field">
-                                    <input type="text" placeholder="Owner Name" onChange={handleinputs} value={user.roname} name="roname" className="input" />
-                                </div>
-                                <div className="field input-field">
-                                    <input type="email" placeholder="Email" onChange={handleinputs} value={user.remail} name="remail" className="input" />
-                                </div>
-                                <div className="field input-field">
-                                    <input type="text" placeholder="Phone No" onChange={handleinputs} value={user.rphone} name="rphone" className="input" />
-                                </div>
-                                <div className="field input-field">
-                                    <input type="text" placeholder="Address" onChange={handleinputs} value={user.raddress} name="raddress" className="input" />
-                                </div>
-                                <div className="field input-field">
-                                    <input type="text" placeholder="City" onChange={handleinputs} value={user.rcity} name="rcity" className="input" />
-                                </div>
-                                <div className="field input-field">
-                                    <input type="text" placeholder="Pincode" onChange={handleinputs} value={user.rpincode} name="rpincode" className="input" />
-                                </div>
-                                <div className="field input-field">
-                                    <input type="text" placeholder="Google Location of the Restaurent Url" onChange={handleinputs} value={user.rurl} name="rurl" className="input" />
-                                </div>
-                                <div className="field input-field">
-                                    <input type="file" id="file-input" onChange={handleFile}/>
-                                    <label id="file-label" htmlFor="file-input"><i className='fa fa-upload'></i>&emsp;<span id="label">Choose a Image...</span>&ensp;<span id="nameoffile"></span></label>
-                                </div>
-                                <div className="field input-field">
-                                    <input type="password" placeholder="Confirm Password" onChange={handleinputs} value={user.rpass} name="rpass" className="input" />
-                                </div>
-                                <div className="field input-field">
-                                    <input type="password" placeholder="Confirm Password" onChange={handleinputs} value={user.rcpass} name="rcpass" className="input" />
-                                </div>
-                            </>}
-                    </form>
-                </div>
-                <span id="errmsg" className="errmsg"></span>
-                <div className="field button-field">
-                    <button type="submit" onClick={checkuser}>Register</button>
-                </div>
-            </div>
             </div>
         </>
     );

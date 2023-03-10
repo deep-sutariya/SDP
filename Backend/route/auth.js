@@ -11,6 +11,8 @@ const socket = io("http://localhost:5000");
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
 
+
+
 router.post("/py", async (req, res) => {
   const spawner = require('child_process').spawn;
   const data_to_pass_in = 'send this to the py file';
@@ -82,6 +84,12 @@ router.post("/registerrestaurant", hashpassword, async (req, res) => {
   if (restaurent != null)
     res.status(202).send({ message: "Email already exists" });
   else {
+    let n = parseInt(req.body.rtable);
+    let tablearr = new Array(24);
+    for (let i = 0; i < 24; ++i) {
+      tablearr[i] = n;
+    }
+
     const restaurantInfo = new Restaurantinfo({
       rname: req.body.rname,
       roname: req.body.roname,
@@ -90,6 +98,8 @@ router.post("/registerrestaurant", hashpassword, async (req, res) => {
       remail: req.body.remail,
       rurl: req.body.rurl,
       rcity: req.body.rcity,
+      rtableno: req.body.rtable,
+      rtable: tablearr,
       rpincode: req.body.rpincode,
       rimage: req.body.rimage,
       rpass: req.body.rpass,
@@ -420,17 +430,44 @@ router.post("/updaterating", async (req, res) => {
 
 // BookTable
 
-router.post("/booktable", async(req,res)=>{
-  const {noofpeople,date,time,resid} = req.body;
-  console.log("Backend->",{noofpeople,date,time,resid})
+router.post("/booktable", async (req, res) => {
+  const { noofpeople, date, time, resid, useid } = req.body;
+  // console.log("Backend->", { noofpeople, date, time, resid })
 
+  // const user = await UserInfo.findById(useid);
   const restaurant = await Restaurantinfo.findById(resid);
-
   
+  const hour = time.split(':')[0];
+  
+  if(restaurant.rtable[hour] >= noofpeople){
+    restaurant.rtable[hour] -= noofpeople;
+    await restaurant.save();
 
-  res.send("ok");
+    res.status(200).send(`Table Booked For ${noofpeople} People. See you at ${time}.`);
+  }else{
+    res.status(202).send(`Table Not Available For ${noofpeople} People at ${time}.`);
+  }
+
 })
 
+
+// router.post("/regeneratetable", async (req, res) => {
+
+//   const data = await Restaurantinfo.find({});
+
+//   data.forEach(async(element) => {
+
+//     let n = parseInt(element.rtableno);
+//     for (let i = 0; i < 24; ++i) {
+//       element.rtable[i] = n;
+//     }
+//     await element.save();
+//   })
+
+
+//   res.send("ok");
+
+// })
 
 
 

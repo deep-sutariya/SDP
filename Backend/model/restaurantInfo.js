@@ -9,6 +9,8 @@ const RestaurantInfoSchema = new Schema({
     remail: { type: String, required: true},
     rurl: { type: String, required: true},
     rcity: { type: String, required: true},
+    rtableno: { type: String, required: true},
+    rtable: { type: Array, required: true },
     rpincode: { type: String, required: true},
     rimage:{type: String, required: false},
     rpass: { type: String, required: true },

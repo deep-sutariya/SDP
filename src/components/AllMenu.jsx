@@ -12,6 +12,7 @@ const AllMenu = () => {
   const {loginrestaurant} = useContext(LoginDetails);
   const [RestaurantMenu, setRestaurantMenu] = useState([]);
 
+
   let [loading, setLoading] = useState(true);
 
   const [addmenu, setaddmenu] = useState({
@@ -60,7 +61,6 @@ const AllMenu = () => {
 
   const saveMenu = async () =>{
     if(addmenu.price && addmenu.des && addmenu.name && addmenu.type){
-     
       const data = await axios.post("/addmenu", {
         resid: loginrestaurant._id.toString(),
         iname: addmenu.name,

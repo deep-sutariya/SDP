@@ -10,8 +10,6 @@ import { useContext } from 'react';
 import { TrayContex } from '../contex/tray_contex';
 import jwt_decode from "jwt-decode";
 import axios from 'axios';
-import Types from './Types';
-import { dark } from '@material-ui/core/styles/createPalette';
 
 function RestaurantMenu() {
 
@@ -76,7 +74,7 @@ function RestaurantMenu() {
             resid : SelectedRestaurant._id,
         })
 
-        console.log("FrontEnd->",data)
+        alert(`${data.data}`);
 
     }
 
