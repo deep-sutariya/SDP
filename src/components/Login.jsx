@@ -65,6 +65,7 @@ function Login({ setNavType }) {
           
           if (loginoption === "user") { // navigate to the user page 
             setloginuser(data?.data?.data);
+            setloginrestaurant(null);
             setNavType("user");
             alert(`${data.data.message}`);
             if(location?.state?.fromCart){
@@ -75,6 +76,7 @@ function Login({ setNavType }) {
           }
           else { // navigate to the restaurent page 
             setloginrestaurant(data?.data?.data);
+            setloginuser(null)
             setNavType("restaurent");
             alert(`${data.data.message}`);
             navigate("/restaurenthome");

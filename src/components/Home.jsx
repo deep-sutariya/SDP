@@ -29,9 +29,9 @@ function Home({ setNavType }) {
     useEffect(() => {
         getData();
     }, []);
-    useEffect(() => {
-        console.log(filteredRes)
-    }, [filteredRes]);
+    // useEffect(() => {
+    //     console.log(filteredRes)
+    // }, [filteredRes]);
 
     let pincode;
     const search = async () => {

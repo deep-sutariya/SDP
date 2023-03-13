@@ -8,6 +8,7 @@ const UserinfoSchema = new Schema({
     uphone: { type: String, required: true },
     upass: { type: String, required: true },
     uorders: { type: Array, required: true },
+    registeredtableinfo: {type: Array,required: true},
 
 }, { timestamps: true });
 

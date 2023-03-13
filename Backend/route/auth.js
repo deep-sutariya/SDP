@@ -86,6 +86,7 @@ router.post("/registerrestaurant", hashpassword, async (req, res) => {
   else {
     let n = parseInt(req.body.rtable);
     let tablearr = new Array(24);
+    let tableDetail = new Array(24);
     for (let i = 0; i < 24; ++i) {
       tablearr[i] = n;
     }
@@ -100,6 +101,7 @@ router.post("/registerrestaurant", hashpassword, async (req, res) => {
       rcity: req.body.rcity,
       rtableno: req.body.rtable,
       rtable: tablearr,
+      // registeredtableinfo: tableDetail,
       rpincode: req.body.rpincode,
       rimage: req.body.rimage,
       rpass: req.body.rpass,
@@ -347,7 +349,7 @@ router.post("/getuserorder", async (req, res) => {
   // console.log(req.body);
   const user = await UserInfo.findOne({ uemail: email });
   const data = [];
-  const orders = user.uorders;
+  const orders = user?.uorders;
   if (month === "all") {
     res.status(200).send(orders);
   } else {
@@ -432,17 +434,41 @@ router.post("/updaterating", async (req, res) => {
 // BookTable
 
 router.post("/booktable", async (req, res) => {
-  const { noofpeople, date, time, resid, useid } = req.body;
+  const { noofpeople, date, time, resid, userid } = req.body;
   // console.log("Backend->", { noofpeople, date, time, resid })
 
-  // const user = await UserInfo.findById(useid);
+  const user = await UserInfo.findById(userid);
   const restaurant = await Restaurantinfo.findById(resid);
   
   const hour = time.split(':')[0];
   
   if(restaurant.rtable[hour] >= noofpeople){
     restaurant.rtable[hour] -= noofpeople;
+
+    let arr = restaurant.registeredtableinfo;
+    arr.unshift({
+      userid: user._id,
+      username: user.uname,
+      userphone: user.uphone,
+      noofpeople: noofpeople,
+      reservationtime: hour,
+    });
+    restaurant.registeredtableinfo = arr;
+
+    let arr1 = user.registeredtableinfo;
+    arr1.unshift({
+      resid: restaurant._id,
+      resname: restaurant.rname,
+      resaddress: restaurant.raddress,
+      respincode: restaurant.rpincode,
+      resphone: restaurant.rphone,
+      noofpeople: noofpeople,
+      reservationtime: hour,
+    });
+    user.registeredtableinfo = arr1;
+
     await restaurant.save();
+    await user.save();
 
     res.status(200).send(`Table Booked For ${noofpeople} People. See you at ${time}.`);
   }else{
@@ -451,24 +477,21 @@ router.post("/booktable", async (req, res) => {
 
 })
 
+router.post("/getreservations", async(req,res)=>{
+  const {id,type} = req.body;
+  let data;
+  console.log("-->",req.body)
+  
+  if(type=="restaurent"){
+    data = await Restaurantinfo.findById(id); 
+  }
+  else{
+    data = await UserInfo.findById(id);
+  }
 
-// router.post("/regeneratetable", async (req, res) => {
-
-//   const data = await Restaurantinfo.find({});
-
-//   data.forEach(async(element) => {
-
-//     let n = parseInt(element.rtableno);
-//     for (let i = 0; i < 24; ++i) {
-//       element.rtable[i] = n;
-//     }
-//     await element.save();
-//   })
-
-
-//   res.send("ok");
-
-// })
+  console.log(data?.registeredtableinfo);
+  res.send(data?.registeredtableinfo)
+})
 
 
 

@@ -60,9 +60,9 @@ function RestaurantMenu() {
   };
 
   const changeopen = () => {
-    console.log("->", open);
     setopen(!open);
   };
+
   const booktable = async (e) => {
     e.preventDefault();
 
@@ -82,9 +82,11 @@ function RestaurantMenu() {
               date,
               time,
               resid: SelectedRestaurant._id,
+              userid: loginuser._id
             });
       
             alert(`${data.data}`);
+            setopen(!open);
       }
     } else {
       alert("First login Plz !!!!");

@@ -24,10 +24,10 @@ function Navbar(props) {
   async function getData(type) {
     token = sessionStorage.getItem("token");
     decodedToken = jwt_decode(token);
-    console.log(decodedToken);
-    console.log(type);
+    // console.log(decodedToken);
+    // console.log(type);
     let data;
-    if(type == "user"){
+    if(type === "user"){
       data = await axios.post("/userlogin",{
         uemail: decodedToken.email,
         upass: decodedToken.pass
@@ -38,7 +38,6 @@ function Navbar(props) {
         upass: decodedToken.pass
       });
     }
-    console.log(data);
     setfirst(data);
   }
 
@@ -53,6 +52,7 @@ function Navbar(props) {
     } else {
       setloginuser(first?.data?.data);
     }
+    console.log(first?.data?.data);
   }, [first])
 
   var links = document.querySelectorAll('.navlinkss');
@@ -70,9 +70,10 @@ function Navbar(props) {
   }
 
   const finalCall = () => {
-    console.log("adas");
     Cookies.remove('selectedrestaurent')
     sessionStorage.clear();
+    loginuser = null
+    loginrestaurant = null
     navigate("/");
   }
 
@@ -88,14 +89,15 @@ function Navbar(props) {
         <label className="logo">BookMyMeal</label>
 
         {
-          props.type === "user" ?
+          loginuser ?
 
             <ul>
               <li><Link className="navlinkss active" to="" >Home</Link></li>
               <li><Link className="navlinkss" to="../orders" >orders</Link></li>
+              <li><Link className="navlinkss" to="../reservation" >Reservations</Link></li>
               <li><Link className="navlinkss" to="../signup" >Signup</Link></li>
               {
-                sessionStorage.getItem("type") === "user" ?
+                loginuser ?
                   <>
                     <div className="dropdown">
                       <button className="dropbtn">{loginuser?.uname}</button>
@@ -115,9 +117,10 @@ function Navbar(props) {
               <li><Link className='navlinkss ${active}' to="restaurenthome" >Profile</Link></li>
               <li><Link className='navlinkss' to="restaurenthome/menus" >Menu</Link></li>
               <li><Link className='navlinkss' to="restaurenthome/restaurantorders" >Orders</Link></li>
+              <li><Link className="navlinkss" to="../reservation" >Reservations</Link></li>
               <li><Link className="navlinkss" to="../signup" >Signup</Link></li>
               {
-                sessionStorage.getItem("type") === "restaurent" ?
+                loginrestaurant ?
                   <>
                     <div className="dropdown">
                       <button className="dropbtn">{loginrestaurant?.rname}</button>

@@ -1,0 +1,7 @@
+.Reservation_main{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    row-gap: 50px;
+    margin: 60px auto;
+}

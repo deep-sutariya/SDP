@@ -1,4 +1,6 @@
 Make Restaurant Profile Page Responsive.
-Generate Bill In Front End.
-Socket.io
 Build application
+Invalid Tocken Specification Error at Navbar.jsx
+check navbar responsiveness (perticular width..(split))
+Login user removes after refresh
+add no of table to editable part in restaurant

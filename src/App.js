@@ -14,6 +14,7 @@ import { UserSelectedResContexProvider } from './contex/UserSelectedRestaurant';
 import { LoginDetailsProvider } from './contex/Logincontex';
 import { useState } from 'react';
 import Navbar from './components/Navbar';
+import Reservations from './components/Reservations';
 function App() {
   const [menu,setMenu] = useState({});
   const [navtype, setNavType] = useState("user");
@@ -29,6 +30,7 @@ function App() {
                 <Route path="/" element={<Navbar menu={menu} setmenu={(m) => setMenu(m)} type={navtype}/>} >
                     <Route path="" element={<Home setNavType={setNavType}/>} />
                     <Route path="orders" element={<Orders setNavType={setNavType} />} />
+                    <Route path="reservation" element={<Reservations setNavType={setNavType} />} />
                     <Route path="login" element={<Login setNavType={setNavType}/>} />
                     <Route path="signup" element={<Signup setNavType={setNavType}/>} />
                     <Route path="restaurentmenu" element={<RestaurantMenu setNavType={setNavType}/>} />

@@ -1,0 +1,48 @@
+.reservationCard_main {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    column-gap: 30px;
+    border: 2px solid var(--dark);
+    width: 70%;
+    margin: auto;
+}
+
+#bookings {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#bookings td,
+#bookings th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#bookings tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+#bookings tr:nth-child(odd) {
+    background-color: white;
+}
+
+#bookings tr:hover {
+    background-color: #ddd;
+}
+
+#bookings th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: var(--dark);
+    color: white;
+}
+
+.btns{
+    margin: 20px 0 0 20px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
