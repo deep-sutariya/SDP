@@ -3,12 +3,12 @@ import React, { useContext, useState } from "react";
 import "../components/style/ResMenuCard.css";
 import { LoginDetails } from "../contex/Logincontex";
 
-const ResMenuCard = ({ id, name, price, des, type, index }) => {
+const ResMenuCard = ({ id, name, price, des, type, index,setRestaurantMenu }) => {
   const placeit = "panel" + index;
   const placea = "#popup" + index;
   const placeaid = "popup" + index;
 
-  const placeitr = "editpanel" + index;
+  // const placeitr = "editpanel" + index;
   const placear = "#popupedit" + index;
   const placeaidr = "popupedit" + index;
 
@@ -38,39 +38,29 @@ const ResMenuCard = ({ id, name, price, des, type, index }) => {
     }
   };
 
-  const handleFile = async (e) => {
-    e.preventDefault();
-    document.getElementById("nameoffile").innerText = e.target.files[0].name; 
-    document.getElementById("label").innerText = ""; 
-    const file = e.target.files[0];
-    const Base64 = await convertToBase64(file);
-    console.log(Base64);
-    menu({...menu, ["image"] : Base64});
-  }
-
-  // converting the file to the Base64 format
-  function convertToBase64(file){
-
-    return new Promise((resolve,reject) => {
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
-      fileReader.onload = () =>{
-        resolve(fileReader.result);
-      }
-      fileReader.onerror = (error) => {
-        reject(error);
-      }
-      })
-  }
+  const UploadImage = async () => {
+    const formData = new FormData();
+    formData.append("file", menu.image);
+    formData.append("upload_preset", "guydx3xf");
+    formData.append("cloud_name", "dt6unpuse");
+    // let url = "";
+    const data = await axios
+      .post("https://api.cloudinary.com/v1_1/dt6unpuse/image/upload", formData);
+      
+    return data?.data?.secure_url;
+  };
 
   const EditMenu = async (e) => {
 
     console.log("EditMenu")
 
+    let image_url = await UploadImage();
+    setMenu({...menu,["image"]: image_url});
     const data = await axios.post("/editmenu", {
       resid: loginrestaurant._id,
       menuIndex: e.target.id,
-      newData: menu
+      newData: menu,
+      image_url: image_url
     });
 
     console.log(data);
@@ -80,7 +70,16 @@ const ResMenuCard = ({ id, name, price, des, type, index }) => {
   const updateMenu = (e) => {
     n = e.target.name;
     value = e.target.value;
-    setMenu({ ...menu, [n]: value })
+    console.log(n);
+    if(n === "image"){
+      console.log(e.target.files[0].name);
+      setMenu({...menu,[n]: e.target.files[0]});
+      console.log(document.getElementById("nameoffile"))
+
+      document.getElementById("nameoffilee").innerText = e.target.files[0].name; 
+      document.getElementById("labell").innerText = ""; 
+    }else
+      setMenu({ ...menu, [n]: value })
   }
 
   const RemoveMenu = async (e) => {
@@ -89,6 +88,7 @@ const ResMenuCard = ({ id, name, price, des, type, index }) => {
       resid: loginrestaurant._id.toString(),
       iid: loginrestaurant.rmenu[e.target.id]._id.toString()
     })
+    setRestaurantMenu(data?.data?.data);
     alert(data.data.message);
   }
 
@@ -157,8 +157,8 @@ const ResMenuCard = ({ id, name, price, des, type, index }) => {
                 <input type="textarea" placeholder="Description" name="des" value={menu.des} onChange={updateMenu} />
                 <label>Type:</label>
                 <input type="textarea" placeholder="Type" name="type" value={menu.type} onChange={updateMenu} />
-                <input type="file" id="file-input" onChange={handleFile} />
-              <label id="file-label" htmlFor="file-input"><i className='fa fa-upload'></i>&emsp;<span id="label">Choose a Image...</span>&ensp;<span id="nameoffile"></span></label>
+                <input type="file" id="fileinput" name="image" onChange={updateMenu} />
+                <label id="file-label" htmlFor="fileinput"><i className='fa fa-upload'></i>&emsp;<span id="labell">Choose a Image...</span>&ensp;<span id="nameoffilee"></span></label>
               <br /></div>
               <button className="popup_btn save" id={index} onClick={EditMenu}>Save</button>
             </div>

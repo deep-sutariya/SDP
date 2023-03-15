@@ -22,31 +22,31 @@ const AllMenu = () => {
     type:"",
     image: ""
   });
-  const handleFile = async (e) => {
-    e.preventDefault();
-    document.getElementById("nameoffile").innerText = e.target.files[0].name; 
-    document.getElementById("label").innerText = ""; 
-    const file = e.target.files[0];
-    const Base64 = await convertToBase64(file);
-    console.log(Base64);
-    setaddmenu({...addmenu, ["image"] : Base64});
-    console.log(Base64);
-  }
+  // const handleFile = async (e) => {
+  //   e.preventDefault();
+  //   document.getElementById("nameoffile").innerText = e.target.files[0].name; 
+  //   document.getElementById("label").innerText = ""; 
+  //   const file = e.target.files[0];
+  //   const Base64 = await convertToBase64(file);
+  //   console.log(Base64);
+  //   setaddmenu({...addmenu, ["image"] : Base64});
+  //   console.log(Base64);
+  // }
 
   // converting the file to the Base64 format
-  function convertToBase64(file){
+  // function convertToBase64(file){
 
-    return new Promise((resolve,reject) => {
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
-      fileReader.onload = () =>{
-        resolve(fileReader.result);
-      }
-      fileReader.onerror = (error) => {
-        reject(error);
-      }
-      })
-  }
+  //   return new Promise((resolve,reject) => {
+  //     const fileReader = new FileReader();
+  //     fileReader.readAsDataURL(file);
+  //     fileReader.onload = () =>{
+  //       resolve(fileReader.result);
+  //     }
+  //     fileReader.onerror = (error) => {
+  //       reject(error);
+  //     }
+  //     })
+  // }
 
 
 
@@ -54,22 +54,44 @@ const AllMenu = () => {
   const updateMenu = (e) =>{
     name = e.target.name;
     value = e.target.value;
-    setaddmenu({...addmenu, [name] : value});
+    if(name === "image"){
+      setaddmenu({...addmenu, [name] : e.target.files[0]});
+      document.getElementById("nameoffile").innerText = e.target.files[0].name; 
+      document.getElementById("label").innerText = ""; 
+    }
+    else 
+      setaddmenu({...addmenu, [name] : value});
   }
 
   const errmag = document.getElementById('addmenuerror');
 
+  const UploadImage = async() => {
+    const formData = new FormData();
+    console.log("sdkhsd");
+    formData.append("file", addmenu.image);
+    formData.append("upload_preset", "guydx3xf");
+    formData.append("cloud_name", "dt6unpuse");
+     const data = await axios
+      .post("https://api.cloudinary.com/v1_1/dt6unpuse/image/upload", formData);
+    return data?.data?.secure_url;
+  };
+
   const saveMenu = async () =>{
-    if(addmenu.price && addmenu.des && addmenu.name && addmenu.type){
+    console.log("skjsdf");
+    if(addmenu.price && addmenu.des && addmenu.name && addmenu.type && addmenu.image){
+      let image_url = await UploadImage();
+      setaddmenu({...addmenu,["image"]: image_url});
+      console.log(addmenu);
       const data = await axios.post("/addmenu", {
         resid: loginrestaurant._id.toString(),
         iname: addmenu.name,
         iprice: addmenu.price,
         ides: addmenu.des,
         itype: addmenu.type,
-        iimage: addmenu.image
+        iimage: image_url
       })
-      console.lof(addmenu);
+      console.log("ADDED MENU");
+      console.log(addmenu);
       setRestaurantMenu({...RestaurantMenu,addmenu});
       console.log(RestaurantMenu);
     }
@@ -116,12 +138,12 @@ const AllMenu = () => {
               <input type="textarea" placeholder="Description" name="des" value={addmenu.des} onChange={updateMenu} />
               <label>Type:</label>
               <input type="textarea" placeholder="Type" name="type" value={addmenu.type} onChange={updateMenu} />
-              <input type="file" id="file-input" onChange={handleFile}/>
+              <input type="file" id="file-input" name="image" onChange={updateMenu}/>
               <label id="file-label" htmlFor="file-input"><i className='fa fa-upload'></i>&emsp;<span id="label">Choose a Image...</span>&ensp;<span id="nameoffile"></span></label>
             <br/>
               <span id="addmenuerror"></span>
             </div>
-            <a className="popup_btn save" style={{margin:"7px 0px"}} href="" onClick={saveMenu}>Save</a>
+            <a className="popup_btn save" style={{margin:"7px 0px"}} onClick={saveMenu}>Save</a>
           </div>
 
         </div>
@@ -134,7 +156,7 @@ const AllMenu = () => {
           <div className="menublock">
                 {   (RestaurantMenu && Object.keys(RestaurantMenu).length > 0) && RestaurantMenu.map(({ _id, name, des, price, type }, index) => {
                   
-                    return (<ResMenuCard key={index} id={_id} index={index} name={name} price={price} des={des} type={type} />)
+                    return (<ResMenuCard key={index} setRestaurantMenu={setRestaurantMenu} id={_id} index={index} name={name} price={price} des={des} type={type} />)
                   })
                 }
           </div>}

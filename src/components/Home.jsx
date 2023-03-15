@@ -121,6 +121,7 @@ function Home({ setNavType }) {
                                 /></div>
                         ))
                 }
+                  
             </div>}
 
         </>

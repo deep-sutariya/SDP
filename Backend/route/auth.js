@@ -12,7 +12,6 @@ require('dotenv').config();
 const jwt = require('jsonwebtoken');
 
 
-
 router.post("/py", async (req, res) => {
   const spawner = require('child_process').spawn;
   const data_to_pass_in = 'send this to the py file';
@@ -202,7 +201,7 @@ router.post("/addmenu", async (req, res) => {
   // console.log(req.body);
   const { resid, iname, iprice, ides, itype, iimage } = req.body;
   const restaurent = await Restaurantinfo.findById(resid);
-
+  console.log(req.body);
   if (restaurent) {
     const data = restaurent.rmenu.push({
       name: iname,
@@ -229,7 +228,8 @@ router.post("/removemenu", async (req, res) => {
       { _id: resid },
       { $pull: { rmenu: { _id: iid } } }
     );
-    if (data) res.status(200).send({ data: data, message: "deleted" });
+    const menu = await Restaurantinfo.findById(resid);
+    if (data) res.status(200).send({ data: menu.rmenu, message: "deleted" });
     else res.status(202).send({ message: " not found or some error occured" });
   } catch (err) {
     console.log(err);
@@ -240,8 +240,9 @@ router.post("/removemenu", async (req, res) => {
 // Edit Menu
 router.post("/editmenu", async (req, res) => {
   try {
-    let { resid, menuIndex, newData } = req.body;
+    let { resid, menuIndex, newData, image_url } = req.body;
     // console.log(resid, menuIndex, newData);
+    console.log(newData);
 
     const data = await Restaurantinfo.findById(resid);
     if (data) {
@@ -253,7 +254,7 @@ router.post("/editmenu", async (req, res) => {
         restaurantMenu[menuIndex].des = newData.des;
         restaurantMenu[menuIndex].price = newData.price;
         restaurantMenu[menuIndex].type = newData.type;
-        restaurantMenu[menuIndex].image = newData.image;
+        restaurantMenu[menuIndex].image = image_url;
         const updatedData = await data.save();
 
         res.status(200).send({ updatedData, message: "Menu Updated Successfully!" });
