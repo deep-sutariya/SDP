@@ -42,12 +42,9 @@ const ReservationCard = ({ ele, id }) => {
         doc.save(`BookingRecipt.pdf`);
     }
 
-    const UpdateRatings = () => {
-
-    }
-
     return (
         <>
+        
             {
                 sessionStorage.getItem("type") === "restaurent" ?
                     <div className='reservationCard_main'>
@@ -113,12 +110,12 @@ const ReservationCard = ({ ele, id }) => {
                                 }}
                             >
                                 Booking Recipt{" "}
-                            </button>
+                            </button>   
 
                         </div>
                     </div>
-
             }
+
         </>
     )
 }

@@ -5,7 +5,6 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import res_img from '../assets/RestaurantLI.jpg';
 import user_img from '../assets/CustomerLI.jpg';
-import Navbar from '../components/Navbar';
 var validator = require("email-validator");
 
 function Signup({ setNavType }) {
@@ -134,6 +133,7 @@ function Signup({ setNavType }) {
         const file = e.target.files[0];
         const Base64 = await convertToBase64(file);
         setuser({ ...user, ["image"]: Base64 });
+        
     }
     const handleResOption = () => {
         setOption("restaurant");

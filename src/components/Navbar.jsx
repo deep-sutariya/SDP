@@ -42,7 +42,8 @@ function Navbar(props) {
   }
 
   useEffect(() => {
-    getData(sessionStorage.getItem("type"));
+    let type = sessionStorage.getItem("type");
+    if(type) getData(type);
   }, []);
 
 

@@ -161,7 +161,11 @@ const Profile = () => {
                 </div>
               </div>
             </div>
-            <p
+
+
+            {/* ***Chart**** */}
+            {/* 
+              <p
               style={{
                 width: "80vw",
                 margin: "auto",
@@ -176,7 +180,7 @@ const Profile = () => {
             </p>
             <div className="statistics">
               <Line data={userData} />
-            </div>
+            </div> */}
           </>
         ) : (
           <div className="edit_container" id="edit_form">

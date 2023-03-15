@@ -1,6 +1,8 @@
 Make Restaurant Profile Page Responsive.
-Build application
 Invalid Tocken Specification Error at Navbar.jsx
 check navbar responsiveness (perticular width..(split))
 Login user removes after refresh
 add no of table to editable part in restaurant
+Cloudnary....
+Build application
+Forgot pass
