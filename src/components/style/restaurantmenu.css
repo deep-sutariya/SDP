@@ -51,7 +51,7 @@
 }
 
 
-.popup_button{
+.popup_button {
     background-color: var(--dark);
     color: #fff;
     border: none;
@@ -67,14 +67,39 @@
 }
 
 .submit-button:hover,
-.popup_button:hover{
+.popup_button:hover {
     background-color: var(--light);
 }
 
-.booktable{
+.booktable {
     margin: auto;
     width: 80%;
     display: flex;
     align-items: center;
     flex-direction: column;
+}
+
+@media screen and (max-width : 1472px) {
+    .allmenuitems {
+        margin: 35px 5% 20px 5%;
+        grid-template-columns: 1fr 1fr;
+        row-gap: 10px;
+        column-gap: 15px;
+    }
+}
+@media screen and (max-width : 1264px) {
+    .allmenuitems {
+        margin: 35px 5% 20px 5%;
+        grid-template-columns: 1fr 1fr;
+        row-gap: 10px;
+        column-gap: 10px;
+    }
+}
+@media screen and (max-width : 1210px) {
+    .allmenuitems {
+        margin: 35px 6% 20px 6%;
+        grid-template-columns: 1fr;
+        row-gap: 10px;
+        column-gap: 10px;
+    }
 }

@@ -138,6 +138,7 @@ const Profile = () => {
                     <p>{resInfo.rphone}</p>
                     <p style={{fontWeight: "bolder",color: "green",fontSize: "larger",letterSpacing: "0px"}}>{resInfo.rating + " ⭐"}</p>
                   </div>
+                  <u></u>
                 </div>
                 <div className="res_info">
                   <p style={{ fontWeight: "bold" }}>City :</p>

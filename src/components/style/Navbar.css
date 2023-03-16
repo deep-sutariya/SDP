@@ -352,7 +352,7 @@ nav ul li .navlinkss:hover {
 
 
 
-@media (max-width: 980px) {
+@media (max-width: 1013px) {
   label.logo {
     font-size: 30px;
     padding-left: 50px;
@@ -371,7 +371,7 @@ nav ul li .navlinkss:hover {
   }
 }
 
-@media (max-width: 879px) {
+@media (max-width: 911px) {
   .checkbtn {
     display: block;
   }

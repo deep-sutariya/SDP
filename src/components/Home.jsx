@@ -1,8 +1,6 @@
 import React from 'react'
 import { useEffect, useState } from 'react';
-import Navbar from '../components/Navbar';
 import axios from 'axios';
-import Types from '../components/Types';
 import Cards from '../components/Cards';
 import BounceLoader from "react-spinners/BounceLoader";
 import '../components/style/home.css'
@@ -14,7 +12,6 @@ function Home({ setNavType }) {
     useEffect(() => {
         setNavType("user");
     }, [])
-
 
     const [restaurents, setRestaurents] = useState([]);
     const [filteredRes, setfilteredRes] = useState([]);
@@ -29,9 +26,6 @@ function Home({ setNavType }) {
     useEffect(() => {
         getData();
     }, []);
-    // useEffect(() => {
-    //     console.log(filteredRes)
-    // }, [filteredRes]);
 
     let pincode;
     const search = async () => {

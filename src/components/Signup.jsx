@@ -153,6 +153,7 @@ function Signup({ setNavType }) {
       });
     return url;
   };
+  
   const handleResOption = () => {
     setOption("restaurant");
     document.getElementById("user").style.backgroundColor = "white";
