@@ -46,10 +46,13 @@ function Chatbox() {
             }
             else if (data.data[0]) {
                 let str="";
-                Object.keys(data.data).map((ind)=>{
-                    str+=data.data[ind].name + " ";
+                data.data.map((ind)=>{
+                    if(ind.food1)
+                        str+=ind.food1 + ", ";
+                    if(ind.food2)
+                        str+=ind.food2 + ", ";
                 })
-                
+                str = str.slice(0,str.length-2);
                 let res = str + words[Math.floor((Math.random()*10 % 5))] + message.msg;
                 res = res.charAt(0).toUpperCase() + res.slice(1);
 

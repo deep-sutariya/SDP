@@ -5,9 +5,9 @@ export const LoginDetails = createContext(null);
 
 export const LoginDetailsProvider = (props) =>{
 
-    const [loginrestaurant, setloginrestaurant] = useState({});
+    const [loginrestaurant, setloginrestaurant] = useState(null);
 
-    const [loginuser, setloginuser] = useState({});
+    const [loginuser, setloginuser] = useState(null);
 
     const loginvalue = {setloginrestaurant, setloginuser, loginrestaurant, loginuser}
 

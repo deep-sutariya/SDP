@@ -14,46 +14,25 @@ const jwt = require('jsonwebtoken');
 
 router.post("/py", async (req, res) => {
   const spawner = require('child_process').spawn;
-  const data_to_pass_in = 'send this to the py file';
+  const food = req.body.food.toLowerCase();
+  const python_process = spawner('python', ['route/ML/sdp.py', food]);
+  let flag = false;
 
-  console.log('Data sent to the python Script ', data_to_pass_in);
-
-  const python_process = spawner('python', ['route/ML/sdp.py', data_to_pass_in]);
-  let data1;
   python_process.stdout.on('data', data => {
-    if (data.toString()) data1 = JSON.parse(data.toString());
-
-    console.log(req.body);
-    let flag = 0;
-
-    let ans = new Array();
-
-    data1.map((item, index) => {
-      if (item.food1.toLowerCase().trim() === req.body.food.toLowerCase().trim()) {
-        console.log(item.food2);
-        flag = 1;
-        ans.push({ "name": item.food2 })
-        // res.status(200).send({data: item.food2});
-      }
-      if (item.food2.toLowerCase().trim() === req.body.food.toLowerCase().trim()) {
-        console.log(item.food1);
-        flag = 1;
-        ans.push({ "name": item.food1 })
-        // res.status(200).send({data: item.food1});
-      }
-    })
-
-    console.log(ans);
-    if (ans[0]) res.send(ans);
-    if (flag === 0) {
-      res.send({ message: "Currently i didn't find best pair. I'm still improving..!" });
+    data = JSON.parse(data.toString());
+    if(data.length > 0){
+      flag = true;
+      res.send(data);
     }
-
   });
+  python_process.stderr.on('data',(err) => {
+    console.log(err.toString());
+  })
   python_process.stdout.on('close', data => {
-    console.log("close");
-    if (!data1)
-      res.send({ message: "process Ended" });
+    console.log("close",data);
+    if(!flag){
+      res.send({message: "Currently i am updating! try again later"});
+    }
   })
 })
 

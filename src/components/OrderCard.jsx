@@ -12,7 +12,7 @@ const ResMenuCard = (props) => {
       ele.style.display = "block";
       ele.style.border = "1px solid rgba(128, 128, 128, 0.581);";
     }
-  };
+  }; 
 
 
   return (

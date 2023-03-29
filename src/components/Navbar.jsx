@@ -27,13 +27,13 @@ function Navbar(props) {
     // console.log(decodedToken);
     // console.log(type);
     let data;
-    if(type === "user"){
-      data = await axios.post("/userlogin",{
+    if (type === "user") {
+      data = await axios.post("/userlogin", {
         uemail: decodedToken.email,
         upass: decodedToken.pass
       });
-    }else{
-      data = await axios.post("/restaurentlogin",{
+    } else {
+      data = await axios.post("/restaurentlogin", {
         uemail: decodedToken.email,
         upass: decodedToken.pass
       });
@@ -43,7 +43,7 @@ function Navbar(props) {
 
   useEffect(() => {
     let type = sessionStorage.getItem("type");
-    if(type) getData(type);
+    if (type) getData(type);
   }, []);
 
 
@@ -89,57 +89,61 @@ function Navbar(props) {
 
         <label className="logo">BookMyMeal</label>
 
-        {
-          loginuser ?
 
-            <ul>
-              <li><Link className="navlinkss active" to="" >Home</Link></li>
-              <li><Link className="navlinkss" to="../orders" >orders</Link></li>
-              <li><Link className="navlinkss" to="../reservation" >Reservations</Link></li>
-              <li><Link className="navlinkss" to="../signup" >Signup</Link></li>
-              {
-                loginuser ?
-                  <>
-                    <div className="dropdown">
-                      <button className="dropbtn">{loginuser?.uname}</button>
-                      <div className="dropdown-content">
-                        <Link to="/" onClick={finalCall}>Log Out</Link>
+        <ul>
+          {
+            sessionStorage.getItem("type") == "restaurent" ?
+              <>
+                <li><Link className='navlinkss ${active}' to="restaurenthome" >Profile</Link></li>
+                <li><Link className='navlinkss' to="restaurenthome/menus" >Menu</Link></li>
+                <li><Link className='navlinkss' to="restaurenthome/restaurantorders" >Orders</Link></li>
+                <li><Link className="navlinkss" to="../reservation" >Reservations</Link></li>
+
+                {
+
+                  (loginrestaurant) ?
+                    <>
+                      <div className="dropdown">
+                        <button className="dropbtn">{loginrestaurant?.rname}</button>
+                        <div className="dropdown-content">
+                          <Link to="/" onClick={finalCall}>Log Out</Link>
+                        </div>
                       </div>
+                    </>
+                    :
+                    <>
+                      <li><Link className="navlinkss" to="../signup" >Signup</Link></li>
+                      <li><Link className="navlinkss" to='../login'>Login</Link></li>
+                    </>
+                }
+              </>
+
+              :
+
+              <>
+                <li><Link className="navlinkss active" to="" >Home</Link></li>
+                <li><Link className="navlinkss" to="../orders" >orders</Link></li>
+                <li><Link className="navlinkss" to="../reservation" >Reservations</Link></li>
+                {
+                  (loginuser) ? <div className="dropdown">
+                    <button className="dropbtn">{loginuser?.uname}</button>
+                    <div className="dropdown-content">
+                      <Link to="/" onClick={finalCall}>Log Out</Link>
                     </div>
-                  </>
-                  :
-                  <>
-                    <li><Link className="navlinkss" to='../login'>Login</Link></li>
-                  </>
-              }
-            </ul>
-            :
-            <ul>
-              <li><Link className='navlinkss ${active}' to="restaurenthome" >Profile</Link></li>
-              <li><Link className='navlinkss' to="restaurenthome/menus" >Menu</Link></li>
-              <li><Link className='navlinkss' to="restaurenthome/restaurantorders" >Orders</Link></li>
-              <li><Link className="navlinkss" to="../reservation" >Reservations</Link></li>
-              <li><Link className="navlinkss" to="../signup" >Signup</Link></li>
-              {
-                loginrestaurant ?
-                  <>
-                    <div className="dropdown">
-                      <button className="dropbtn">{loginrestaurant?.rname}</button>
-                      <div className="dropdown-content">
-                        <Link to="/" onClick={finalCall}>Log Out</Link>
-                      </div>
-                    </div>
-                  </>
-                  :
-                  <>
-                    <li><Link className="navlinkss" to='../login'>Login</Link></li>
-                  </>
-              }
-            </ul>
-        }
+                  </div>
+                    :
+                    <>
+                      <li><Link className="navlinkss" to="../signup" >Signup</Link></li>
+                      <li><Link className="navlinkss" to='../login'>Login</Link></li>
+                    </>
+                }
+
+              </>
+          }
+        </ul>
       </nav>
 
-        <Outlet />
+      <Outlet />
 
       <Chatbox />
 

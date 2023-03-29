@@ -1,6 +1,5 @@
 Invalid Tocken Specification Error at Navbar.jsx
-Navbar login issue
-add no of table to editable part in restaurant
+add no of table to editable part in restaurant // optional
 Forgot pass
 
 

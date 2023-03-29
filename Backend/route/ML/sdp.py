@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 # import matplotlib.pyplot as plt
 
-dataset = pd.read_csv('./route/ML/Indian Food Combo - Sheet1.csv', header=None)
+dataset = pd.read_csv('./route/ML/Food.csv', header=None)
 
 transactions=[]
 for i in range(0, 155):
@@ -27,27 +27,36 @@ def inspect(results):
     lifts = [result[2][0][3] for result in results]
     return list(zip(lhs, rhs, supports, confidences, lifts))
 resultsinDataFrame = pd.DataFrame(inspect(results), columns = ['food1', 'food2', 'Support', 'Confidence', 'Lift'])
+import sys;
+# resultsinDataFramefilter = resultsinDataFrame[["food1","food2"]]
+resultsinDataFramefilter1 = resultsinDataFrame[resultsinDataFrame["food1"].str.contains(sys.argv[1])]
+resultsinDataFramefilter1 = resultsinDataFramefilter1[["food2","Lift"]]
+resultsinDataFramefilter2 = resultsinDataFrame[resultsinDataFrame["food2"].str.contains(sys.argv[1])]
+resultsinDataFramefilter2 = resultsinDataFramefilter2[["food1", "Lift"]]
+
+# resultsinDataFramefilter1.add(resultsinDataFramefilter2)
+
+resultant_helping = [resultsinDataFramefilter1, resultsinDataFramefilter2]
+# final_df = final_df[["food1","food2"]]
+final_df = pd.concat(resultant_helping)
 
 # displaying the results non sorted
 # print(resultsinDataFrame)
 
 # displaying results by descending lift
 # print(resultsinDataFrame.nlargest(n=5, columns='Lift'))
-JsonFormattedOutput = resultsinDataFrame.nlargest(n=50, columns='Lift').to_json(orient='records')
+JsonFormattedOutput = final_df.nlargest(n=5, columns='Lift').to_json(orient='records')
 # import json;
 # print(JsonFormattedOutput);
 # print(JsonFormattedOutput.food1);
 
-file = open("myfile.txt","w");
-file.write(JsonFormattedOutput);
-
-import sys;
 import json;
 import ast # abstract syntax tree;
 
 # data_to_pass_back = JsonFormattedOutput;
+# print(sys.argv[1]);
 # input = sys
-output = {};
+output = {}; 
 output = JsonFormattedOutput;
 print(output);
 
