@@ -51,7 +51,7 @@ function Home({ setNavType }) {
             else {
                 document.getElementById('searchid').value = "";
                 setfilteredRes([]);
-                alert('Enter Valid Pincode');
+                alert('Our Services for the given PinCode will start soon');
             }
 
         } else {
@@ -91,7 +91,7 @@ function Home({ setNavType }) {
                 {
                     filteredRes.length > 0 ?
                         filteredRes.map(({ _id, rname, raddress, rimage, rating, ratingcount }) => (
-                            <div key={_id}><Cards
+                            <div className="Card_container" key={_id}><Cards
                                 rimage={rimage}
                                 rname={rname}
                                 raddress={raddress}
@@ -105,7 +105,7 @@ function Home({ setNavType }) {
 
                         Object.keys(restaurents).length > 0 &&
                         restaurents.map(({ _id, rname, raddress, rimage, rating, ratingcount }) => (
-                            <div key={_id}><Cards
+                            <div className="Card_container" key={_id}><Cards
                             rimage={rimage}
                             rname={rname}
                                 raddress={raddress}

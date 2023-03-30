@@ -14,6 +14,11 @@
     height: 88vh;
     justify-content: center;
     align-items: center;
+    grid-template-columns: 3fr 2.5fr;
+    display: grid;
+    column-gap: 30px;
+    width: 100%;
+    border-radius: 10px;
 }
 /*  */
 
@@ -27,6 +32,17 @@
     flex-direction: row;
     justify-content: space-evenly;
     margin-bottom: 7px;
+}
+
+.contai{
+    max-width: 430px;
+    margin: auto;
+    display: block;
+}
+.contai img {
+    width: 100%;
+    filter: drop-shadow(0 0 0.75rem rgb(174, 168, 169));
+    animation: up-down 1.7s ease-in-out infinite alternate-reverse both;
 }
 
 .signup_ {
@@ -89,6 +105,12 @@
     border: 1px solid#CACACA;
 }
 
+.contai img {
+    width: 100%;
+    filter: drop-shadow(0 0 0.75rem rgb(174, 168, 169));
+    animation: up-down 1.7s ease-in-out infinite alternate-reverse both;
+}
+
 .field input:focus {
     border-bottom-width: 2px;
 }
@@ -144,6 +166,9 @@
     .form-content{
         margin: 0;
     }
+    .contai{
+        max-width: 250px;
+    }
 }
 /*  */
 input[type="file"]{
@@ -167,6 +192,8 @@ input[type="file"]{
     border: 1px solid black;
     padding-left: 40px;
 }
+
+
 /*  */
 @media screen and (max-width: 528px) {
     .signup{
@@ -181,4 +208,75 @@ input[type="file"]{
         font-size: 13px;
     }
     
+}
+
+
+/* new media query */
+
+@media screen and (max-width: 903px) {
+    .signup_main {
+        grid-template-columns: 1fr;
+        height: auto;
+        margin-bottom: 20px;
+        margin-top: 100px;
+    }
+    .signup_main {
+        margin: auto;
+        width: 85vw;
+    }
+}
+
+@media screen and (max-width: 404px) {
+    .contai{
+        max-width: 250px;
+    }
+
+}
+@media screen and (max-width: 528px) {
+    .signup{
+        max-width: 90%;
+        padding: 20px 10px;
+    }
+}
+@media screen and (max-width: 540px) {
+    .signup {
+        padding: 10px 50px;
+        max-width: 400px;
+        margin: auto;
+    }
+}
+@media screen and (max-width: 650px) {
+    .signup {
+        padding: 10px 50px;
+        max-width: 400px;
+        margin: auto;
+    }
+}
+
+@media screen and (max-width: 1040px) {
+    .signup_main {
+        column-gap: 15px;
+    }
+    .contai{
+        width: 330px;
+    }
+    .signup {
+        width: 360px;
+        padding: 20px;
+    }
+}
+@media screen and (max-width: 371px) {
+    .signup {
+        width: 260px;
+        padding: 10px;
+    }
+}
+@media screen and (max-width: 340px) {
+    .restaurentlogo, .userlogo {
+        display: none;
+        text-align: center;
+    }
+    .restaurent, .user{
+        justify-content: center;
+    }
 }

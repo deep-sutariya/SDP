@@ -58,11 +58,15 @@ const Reservations = () => {
             
             <div className='Reservation_main'>
                 {
+                    loginuser || loginrestaurant ?
                     Book ?
                         Book.map((ele, index) => {
                             return <ReservationCard ele={ele} id={index} />
                         })
                         : <h2>Loading...</h2>
+                    : 
+                    <h2>Login First...</h2>
+                    
                 }
             </div>
         </>

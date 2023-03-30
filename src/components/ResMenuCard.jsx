@@ -52,8 +52,6 @@ const ResMenuCard = ({ id, name, price, des, type, index,setRestaurantMenu }) =>
 
   const EditMenu = async (e) => {
 
-    console.log("EditMenu")
-
     let image_url = await UploadImage();
     setMenu({...menu,["image"]: image_url});
     const data = await axios.post("/editmenu", {
@@ -62,8 +60,6 @@ const ResMenuCard = ({ id, name, price, des, type, index,setRestaurantMenu }) =>
       newData: menu,
       image_url: image_url
     });
-
-    console.log(data);
   }
 
   let n, value;
@@ -140,10 +136,9 @@ const ResMenuCard = ({ id, name, price, des, type, index,setRestaurantMenu }) =>
             </div>
           </div>
 
-
           <div id={placeaid} className="overlay">
             <div className="popup">
-              <h2>{placeaid}</h2>
+              <h2>Edit Menu</h2>
               <a className="close" href="#">
                 &times;
               </a>

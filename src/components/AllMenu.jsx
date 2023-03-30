@@ -77,7 +77,6 @@ const AllMenu = () => {
   };
 
   const saveMenu = async () =>{
-    console.log("skjsdf");
     if(addmenu.price && addmenu.des && addmenu.name && addmenu.type && addmenu.image){
       let image_url = await UploadImage();
       setaddmenu({...addmenu,["image"]: image_url});
@@ -124,7 +123,7 @@ const AllMenu = () => {
         <div id="addmenuitem" className="overlay">
 
           <div className="popup">
-            <h2>"Add Menu Item</h2>
+            <h2>Add Menu Item</h2>
             <a className="close" href="#">
               &times;
             </a>

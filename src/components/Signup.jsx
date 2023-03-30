@@ -5,6 +5,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import res_img from "../assets/RestaurantLI.jpg";
 import user_img from "../assets/CustomerLI.jpg";
+import signup from '../assets/Signup.png'
 var validator = require("email-validator");
 
 function Signup({ setNavType }) {
@@ -192,6 +193,10 @@ function Signup({ setNavType }) {
   return (
     <>
       <div className="signup_main">
+        <div className="contai">
+          <img src={signup} alt="Signup image" />
+        </div>
+
         <div className="signup">
           <div className="signup_option">
             <div className="signup_ login">
