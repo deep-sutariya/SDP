@@ -9,6 +9,7 @@ const Profile = () => {
   const [resData, setResData] = useState({});
   const [resInfo, setResInfo] = useState({});
   const [flag, setFlag] = useState(true);
+  const [submiting, setSubmiting] = useState(false);
   const { loginrestaurant } = useContext(LoginDetails);
 
   const [loading, setloading] = useState(false);
@@ -53,11 +54,7 @@ const Profile = () => {
     return url;
   };
 
-  const handleFile = async (e) => {
-    e.preventDefault();
-    let image_url = await UploadImage(e);
-    setResData({ ...resData, ["rimage"]: image_url });
-  };
+
 
   // converting the file to the Base64 format
   // function convertToBase64(file) {
@@ -85,36 +82,46 @@ const Profile = () => {
     e.preventDefault();
     name = e.target.name;
     value = e.target.value;
-    setResData({ ...resData, [name]: value });
+    if (name === "rimage") {
+      setResData({ ...resData, [name]: e.target.files[0] });
+      document.getElementById("rnameoffile").innerText = e.target.files[0].name;
+      document.getElementById("rlabel").innerText = "";
+    }
+    else
+      setResData({ ...resData, [name]: value });
   }
 
   const handleEvent = () => {
     setFlag(!flag);
-    doChange();
   };
 
   const updateData = async (e) => {
     e.preventDefault();
-    const data = await axios.post("/updaterestaurant", resData);
+    setSubmiting(true);
+    let image_url = await UploadImage();
+    setResData({ ...resData, ["rimage"]: image_url });
+    const data = await axios.post("/updaterestaurant", {
+      rname: resData.rname,
+      roname: resData.roname,
+      rphone: resData.rphone,
+      raddress: resData.raddress,
+      remail: resData.remail,
+      rurl: resData.rurl,
+      rcity: resData.rcity,
+      rimage: image_url,
+      rpass: resData.rpass,
+      rmenu: resData.rmenu
+    });
+    console.log(data);
 
     if (data.status === 200) {
       setResInfo(data.data.data);
       setFlag(!flag);
-      doChange();
       alert(data.data.data.message);
     } else {
       alert(data.data.data.message);
     }
-  };
-
-  const doChange = () => {
-    if (flag) {
-      document.getElementById("profile_a").style.display = "block";
-      document.getElementById("edit_form").style.display = "none";
-    } else {
-      document.getElementById("profile_a").style.display = "none";
-      document.getElementById("edit_form").style.display = "block";
-    }
+    setSubmiting(false);
   };
 
   return (
@@ -144,7 +151,7 @@ const Profile = () => {
                     <p>{resInfo.roname}</p>
                     <p>{resInfo.remail}</p>
                     <p>{resInfo.rphone}</p>
-                    <p style={{fontWeight: "bolder",color: "green",fontSize: "larger",letterSpacing: "0px"}}>{resInfo.rating + " ⭐"}</p>
+                    <p style={{ fontWeight: "bolder", color: "green", fontSize: "larger", letterSpacing: "0px" }}>{resInfo.rating + " ⭐"}</p>
                   </div>
                   <u></u>
                 </div>
@@ -177,8 +184,8 @@ const Profile = () => {
 
 
             {/* ***Chart**** */}
-            {/* 
-              <p
+
+            {/* <p
               style={{
                 width: "80vw",
                 margin: "auto",
@@ -317,11 +324,11 @@ const Profile = () => {
                   <label htmlFor="country">Image</label>
                 </div>
                 <div className="col-75">
-                  <input type="file" id="file-input" onChange={handleFile} />
+                  <input type="file" id="file-input" name="rimage" onChange={change} />
                   <label id="file-label" htmlFor="file-input">
                     <i className="fa fa-upload"></i>&emsp;
-                    <span id="label">Choose a Image...</span>&ensp;
-                    <span id="nameoffile"></span>
+                    <span id="rlabel">Choose a Image...</span>&ensp;
+                    <span id="rnameoffile"></span>
                   </label>
                 </div>
               </div>
@@ -348,7 +355,7 @@ const Profile = () => {
                   type="submit"
                   value="Close"
                 />
-                <input type="submit" value="Submit" />
+                <input type="submit" value={submiting ? "Submitting..." : "Submit"} />
               </div>
             </form>
           </div>
