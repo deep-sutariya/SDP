@@ -129,7 +129,7 @@ function Login({ setNavType }) {
               </div>
 
               <div className="form-link">
-                <Link to="#" className="forgot-pass">
+                <Link to="/forgot-password" className="forgot-pass">
                   Forgot password?
                 </Link>
               </div>
