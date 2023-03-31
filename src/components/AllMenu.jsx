@@ -2,164 +2,192 @@ import React, { useContext } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import ResMenuCard from "./ResMenuCard";
-import '../components/style/allmenu.css'
+import "../components/style/allmenu.css";
+import "../components/style/popup.css";
 import axios from "axios";
 import { LoginDetails } from "../contex/Logincontex";
 import BounceLoader from "react-spinners/BounceLoader";
 
 const AllMenu = () => {
-
-  const {loginrestaurant} = useContext(LoginDetails);
+  const { loginrestaurant } = useContext(LoginDetails);
   const [RestaurantMenu, setRestaurantMenu] = useState([]);
-
 
   let [loading, setLoading] = useState(true);
 
   const [addmenu, setaddmenu] = useState({
-    name:"",
-    des:"",
-    price:"",
-    type:"",
-    image: ""
+    name: "",
+    des: "",
+    price: "",
+    type: "",
+    image: "",
   });
-  // const handleFile = async (e) => {
-  //   e.preventDefault();
-  //   document.getElementById("nameoffile").innerText = e.target.files[0].name; 
-  //   document.getElementById("label").innerText = ""; 
-  //   const file = e.target.files[0];
-  //   const Base64 = await convertToBase64(file);
-  //   console.log(Base64);
-  //   setaddmenu({...addmenu, ["image"] : Base64});
-  //   console.log(Base64);
-  // }
 
-  // converting the file to the Base64 format
-  // function convertToBase64(file){
-
-  //   return new Promise((resolve,reject) => {
-  //     const fileReader = new FileReader();
-  //     fileReader.readAsDataURL(file);
-  //     fileReader.onload = () =>{
-  //       resolve(fileReader.result);
-  //     }
-  //     fileReader.onerror = (error) => {
-  //       reject(error);
-  //     }
-  //     })
-  // }
-
-
-
-  let name , value;
-  const updateMenu = (e) =>{
+  let name, value;
+  const updateMenu = (e) => {
     name = e.target.name;
     value = e.target.value;
-    if(name === "image"){
-      setaddmenu({...addmenu, [name] : e.target.files[0]});
-      document.getElementById("nameoffile").innerText = e.target.files[0].name; 
-      document.getElementById("label").innerText = ""; 
-    }
-    else 
-      setaddmenu({...addmenu, [name] : value});
-  }
+    if (name === "image") {
+      document.getElementById("nameoffile").innerText = e.target.files[0].name;
+      document.getElementById("label").innerText = "";
+      setaddmenu({ ...addmenu, [name]: e.target.files[0] });
+    } else setaddmenu({ ...addmenu, [name]: value });
+  };
 
-  const errmag = document.getElementById('addmenuerror');
+  const errmag = document.getElementById("addmenuerror");
 
-  const UploadImage = async() => {
+
+  const [showPopup, setShowPopup] = useState(false);
+  const togglePopup = () => {
+    setShowPopup(!showPopup);
+  };
+  
+  const UploadImage = async () => {
     const formData = new FormData();
-    console.log("sdkhsd");
     formData.append("file", addmenu.image);
     formData.append("upload_preset", "guydx3xf");
     formData.append("cloud_name", "dt6unpuse");
-     const data = await axios
-      .post("https://api.cloudinary.com/v1_1/dt6unpuse/image/upload", formData);
+    const data = await axios.post(
+      "https://api.cloudinary.com/v1_1/dt6unpuse/image/upload",
+      formData
+    );
     return data?.data?.secure_url;
   };
 
-  const saveMenu = async () =>{
-    if(addmenu.price && addmenu.des && addmenu.name && addmenu.type && addmenu.image){
+  const saveMenu = async (e) => {
+    if (
+      addmenu.price &&
+      addmenu.des &&
+      addmenu.name &&
+      addmenu.type &&
+      addmenu.image
+    ) {
+      setLoading(true);
+
       let image_url = await UploadImage();
-      setaddmenu({...addmenu,["image"]: image_url});
-      console.log(addmenu);
+      setaddmenu({ ...addmenu, ["image"]: image_url });
+
       const data = await axios.post("/addmenu", {
         resid: loginrestaurant._id.toString(),
         iname: addmenu.name,
         iprice: addmenu.price,
         ides: addmenu.des,
         itype: addmenu.type,
-        iimage: image_url
-      })
-      console.log("ADDED MENU");
-      console.log(addmenu);
-      setRestaurantMenu({...RestaurantMenu,addmenu});
-      console.log(RestaurantMenu);
-    }
+        iimage: image_url,
+      });
 
-    else{
+      setRestaurantMenu([...RestaurantMenu, addmenu]);
+
+
+      setShowPopup(false);
+      setLoading(false);
+    } else {
       errmag.innerText = "Error! : *** Fill All Details ***";
-      errmag.style = 'color:red;';
+      errmag.style = "color:red;";
     }
-  }
+  };
 
   useEffect(() => {
-      setLoading(true);
-      // console.log(loginrestaurant?.data?.rmenu);
-      setRestaurantMenu(loginrestaurant?.rmenu);
-      setLoading(false);
+    setLoading(true);
+    setRestaurantMenu(loginrestaurant?.rmenu);
+    setLoading(false);
+  }, [loginrestaurant]);
 
-  },[loginrestaurant]); 
-
-  return (
-
-     (RestaurantMenu) ?
-      <div className="res_menus">
-
+  return RestaurantMenu ? (
+    <div className="res_menus">
+      <div>
         <div className="addbutton">
-          <a className="modify_button addmenu" href="#addmenuitem">Add Menu +</a>
+          <button onClick={togglePopup} className="modify_button addmenu">
+            Add Menu +
+          </button>
         </div>
-
-        {/* Add Menu Pop-up */}
-
-        <div id="addmenuitem" className="overlay">
-
-          <div className="popup">
-            <h2>Add Menu Item</h2>
-            <a className="close" href="#">
-              &times;
-            </a>
-            <hr />
+        {showPopup && (
+          <div className="addmenu_popup">
             <div className="popup_info">
               <label>Item Name:</label>
-              <input type="text" placeholder="Menu Item name" name="name" value={addmenu.name} onChange={updateMenu} />
+              <input
+                type="text"
+                placeholder="Menu Item name"
+                name="name"
+                value={addmenu.name}
+                onChange={updateMenu}
+              />
               <label>Price:</label>
-              <input type="number" placeholder="Menu Item Price" name="price" value={addmenu.price} onChange={updateMenu} />
+              <input
+                type="number"
+                placeholder="Menu Item Price"
+                name="price"
+                value={addmenu.price}
+                onChange={updateMenu}
+              />
               <label>Description:</label>
-              <input type="textarea" placeholder="Description" name="des" value={addmenu.des} onChange={updateMenu} />
+              <input
+                type="textarea"
+                placeholder="Description"
+                name="des"
+                value={addmenu.des}
+                onChange={updateMenu}
+              />
               <label>Type:</label>
-              <input type="textarea" placeholder="Type" name="type" value={addmenu.type} onChange={updateMenu} />
-              <input type="file" id="file-input" name="image" onChange={updateMenu}/>
-              <label id="file-label" htmlFor="file-input"><i className='fa fa-upload'></i>&emsp;<span id="label">Choose a Image...</span>&ensp;<span id="nameoffile"></span></label>
-            <br/>
-              <span id="addmenuerror"></span>
+              <input
+                type="textarea"
+                placeholder="Type"
+                name="type"
+                value={addmenu.type}
+                onChange={updateMenu}
+              />
+              <input
+                type="file"
+                id="file-input"
+                name="image"
+                onChange={updateMenu}
+              />
+              <label id="file-label" htmlFor="file-input">
+                <i className="fa fa-upload"></i>&emsp;
+                <span id="label">Choose a Image...</span>&ensp;
+                <span id="nameoffile"></span>
+              </label>
+              <br />
             </div>
-            <a className="popup_btn save" style={{margin:"7px 0px"}} onClick={saveMenu}>Save</a>
+            <span id="addmenuerror"></span>
+            <button className="popup_btn save" onClick={saveMenu}>
+              {!loading ? "Save" : "Saving"}
+            </button>
           </div>
+        )}
+      </div>
 
+      {loading ? (
+        <div className="loader">
+          <BounceLoader
+            size={50}
+            color="black"
+            aria-label="Loading Spinner"
+            data-testid="loader"
+          />{" "}
         </div>
-          {(loading) ? <div className="loader"><BounceLoader
-                        size={50}
-                        color="black"
-                        aria-label="Loading Spinner"
-                        data-testid="loader"
-                    /> </div>: 
-          <div className="menublock">
-                {   (RestaurantMenu && Object.keys(RestaurantMenu).length > 0) && RestaurantMenu.map(({ _id, name, des, price, type }, index) => {
-                  
-                    return (<ResMenuCard key={index} setRestaurantMenu={setRestaurantMenu} id={_id} index={index} name={name} price={price} des={des} type={type} />)
-                  })
-                }
-          </div>}
-      </div> : <></>
+      ) : (
+        <div className="menublock">
+          {RestaurantMenu &&
+            RestaurantMenu.length > 0 &&
+            RestaurantMenu.map(({ _id, name, des, price, type }, index) => {
+              return (
+                <ResMenuCard
+                  key={index}
+                  setRestaurantMenu={setRestaurantMenu}
+                  id={_id}
+                  index={index}
+                  name={name}
+                  price={price}
+                  des={des}
+                  type={type}
+                />
+              );
+            })}
+        </div>
+      )}
+    </div>
+  ) : (
+    <></>
   );
 };
 

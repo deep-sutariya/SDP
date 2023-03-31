@@ -3,29 +3,38 @@ import React, { useContext, useState } from "react";
 import "../components/style/ResMenuCard.css";
 import { LoginDetails } from "../contex/Logincontex";
 
-const ResMenuCard = ({ id, name, price, des, type, index,setRestaurantMenu }) => {
+const ResMenuCard = ({
+  id,
+  name,
+  price,
+  des,
+  type,
+  index,
+  setRestaurantMenu,
+}) => {
   const placeit = "panel" + index;
   const placea = "#popup" + index;
   const placeaid = "popup" + index;
-
-  // const placeitr = "editpanel" + index;
   const placear = "#popupedit" + index;
   const placeaidr = "popupedit" + index;
 
   const { loginrestaurant } = useContext(LoginDetails);
-
+  const [openRemovePopup, setOpenRemovePopup] = useState(false);
 
   const [menu, setMenu] = useState({
     name: name,
     des: des,
     price: price,
     type: type,
-    image:""
-  })
+    image: "",
+  });
 
   const [resMenu, setResMenu] = useState({
-    name: name, price: price, des: des, type: type
-  })
+    name: name,
+    price: price,
+    des: des,
+    type: type,
+  });
 
   const doSomething = (e) => {
     console.log("in function");
@@ -43,52 +52,49 @@ const ResMenuCard = ({ id, name, price, des, type, index,setRestaurantMenu }) =>
     formData.append("file", menu.image);
     formData.append("upload_preset", "guydx3xf");
     formData.append("cloud_name", "dt6unpuse");
-    // let url = "";
-    const data = await axios
-      .post("https://api.cloudinary.com/v1_1/dt6unpuse/image/upload", formData);
-      
+    const data = await axios.post(
+      "https://api.cloudinary.com/v1_1/dt6unpuse/image/upload",
+      formData
+    );
+
     return data?.data?.secure_url;
   };
 
   const EditMenu = async (e) => {
-
     let image_url = await UploadImage();
-    setMenu({...menu,["image"]: image_url});
+    setMenu({ ...menu, ["image"]: image_url });
     const data = await axios.post("/editmenu", {
       resid: loginrestaurant._id,
       menuIndex: e.target.id,
       newData: menu,
-      image_url: image_url
+      image_url: image_url,
     });
-  }
+  };
 
   let n, value;
   const updateMenu = (e) => {
     n = e.target.name;
     value = e.target.value;
     console.log(n);
-    if(n === "image"){
+    if (n === "image") {
       console.log(e.target.files[0].name);
-      setMenu({...menu,[n]: e.target.files[0]});
-      console.log(document.getElementById("nameoffile"))
+      setMenu({ ...menu, [n]: e.target.files[0] });
+      console.log(document.getElementById("nameoffile"));
 
-      document.getElementById("nameoffilee").innerText = e.target.files[0].name; 
-      document.getElementById("labell").innerText = ""; 
-    }else
-      setMenu({ ...menu, [n]: value })
-  }
+      document.getElementById("nameoffilee").innerText = e.target.files[0].name;
+      document.getElementById("labell").innerText = "";
+    } else setMenu({ ...menu, [n]: value });
+  };
 
   const RemoveMenu = async (e) => {
-
     const data = await axios.post("/removemenu", {
       resid: loginrestaurant._id.toString(),
-      iid: loginrestaurant.rmenu[e.target.id]._id.toString()
-    })
+      iid: loginrestaurant.rmenu[e.target.id]._id.toString(),
+    });
+    setOpenRemovePopup(false);
     setRestaurantMenu(data?.data?.data);
     alert(data.data.message);
-  }
-
-
+  };
 
   return (
     <>
@@ -101,9 +107,7 @@ const ResMenuCard = ({ id, name, price, des, type, index,setRestaurantMenu }) =>
           <div className="menuPanel">
             <div className="infoGrid">
               <label>Description :</label>
-              <p>
-                {resMenu.des}
-              </p>
+              <p>{resMenu.des}</p>
             </div>
             <div className="infoGrid">
               <label>Price :</label>
@@ -117,24 +121,49 @@ const ResMenuCard = ({ id, name, price, des, type, index,setRestaurantMenu }) =>
               <a className="modify_button modify_edit" href={placea}>
                 Edit
               </a>
-              <a className="modify_button removeitem" href={placear}>
+              {/* <a className="modify_button removeitem" href={placear}>
                 Remove
-              </a>
+              </a> */}
+              <button
+                className="modify_button removeitem"
+                onClick={() => setOpenRemovePopup(true)}
+              >
+                Remove
+              </button>
             </div>
           </div>
 
-
+          {/* <div id={placeaidr} className="overlay"> */}
           {/* Remove Item */}
-          <div id={placeaidr} className="overlay">
-            <div className="popup">
-              <h2>Are You Sure ?</h2>
-              <a className="close" href="#">
-                &times;
-              </a>
+          {/* <div className="overlay"> */}
+          {/* <a className="close" href="#">
+                  &times;
+                </a> */}
+          {openRemovePopup ? (
+            <div className="addmenu_popup">
+              <div style={{display: "flex",justifyContent:"space-between"}}>
+                <h2>Are You Sure ?</h2>
+                <button
+                  className="close"
+                  style={{fontWeight: "bold",fontSize: "30px",border: "none",background:"none"}}
+                  onClick={() => setOpenRemovePopup(false)}
+                >
+                  &times;
+                </button>
+              </div>
               <hr />
-              <button className="popup_btn save" id={index} onClick={RemoveMenu}>Remove</button>
+              <button
+                className="popup_btn save"
+                id={index}
+                onClick={RemoveMenu}
+              >
+                Remove
+              </button>
             </div>
-          </div>
+          ) : (
+            <></>
+          )}
+          {/* </div> */}
 
           <div id={placeaid} className="overlay">
             <div className="popup">
@@ -145,26 +174,59 @@ const ResMenuCard = ({ id, name, price, des, type, index,setRestaurantMenu }) =>
               <hr />
               <div className="popup_info">
                 <label>Item Name:</label>
-                <input type="text" placeholder="Menu Item name" name="name" value={menu.name} onChange={updateMenu} />
+                <input
+                  type="text"
+                  placeholder="Menu Item name"
+                  name="name"
+                  value={menu.name}
+                  onChange={updateMenu}
+                />
                 <label>Price:</label>
-                <input type="number" placeholder="Menu Item Price" name="price" value={menu.price} onChange={updateMenu} />
+                <input
+                  type="number"
+                  placeholder="Menu Item Price"
+                  name="price"
+                  value={menu.price}
+                  onChange={updateMenu}
+                />
                 <label>Description:</label>
-                <input type="textarea" placeholder="Description" name="des" value={menu.des} onChange={updateMenu} />
+                <input
+                  type="textarea"
+                  placeholder="Description"
+                  name="des"
+                  value={menu.des}
+                  onChange={updateMenu}
+                />
                 <label>Type:</label>
-                <input type="textarea" placeholder="Type" name="type" value={menu.type} onChange={updateMenu} />
-                <input type="file" id="fileinput" name="image" onChange={updateMenu} />
-                <label id="file-label" htmlFor="fileinput"><i className='fa fa-upload'></i>&emsp;<span id="labell">Choose a Image...</span>&ensp;<span id="nameoffilee"></span></label>
-              <br /></div>
-              <button className="popup_btn save" id={index} onClick={EditMenu}>Save</button>
+                <input
+                  type="textarea"
+                  placeholder="Type"
+                  name="type"
+                  value={menu.type}
+                  onChange={updateMenu}
+                />
+                <input
+                  type="file"
+                  id="fileinput"
+                  name="image"
+                  onChange={updateMenu}
+                />
+                <label id="file-label" htmlFor="fileinput">
+                  <i className="fa fa-upload"></i>&emsp;
+                  <span id="labell">Choose a Image...</span>&ensp;
+                  <span id="nameoffilee"></span>
+                </label>
+                <br />
+              </div>
+              <button className="popup_btn save" id={index} onClick={EditMenu}>
+                Save
+              </button>
             </div>
           </div>
-
-
         </div>
       </div>
     </>
-  )
-}
-
+  );
+};
 
 export default ResMenuCard;

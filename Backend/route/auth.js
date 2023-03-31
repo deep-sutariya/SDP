@@ -123,6 +123,7 @@ router.post("/updaterestaurant", async (req, res) => {
       });
     }
   } catch (e) {
+    console.log(e);
     res.status(203).send({ message: "Error Accured" });
   }
 });

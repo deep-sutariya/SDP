@@ -1,3 +1,64 @@
+/* CSS for Add Menu PopUp */
+.addmenu_popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: white;
+    border: 1px solid black;
+    z-index: 1;
+    width: 35%;
+    box-shadow: 2px 0px 30px grey;
+    border-radius: 10px;
+  }
+  
+  .addmenu_popup form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .addmenu_popup h2 {
+    margin-top: 0;
+  }
+  
+  .addmenu_popup label {
+    margin-bottom: 5px;
+  }
+  
+  .addmenu_popup input {
+    margin-bottom: 10px;
+    padding: 5px;
+    border: 1px solid black;
+  }
+  
+  .addmenu_popup button[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+  }
+  @media screen and (max-width: 1461px) {
+    .addmenu_popup{
+        width: 40%;
+    }
+  }
+  @media screen and (max-width: 800px) {
+    .addmenu_popup{
+        width: 60%;
+    }
+  }
+  @media screen and (max-width: 570px) {
+    .addmenu_popup{
+        width: 80%;
+    }
+  }
+
+
+
+/* end of pop up css */
 
 
 /* Button used to open the contact form - fixed at the bottom of the page */

@@ -12,6 +12,7 @@ const Profile = () => {
   const [resData, setResData] = useState({});
   const [resInfo, setResInfo] = useState({});
   const [flag, setFlag] = useState(true);
+  const [submiting, setSubmiting] = useState(false);
   const { loginrestaurant } = useContext(LoginDetails);
 
   const [loading, setloading] = useState(false);
@@ -40,30 +41,18 @@ const Profile = () => {
       },
     ],
   });
-
-  const handleFile = async (e) => {
-    e.preventDefault();
-    document.getElementById("nameoffile").innerText = e.target.files[0].name;
-    document.getElementById("label").innerText = "";
-    const file = e.target.files[0];
-    const Base64 = await convertToBase64(file);
-    setResData({ ...resData, ["rimage"]: Base64 });
-    console.log(resData.rimage.length);
+  // cloudinary
+  const UploadImage = async () => {
+    const formData = new FormData();
+    formData.append("file", resData.rimage);
+    formData.append("upload_preset", "guydx3xf");
+    formData.append("cloud_name", "dt6unpuse");
+    const data = await axios.post(
+      "https://api.cloudinary.com/v1_1/dt6unpuse/image/upload",
+      formData
+    );
+    return data?.data?.secure_url;
   };
-
-  // converting the file to the Base64 format
-  function convertToBase64(file) {
-    return new Promise((resolve, reject) => {
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
-      fileReader.onload = () => {
-        resolve(fileReader.result);
-      };
-      fileReader.onerror = (error) => {
-        reject(error);
-      };
-    });
-  }
 
   useEffect(() => {
     setloading(true);
@@ -77,36 +66,47 @@ const Profile = () => {
     e.preventDefault();
     name = e.target.name;
     value = e.target.value;
-    setResData({ ...resData, [name]: value });
+    if(name === "rimage"){
+      setResData({ ...resData, [name]: e.target.files[0] });
+      document.getElementById("rnameoffile").innerText = e.target.files[0].name;
+      document.getElementById("rlabel").innerText = "";
+    }
+    else
+      setResData({ ...resData, [name]: value });
   }
 
   const handleEvent = () => {
     setFlag(!flag);
-    doChange();
   };
 
   const updateData = async (e) => {
     e.preventDefault();
-    const data = await axios.post("/updaterestaurant", resData);
+    setSubmiting(true);
+    let image_url = await UploadImage();
+    console.log(image_url)
+    setResData({ ...resData, ["rimage"]: image_url });
+    const data = await axios.post("/updaterestaurant",{
+    rname: resData.rname,
+    roname: resData.roname,
+    rphone: resData.rphone,
+    raddress: resData.raddress,
+    remail: resData.remail,
+    rurl: resData.rurl,
+    rcity: resData.rcity,
+    rimage: image_url,
+    rpass: resData.rpass,
+    rmenu: resData.rmenu
+    });
+    console.log(data);
 
     if (data.status === 200) {
       setResInfo(data.data.data);
       setFlag(!flag);
-      doChange();
       alert(data.data.data.message);
     } else {
       alert(data.data.data.message);
     }
-  };
-
-  const doChange = () => {
-    if (flag) {
-      document.getElementById("profile_a").style.display = "block";
-      document.getElementById("edit_form").style.display = "none";
-    } else {
-      document.getElementById("profile_a").style.display = "none";
-      document.getElementById("edit_form").style.display = "block";
-    }
+    setSubmiting(false);
   };
 
   return (
@@ -165,8 +165,8 @@ const Profile = () => {
 
 
             {/* ***Chart**** */}
-            {/* 
-              <p
+            
+              {/* <p
               style={{
                 width: "80vw",
                 margin: "auto",
@@ -290,11 +290,11 @@ const Profile = () => {
                   <label htmlFor="country">Image</label>
                 </div>
                 <div className="col-75">
-                  <input type="file" id="file-input" onChange={handleFile} />
+                  <input type="file" id="file-input" name="rimage" onChange={change} />
                   <label id="file-label" htmlFor="file-input">
                     <i className="fa fa-upload"></i>&emsp;
-                    <span id="label">Choose a Image...</span>&ensp;
-                    <span id="nameoffile"></span>
+                    <span id="rlabel">Choose a Image...</span>&ensp;
+                    <span id="rnameoffile"></span>
                   </label>
                 </div>
               </div>
@@ -321,7 +321,7 @@ const Profile = () => {
                   type="submit"
                   value="Close"
                 />
-                <input type="submit" value="Submit" />
+                <input type="submit" value={submiting ? "Submitting..." : "Submit"} />
               </div>
             </form>
           </div>
