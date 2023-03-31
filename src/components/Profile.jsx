@@ -5,9 +5,6 @@ import { useEffect } from "react";
 import { LoginDetails } from "../contex/Logincontex";
 import { useContext } from "react";
 import "../components/style/profile.css";
-import { Data } from "./Data";
-import { Line } from "react-chartjs-2";
-import { Chart } from "chart.js/auto";
 const Profile = () => {
   const [resData, setResData] = useState({});
   const [resInfo, setResInfo] = useState({});
@@ -16,54 +13,65 @@ const Profile = () => {
 
   const [loading, setloading] = useState(false);
 
-  const [userData, setUserData] = useState({
-    labels: Data.map((data) => data.year),
-    datasets: [
-      {
-        label: "Sales",
-        data: Data.map((data) => data.sales),
-        borderColor: "green",
-        backgroundColor: "rgba(39, 245, 57, 0.24)",
-        fill: true,
-        tension: 0.4,
-      },
-      {
-        label: "Prediction",
-        borderColor: "blue",
-        backgroundColor: "rgba(0, 21, 255, 0.37)",
-        borderWidth: 1,
-        data: [
-          12000, 15500, 11500, 13500, 12500, 11500, 12500, 12500, 10500, 12000,
-        ],
-        fill: true,
-        tension: 0.5,
-      },
-    ],
-  });
+  // const [userData, setUserData] = useState({
+  //   labels: Data.map((data) => data.year),
+  //   datasets: [
+  //     {
+  //       label: "Sales",
+  //       data: Data.map((data) => data.sales),
+  //       borderColor: "green",
+  //       backgroundColor: "rgba(39, 245, 57, 0.24)",
+  //       fill: true,
+  //       tension: 0.4,
+  //     },
+  //     {
+  //       label: "Prediction",
+  //       borderColor: "blue",
+  //       backgroundColor: "rgba(0, 21, 255, 0.37)",
+  //       borderWidth: 1,
+  //       data: [
+  //         12000, 15500, 11500, 13500, 12500, 11500, 12500, 12500, 10500, 12000,
+  //       ],
+  //       fill: true,
+  //       tension: 0.5,
+  //     },
+  //   ],
+  // });
+
+  const UploadImage = async (e) => {
+    const formData = new FormData();
+    console.log(e.target.files[0])
+    formData.append("file", e.target.files[0]);
+    formData.append("upload_preset", "guydx3xf");
+    formData.append("cloud_name", "dt6unpuse");
+    let url = "";
+    await axios
+      .post("https://api.cloudinary.com/v1_1/dt6unpuse/image/upload", formData)
+      .then((res) => {
+        url = res.data.secure_url;
+      });
+    return url;
+  };
 
   const handleFile = async (e) => {
     e.preventDefault();
-    document.getElementById("nameoffile").innerText = e.target.files[0].name;
-    document.getElementById("label").innerText = "";
-    const file = e.target.files[0];
-    const Base64 = await convertToBase64(file);
-    setResData({ ...resData, ["rimage"]: Base64 });
-    console.log(resData.rimage.length);
+    let image_url = await UploadImage(e);
+    setResData({ ...resData, ["rimage"]: image_url });
   };
 
   // converting the file to the Base64 format
-  function convertToBase64(file) {
-    return new Promise((resolve, reject) => {
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
-      fileReader.onload = () => {
-        resolve(fileReader.result);
-      };
-      fileReader.onerror = (error) => {
-        reject(error);
-      };
-    });
-  }
+  // function convertToBase64(file) {
+  //   return new Promise((resolve, reject) => {
+  //     const fileReader = new FileReader();
+  //     fileReader.readAsDataURL(file);
+  //     fileReader.onload = () => {
+  //       resolve(fileReader.result);
+  //     };
+  //     fileReader.onerror = (error) => {
+  //       reject(error);
+  //     };
+  //   });
+  // }
 
   useEffect(() => {
     setloading(true);
@@ -114,7 +122,7 @@ const Profile = () => {
       {!loading && resData && resInfo ? (
         flag ? (
           <>
-            <div className="profile" id="profile_a">
+            <div className="profile" id="profile_a" style={{}}>
               <div className="profile_heading">
                 <h1>PROFILE</h1>
                 <span
@@ -153,6 +161,10 @@ const Profile = () => {
                   <p style={{ color: "rgb(69, 69, 69)" }}>{resInfo.rpincode}</p>
                 </div>
                 <div className="res_info">
+                  <p style={{ fontWeight: "bold" }}>No of Table :</p>
+                  <p style={{ color: "rgb(69, 69, 69)" }}>{resInfo.rtableno}</p>
+                </div>
+                <div className="res_info">
                   <p style={{ fontWeight: "bold" }}>Owner Name :</p>
                   <p style={{ color: "rgb(69, 69, 69)" }}>{resInfo.roname}</p>
                 </div>
@@ -184,7 +196,7 @@ const Profile = () => {
             </div> */}
           </>
         ) : (
-          <div className="edit_container" id="edit_form">
+          <div className="edit_container" id="edit_form" style={{}}>
             <h1>Edit 😎</h1>
             <form onSubmit={updateData}>
               <div className="row">
@@ -281,6 +293,21 @@ const Profile = () => {
                     placeholder="City"
                     onChange={change}
                     value={resData.rcity}
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-25">
+                  <label htmlFor="country">No. of tables</label>
+                </div>
+                <div className="col-75">
+                  <input
+                    type="text"
+                    id="lname"
+                    name="rtableno"
+                    placeholder="Number of table"
+                    onChange={change}
+                    value={resData.rtableno}
                   />
                 </div>
               </div>

@@ -111,6 +111,7 @@ router.post("/updaterestaurant", async (req, res) => {
       restaurant.remail = req.body.remail;
       restaurant.rurl = req.body.rurl;
       restaurant.rcity = req.body.rcity;
+      restaurant.rtableno = req.body.rtableno;
       restaurant.rimage = req.body.rimage;
       restaurant.rpass = req.body.rpass;
       restaurant.rmenu = req.body.rmenu;
