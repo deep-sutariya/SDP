@@ -1,16 +1,34 @@
+import axios from 'axios'
 import React from 'react'
 import { View, Image, Text, Button, TouchableOpacity } from 'react-native'
+import { IP } from '@env'
+import { useNavigation } from '@react-navigation/native'
+
 
 const HomeCard = ({ id, image, name, address, rating, ratingcount }) => {
+    const navigation = useNavigation();
+    const goToMenu = async (e) => {
+        console.log(id)
+        const restaurant = await axios.post(`http:/${IP}/getrestaurent`, {
+            id,
+        })
+        navigation.navigate("Menu",{
+            restaurant : restaurant?.data?.data,
+        });
+    }
+
     return (
-        <View className="flex flex-row mx-5 my-3 border border-red-400 bg-slate-200 h-48">
-            <View className="w-2/5 h-48">
-                <Image className="object-contain w-full h-full" src={image} alt={name + "image"} />
+        <View className="border border-gray-300 rounded-xl flex flex-row items-center mx-4 my-3 p-3 overflow-hidden bg-transparent" id={id} onTouchEnd={goToMenu} >
+            <View className="flex-shrink-0 " >
+                <Image className="h-28 w-28 object-cover rounded-xl" source={{ uri: image }} alt={name + " image"} />
             </View>
-            <View className="flex flex-col pt-8 pl-4 leading-normal">
-                <Text className="mb-2 text-lg font-bold tracking-tight text-red-900 dark:text-white">{name}</Text>
-                <Text className="mb-3 font-normal text-gray-700 dark:text-gray-400">{address}</Text>
-                <Text class="mb-3 font-normal text-gray-700 dark:text-gray-400">{rating + " ⭐"}<Text className="font-light">{"(" + ratingcount + ")"}</Text></Text>
+
+            <View className="flex-1">
+                <View className="ml-4">
+                    <Text className="text-lg font-semibold text-dark">{name}</Text>
+                    <Text className="mt-1 text-sm text-gray-600">{address}</Text>
+                    <Text className="mt-1 text-sm text-gray-600">{rating} ⭐ ({ratingcount})</Text>
+                </View>
             </View>
         </View>
 

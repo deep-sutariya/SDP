@@ -6,9 +6,12 @@ module.exports = {
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        'hero': "url('../assets/background.jpg')",
-      }
+      colors: {
+        green: "#94B49F",
+        dark: "#DF7861",
+        light: "#ECB390",
+        offwhite: "#F5F5F5",
+      },
     },
   },
   plugins: [],

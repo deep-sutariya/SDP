@@ -281,6 +281,7 @@ router.post("/getrestaurent", async (req, res) => {
 
 // Fetch Orders
 router.post('/saveorder', async (req, res) => {
+  console.log(req.body);
   const { userid, orderres, order, ordertotal } = req.body;
   const month = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"];
 
@@ -317,9 +318,9 @@ router.post('/saveorder', async (req, res) => {
   let resorders = restaurant.rorders;
   resorders.unshift(resorderData);
   restaurant.rorders = resorders;
+
   const updateuser = await user.save();
   const updateres = await restaurant.save();
-  console.log("asdsad");
 
   res.status(200).send({ message: `${user.uname}, Your Order Is Placed` });
 
@@ -328,7 +329,7 @@ router.post('/saveorder', async (req, res) => {
 router.post("/getuserorder", async (req, res) => {
 
   const { email, month } = req.body;
-  // console.log(req.body);
+  console.log(req.body);
   const user = await UserInfo.findOne({ uemail: email });
   const data = [];
   const orders = user?.uorders;

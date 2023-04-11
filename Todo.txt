@@ -1,6 +1,6 @@
-Invalid Tocken Specification Error at Navbar.jsx
-add no of table to editable part in restaurant // optional
 Forgot pass
-
+popUp
+check login or not in every page and give appropiate response.
+Coupon
 
 Build application
