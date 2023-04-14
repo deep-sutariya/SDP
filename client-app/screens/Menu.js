@@ -2,7 +2,7 @@ import { useRoute } from '@react-navigation/native'
 import React from 'react'
 import { useEffect } from 'react';
 import { useState } from 'react';
-import { Button, Platform, ScrollView, Text, TouchableOpacity, View } from 'react-native'
+import { Button, Platform, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import MenuCard from '../components/MenuCard';
 import BackGroundImage from '../components/BackGroundImage';
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -18,17 +18,30 @@ const Menu = ({ navigation }) => {
 
     const [menu, setMenu] = useState();
     const [restaurant, setRestaurant] = useState();
+    const [user, setUser] = useState();
+
     const [popup, setPopup] = useState(false);
     const [TimePopup, setTimePopup] = useState(false);
+    const [TablePopup, setTablePopup] = useState(false);
+    const [InputDateText, setInputDateText] = useState("Choose");
 
     const [cart, setCart] = useState([]);
     const [total, setTotal] = useState();
 
     const [date, setDate] = useState(new Date());
+    const [people, setpeople] = useState();
+
 
     const setCartData = async () => {
         try {
             await AsyncStorage.setItem("cart", JSON.stringify(cart));
+        } catch (e) {
+            console.log("Error->", e);
+        }
+    }
+    const FetchUserData = async () => {
+        try {
+            setUser(await JSON.parse(await AsyncStorage.getItem("userDetails")));
         } catch (e) {
             console.log("Error->", e);
         }
@@ -55,8 +68,6 @@ const Menu = ({ navigation }) => {
         }
     }
     const confirmOrder = async () => {
-        const user = JSON.parse(await AsyncStorage.getItem("userDetails"));
-        console.log(user?._id);
         if (user) {
             const order = getOrder();
             if (total > 0) {
@@ -82,18 +93,63 @@ const Menu = ({ navigation }) => {
         }
     }
 
-    // const showTimePicker = () => {
-    //     DateTimePickerAndroid.open({
-    //         value: date,
-    //         onChange: setDateFunc,
-    //         mode: time,
-    //         is24Hour: true,
-    //     });
-    // }
+    const setDateFunc = (event, dt) => {
+        const tdate = dt || date;
 
-    const setDateFunc = (dt) => {
-        setDate(dt);
+        const inputobj = new Date(tdate);
+        const obj = new Date();
+        let inputTime = parseInt(inputobj.toTimeString().split(":").join(""));
+        let Time = parseInt(obj.toTimeString().split(":").join(""));
+
+        setTimePopup(false);
+
+        if (inputTime > Time) {
+            setDate(tdate);
+            setInputDateText(inputobj.toTimeString().slice(0, 5));
+        }
+        else {
+            alert("Selected Date must be in future");
+            setDate(new Date());
+            setInputDateText("Choose");
+        }
     }
+
+    const ReserveTable = async () => {
+        if (people > 0) {
+            if (people <= 20) {
+                if (date && InputDateText!=="Choose") {
+                    const data = await axios.post(`http://${IP}/booktable`, {
+                        noofpeople: people,
+                        time: date.toString().split(" ")[4],
+                        resid: restaurant._id,
+                        userid: user?._id,
+                    })
+                    alert(`${user.uname}, ${data?.data}`);
+                    setTablePopup(false);
+                    setTimePopup(false);
+                    setInputDateText("Choose");
+                    setDate(new Date());
+                    setpeople("");
+                }
+                else {
+                    alert("Choose Time!");
+                }
+            }
+            else {
+                alert("Maximum 20 People allowed!");
+            }
+        }
+        else {
+            alert("enter valid People count");
+        }
+    }
+
+    useEffect(()=>{
+        FetchUserData();
+    },[]);
+    useEffect(()=>{
+        console.log("User-->",user?.uemail);
+    },[user]);
 
     useEffect(() => {
         let size = menu?.length;
@@ -108,15 +164,20 @@ const Menu = ({ navigation }) => {
     }, [cart])
 
     useEffect(() => {
-        console.log("Date-->", date.getMinutes());
-    }, [date])
-
-
-    useEffect(() => {
         setMenu(route?.params?.restaurant?.rmenu);
         setRestaurant(route?.params?.restaurant);
         console.log(route?.params?.restaurant?.rname)
     }, [route?.params?.restaurant])
+
+    useEffect(() => {
+        if (people > 20) {
+            setpeople("20");
+        }
+        else if (people > 0 && people <= 20 && people % 1 === 0) { }
+        else {
+            setpeople("");
+        }
+    }, [people]);
 
     return (
         <BackGroundImage>
@@ -127,18 +188,49 @@ const Menu = ({ navigation }) => {
                     </Text>
                 </View>
 
-                <View>
+                <View className="flex justify-center items-center gap-y-3 my-3 w-full">
+                    <TouchableOpacity className="border border-1 border-light bg-dark rounded-md py-2 px-3">
+                        <Text className="font-bold text-md text-white" onPress={() => setTablePopup(!TablePopup)}>{TablePopup ? "Close" : "Reserve a Table!"}</Text>
+                    </TouchableOpacity>
                     {
-                        TimePopup &&
+                        TablePopup &&
+                        <View className="flex flex-col gap-y-5 w-full">
+                            <View className="flex flex-row items-center justify-center">
+                                <View className="w-2/6"><Text className="font-bold text-lg">Time : </Text></View>
+                                <TouchableOpacity className=" py-1 px-3 w-3/12 bg-offwhite border border-1 rounded-md">
+                                    <Text className="text-green font-bold text-lg underline mx-auto" onPress={() => setTimePopup(!TimePopup)}>{InputDateText}</Text>
+                                </TouchableOpacity>
+                            </View>
+                            <View className="flex flex-row items-center justify-center">
+                                <View className="w-2/6"><Text className="font-bold text-lg">People Count : </Text></View>
+                                <TextInput
+                                    className="text-green px-3 py-1 w-3/12 bg-offwhite font-bold text-lg border border-1 rounded-md"
+                                    placeholder='Count'
+                                    placeholderTextColor={'#94B49F'}
+                                    inputMode='numeric'
+                                    textAlign='center'
+                                    value={people}
+                                    onChangeText={(text) => {
+                                        setpeople(text)
+                                    }}
+                                />
+                            </View>
+                            <TouchableOpacity className="bg-green rounded-md py-2 px-3 w-2/6 mx-auto items-center" onPress={ReserveTable}>
+                                <Text className="font-bold text-md text-white">Submit</Text>
+                            </TouchableOpacity>
+                        </View>
+                    }
+                    {
+                        TablePopup && TimePopup &&
                         <DateTimePicker
                             value={date}
                             mode={'time'}
-                            display={'default'}
+                            display='default'
                             is24Hour={true}
                             onChange={setDateFunc}
+                            minTime
                         />
                     }
-                    <Text onPress={()=>setTimePopup(!TimePopup)}>Reserve a Table!</Text>
                 </View>
 
                 <View className='flex-1 items-center flex-row mt-4'>

@@ -3,4 +3,6 @@ popUp
 check login or not in every page and give appropiate response.
 Coupon
 
-Build application
+Build application-->
+    Reservation
+    Socket in orders Page

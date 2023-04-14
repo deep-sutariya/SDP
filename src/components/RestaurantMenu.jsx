@@ -79,7 +79,6 @@ function RestaurantMenu() {
       
             const data = await axios.post("/booktable", {
               noofpeople,
-              date,
               time,
               resid: SelectedRestaurant._id,
               userid: loginuser._id

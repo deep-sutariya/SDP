@@ -417,7 +417,7 @@ router.post("/updaterating", async (req, res) => {
 // BookTable
 
 router.post("/booktable", async (req, res) => {
-  const { noofpeople, date, time, resid, userid } = req.body;
+  const { noofpeople, time, resid, userid } = req.body;
   // console.log("Backend->", { noofpeople, date, time, resid })
 
   const user = await UserInfo.findById(userid);
