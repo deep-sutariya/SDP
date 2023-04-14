@@ -51,7 +51,7 @@ const Order = () => {
           user ?
             <View className="flex justify-between gap-6">
 
-              <View className="mt-6 bg-slate-300">
+              <View className="mt-6 bg-light">
                 <Picker
                   selectedValue={Month}
                   onValueChange={(itemValue, itemIndex) =>
