@@ -71,13 +71,11 @@ const Order = () => {
 
   return (
     <BackGroundImage>
-
-      <View>
+      <View className="flex-1">
 
         {
           user ?
             <View className="flex justify-between gap-6">
-
               <View className="mt-6 bg-dark">
                 <Picker
                   selectedValue={Month}
@@ -102,7 +100,8 @@ const Order = () => {
               </View>
 
 
-              <View>
+              <View className="flex">
+
                 <ScrollView className="h-[90%]">
                   {
                     orderData && Object.keys(orderData).length > 0 &&
@@ -121,7 +120,8 @@ const Order = () => {
             </View>
         }
 
-        <ChatBox />
+        {/* <ChatBox /> */}
+
       </View>
     </BackGroundImage>
   )

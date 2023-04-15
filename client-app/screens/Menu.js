@@ -68,11 +68,13 @@ const Menu = ({ navigation }) => {
         }
     }
     const confirmOrder = async () => {
-        if (user) {
+        let u = await JSON.parse(await AsyncStorage.getItem("userDetails"))
+        console.log("***",u?._id);
+        if (u?._id) {
             const order = getOrder();
             if (total > 0) {
                 const data = await axios.post(`http://${IP}/saveorder`, {
-                    userid: user?._id,
+                    userid: u?._id,
                     orderres: restaurant?._id,
                     order: order,
                     ordertotal: total,
@@ -115,41 +117,47 @@ const Menu = ({ navigation }) => {
     }
 
     const ReserveTable = async () => {
-        if (people > 0) {
-            if (people <= 20) {
-                if (date && InputDateText!=="Choose") {
-                    const data = await axios.post(`http://${IP}/booktable`, {
-                        noofpeople: people,
-                        time: date.toString().split(" ")[4],
-                        resid: restaurant._id,
-                        userid: user?._id,
-                    })
-                    alert(`${user.uname}, ${data?.data}`);
-                    setTablePopup(false);
-                    setTimePopup(false);
-                    setInputDateText("Choose");
-                    setDate(new Date());
-                    setpeople("");
+        if (user) {
+            if (people > 0) {
+                if (people <= 20) {
+                    if (date && InputDateText !== "Choose") {
+                        const data = await axios.post(`http://${IP}/booktable`, {
+                            noofpeople: people,
+                            time: date.toString().split(" ")[4],
+                            resid: restaurant._id,
+                            userid: user?._id,
+                        })
+                        alert(`${user.uname}, ${data?.data}`);
+                        setTablePopup(false);
+                        setTimePopup(false);
+                        setInputDateText("Choose");
+                        setDate(new Date());
+                        setpeople("");
+                    }
+                    else {
+                        alert("Choose Time!");
+                    }
                 }
                 else {
-                    alert("Choose Time!");
+                    alert("Maximum 20 People allowed!");
                 }
             }
             else {
-                alert("Maximum 20 People allowed!");
+                alert("enter valid People count");
             }
         }
         else {
-            alert("enter valid People count");
+            alert("Login First");
+            navigation.navigate("Login")
         }
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         FetchUserData();
-    },[]);
-    useEffect(()=>{
-        console.log("User-->",user?.uemail);
-    },[user]);
+    }, []);
+    useEffect(() => {
+        console.log("User-->", user?.uemail);
+    }, [user]);
 
     useEffect(() => {
         let size = menu?.length;

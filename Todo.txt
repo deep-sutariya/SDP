@@ -2,7 +2,7 @@ Forgot pass
 popUp
 check login or not in every page and give appropiate response.
 Coupon
+delete previs order
 
 Build application-->
-    Socket in orders Page
     Chat Bot
