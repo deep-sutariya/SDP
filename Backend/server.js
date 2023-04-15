@@ -28,7 +28,6 @@ io.on("connection", (socket) => {
     });
 
     socket.on("statusupdated", (payload) => {
-        console.log(payload);
         io.emit("load-resources", {
             message: "success"
         });
@@ -39,6 +38,7 @@ io.on("connection", (socket) => {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+
 var bodyParser = require('body-parser');
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
@@ -48,7 +48,8 @@ connectDB();
 app.use(cookieParser());
 
 app.use(require('./route/auth'));
-require('events').EventEmitter.defaultMaxListeners = 3;
+
+require('events').EventEmitter.defaultMaxListeners = 10;
 
 
 // <----- Midnight Reset ------> //

@@ -9,6 +9,10 @@ import { IP } from '@env'
 import { useNavigation } from '@react-navigation/native';
 import OrderCard from '../components/OrderCard';
 
+import { Socket, io } from 'socket.io-client'
+import ChatBox from '../components/ChatBox';
+const socket = io(`http://${IP}`);
+
 const Order = () => {
 
   const [user, setUser] = useState();
@@ -18,7 +22,7 @@ const Order = () => {
   const navigation = useNavigation();
 
   const getOrder = async () => {
-    console.log("User->", user?.uemail);
+    console.log(user?.uemail)
     if (user) {
       const data = await axios.post(`http:/${IP}/getuserorder`, {
         email: user.uemail,
@@ -30,6 +34,29 @@ const Order = () => {
 
   useEffect(() => {
     getUser();
+
+    // <--Socket-->
+
+    socket.on("connect", () => {
+      console.log("connected");
+    });
+    socket.on("disconnect", () => {
+      console.log("disconnected");
+      socket.disconnect();
+    });
+
+    socket.on("load-resources", (payload) => {
+      console.log("Called");
+      getUser();
+      getOrder();
+    })
+
+    return () => {
+      socket.off("connect");
+      socket.off("disconnect");
+      socket.off("load-resources");
+    };
+
   }, [])
 
   const getUser = async () => {
@@ -42,16 +69,16 @@ const Order = () => {
   }, [user, Month])
 
 
-
   return (
     <BackGroundImage>
+
       <View>
 
         {
           user ?
             <View className="flex justify-between gap-6">
 
-              <View className="mt-6 bg-light">
+              <View className="mt-6 bg-dark">
                 <Picker
                   selectedValue={Month}
                   onValueChange={(itemValue, itemIndex) =>
@@ -94,7 +121,7 @@ const Order = () => {
             </View>
         }
 
-
+        <ChatBox />
       </View>
     </BackGroundImage>
   )

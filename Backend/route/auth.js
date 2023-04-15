@@ -472,7 +472,7 @@ router.post("/getreservations", async(req,res)=>{
     data = await UserInfo.findById(id);
   }
 
-  console.log(data?.registeredtableinfo);
+  // console.log(data?.registeredtableinfo);
   res.send(data?.registeredtableinfo)
 })
 

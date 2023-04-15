@@ -5,7 +5,7 @@ import { printToFileAsync } from 'expo-print'
 import { shareAsync } from 'expo-sharing'
 import * as FileSystem from 'expo-file-system'
 import axios from 'axios';
-import {IP} from '@env';
+import { IP } from '@env';
 
 const OrderCard = (props) => {
   const ordermenu = props.orderData.ordermenu;
@@ -21,7 +21,7 @@ const OrderCard = (props) => {
   const [popup, setPopup] = useState(false);
 
 
-  const closePopup = async() => {
+  const closePopup = async () => {
     console.log(rating + " " + restaurantid);
     const data = await axios.post(`http://${IP}/updaterating`, {
       rating: rating,
@@ -31,131 +31,125 @@ const OrderCard = (props) => {
     setPopup(false);
   }
 
-
   const DownloadRecipt = async () => {
     const html = `
     <html>
-  <head>
-    <style>
-      body {
-        font-family: 'Helvetica Neue', sans-serif;
-        font-size: 16px;
-        line-height: 1.4;
-        color: #333;
-        display:grid;
-        place-items: center;
-      }
+    <head>
+      <style>
+        body {
+          font-family: 'Helvetica Neue', sans-serif;
+          font-size: 16px;
+          line-height: 1.4;
+          color: #333;
+          display:grid;
+          place-items: center;
+        }
 
-      .bill-container {
-        width: 85%;
-        margin: 0 auto;
-        padding: 20px;
-        background-color: #fff;
-        box-shadow: 0 0 10px rgba(0,0,0,0.2);
-        border-radius: 5px;
-        position: relative;
-      }
+        .bill-container {
+          width: 85%;
+          margin: 0 auto;
+          padding: 20px;
+          background-color: #fff;
+          box-shadow: 0 0 10px rgba(0,0,0,0.2);
+          border-radius: 5px;
+          position: relative;
+        }
 
-      .bill-container h1 {
-        font-size: 24px;
-        font-weight: bold;
-        margin-top: 0;
-      }
+        .bill-container h1 {
+          font-size: 24px;
+          font-weight: bold;
+          margin-top: 0;
+        }
 
-      .bill-container hr {
-        border: none;
-        border-top: 1px solid #ccc;
-        margin: 20px 0;
-      }
+        .bill-container hr {
+          border: none;
+          border-top: 1px solid #ccc;
+          margin: 20px 0;
+        }
 
-      .bill-container table {
-        width: 100%;
-        margin-bottom: 20px;
-      }
+        .bill-container table {
+          width: 100%;
+          margin-bottom: 20px;
+        }
 
-      .bill-container th {
-        text-align: left;
-        padding-bottom: 10px;
-      }
+        .bill-container th {
+          text-align: left;
+          padding-bottom: 10px;
+        }
 
-      .bill-container td {
-        padding-bottom: 10px;
-      }
+        .bill-container td {
+          padding-bottom: 10px;
+        }
 
-      .bill-container .total-row td {
-        font-weight: bold;
-        margin-top: 20px;
-        border-top: 1px solid #ccc;
+        .bill-container .total-row td {
+          font-weight: bold;
+          margin-top: 20px;
+          border-top: 1px solid #ccc;
+        }
+        .watermark {
+          position: absolute;
+          bottom: 40%;
+          right: 0;
+          opacity: 0.2;
+          transform: rotate(-45deg);
       }
-      .watermark {
-        position: absolute;
-        bottom: 40%;
-        right: 0;
-        opacity: 0.2;
-        transform: rotate(-45deg);
-    }
-    .watermark p {
-        font-size: 130px;
-        font-weight: bold;
-        color: #ccc;
-        text-shadow: 2px 2px 0 #333;
-        margin: 0;
-    }
-    </style>
-  </head>
-  <body>
-    <div class="bill-container">
-      <h1>Order Details</h1>
-      <hr>
-      <div>
-        <span>Order ID:</span>
-        <span>${orderid}</span>
+      .watermark p {
+          font-size: 130px;
+          font-weight: bold;
+          color: #ccc;
+          text-shadow: 2px 2px 0 #333;
+          margin: 0;
+      }
+      </style>
+    </head>
+    <body>
+      <div class="bill-container">
+        <h1>Order Details</h1>
+        <hr>
+        <div>
+          <span>Order ID:</span>
+          <span>${orderid}</span>
+        </div>
+        <div>
+          <span>Restaurant Name:</span>
+          <span>${resname}</span>
+        </div>
+        <hr>
+        <table>
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Price</th>
+              <th>Quantity</th>
+              <th>Subtotal</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${ordermenu.map((item) => {
+      return `
+                <tr>
+                  <td>${item.itemname}</td>
+                  <td>${item.price}₹</td>
+                  <td>${item.noOfItem}</td>
+                  <td>${item.price * item.noOfItem}₹</td>
+                </tr>
+              `;
+    }).join('')}
+            
+            <tr class="total-row">
+              <td>Total:</td>
+              <td></td>
+              <td></td>
+              <td>${ordertotal}₹</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-      <div>
-        <span>Restaurant Name:</span>
-        <span>${resname}</span>
+      <div class="watermark">
+        <p>BookMyMeal</p>
       </div>
-      <hr>
-      <table>
-        <thead>
-          <tr>
-            <th>Item</th>
-            <th>Price</th>
-            <th>Quantity</th>
-            <th>Subtotal</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${ordermenu.map((item) => {
-            return `
-              <tr>
-                <td>${item.itemname}</td>
-                <td>${item.price}₹</td>
-                <td>${item.noOfItem}</td>
-                <td>${item.price * item.noOfItem}₹</td>
-              </tr>
-            `;
-          }).join('')}
-          
-          <tr class="total-row">
-            <td>Total:</td>
-            <td></td>
-            <td></td>
-            <td>${ordertotal}₹</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="watermark">
-      <p>BookMyMeal</p>
-    </div>
-  </body>
-</html>
-
-<script>
-  // You can add JavaScript here if you need to manipulate the DOM or perform other actions.
-</script>
-
+    </body>
+    </html>
     `
     const file = await printToFileAsync({
       html: html,
@@ -181,8 +175,31 @@ const OrderCard = (props) => {
         <Text className='font-bold'>{ordertime}</Text>
       </View>
 
-      <View className="bg-red-200 py-1 items-center mb-4">
-        <Text className="text-white font-extrabold font tracking-wider">Order Confirm</Text>
+      <View>
+        <Text className="font-bold">{resname}</Text>
+      </View>
+
+      <View className=" py-1 items-center mb-4">
+        {
+          orderstatus === "0" ?
+            <View className="bg-light w-full">
+              <Text className="text-white mx-auto font-extrabold font tracking-wider py-1">Order accept</Text>
+            </View>
+            :
+            orderstatus === "1" ?
+              <View className="bg-light w-full">
+                <Text className="text-white mx-auto font-extrabold font tracking-wider py-1">Order confirmed</Text>
+              </View>
+              :
+              orderstatus === "2" ?
+                <View className="bg-green w-full">
+                  <Text className="text-white mx-auto font-extrabold font tracking-wider py-1">Order prepared</Text>
+                </View>
+                :
+                <View className="bg-red-500 w-full">
+                  <Text className="text-white mx-auto font-extrabold font tracking-wider py-1">Order deny</Text>
+                </View>
+        }
       </View>
 
       <View className='flex-row justify-between mb-2'>

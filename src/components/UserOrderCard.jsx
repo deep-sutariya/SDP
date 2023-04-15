@@ -38,7 +38,6 @@ const UserOrderCard = (props) => {
       orderid: e.target.id,
       status: e.target.value,
     });
-
   };
   function openPopup(e) {
     let popup = document.getElementById("popup");

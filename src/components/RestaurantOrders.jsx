@@ -69,7 +69,7 @@ const RestaurantOrders = (props) => {
           <option value="december">December</option>
         </select>
       </div>
-      <h1 style={{ marginBottom: "10px" }}>ORDERS</h1>
+      <h1 className="custom-select" style={{ marginBottom: "10px" }}>ORDERS</h1>
       <hr style={{ marginBottom: "20px" }} />
       {orderData && orderData.length > 0 ? (
         orderData.map((element, index) => {

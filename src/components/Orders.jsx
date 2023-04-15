@@ -3,8 +3,8 @@ import React, { useContext, useEffect, useState } from 'react';
 import './style/orders.css';
 import UserOrderCard from './UserOrderCard';
 import jwt_decode from "jwt-decode";
-import { io } from 'socket.io-client'
 import { LoginDetails } from '../contex/Logincontex';
+import { io } from 'socket.io-client'
 const socket = io("http://localhost:5000");
 
 function Orders(props) {

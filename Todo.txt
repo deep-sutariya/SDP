@@ -4,5 +4,5 @@ check login or not in every page and give appropiate response.
 Coupon
 
 Build application-->
-    Reservation
     Socket in orders Page
+    Chat Bot
