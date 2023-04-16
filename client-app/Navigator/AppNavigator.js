@@ -4,6 +4,7 @@ import Home from '../screens/Home';
 import Order from '../screens/Order';
 import DrawerNavigator from './DrawerNavigator';
 import Menu from '../screens/Menu';
+
 const Stack = createNativeStackNavigator();
 
 const AppNavigator = () => {

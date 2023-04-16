@@ -19,6 +19,7 @@ const Home = ({ navigation }) => {
 
   const getData = async () => {
     setLoading(true);
+    console.log(IP);
     const data = await axios.post(`http://${IP}/res`);
     setRestaurants(data.data);
     setLoading(false);

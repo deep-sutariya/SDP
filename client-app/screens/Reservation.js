@@ -23,7 +23,7 @@ const Reservation = () => {
         }
     }
     useEffect(() => {
-        FetchReservations()
+        FetchReservations();
     }, []);
 
     return (
