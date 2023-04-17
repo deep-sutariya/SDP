@@ -9,7 +9,7 @@ const HomeCard = ({ id, image, name, address, rating, ratingcount }) => {
     const navigation = useNavigation();
     const goToMenu = async (e) => {
         console.log(id)
-        console.log(IP);
+        console.log("HomeCard->",IP);
         const restaurant = await axios.post(`http:/${IP}/getrestaurent`, {
             id,
         })
