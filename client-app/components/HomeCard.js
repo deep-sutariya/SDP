@@ -8,9 +8,8 @@ import { useNavigation } from '@react-navigation/native'
 const HomeCard = ({ id, image, name, address, rating, ratingcount }) => {
     const navigation = useNavigation();
     const goToMenu = async (e) => {
-        console.log(id)
-        console.log(IP);
-        const restaurant = await axios.post(`http:/${IP}/getrestaurent`, {
+        const IP = getIP();
+        const restaurant = await axios.post(`http:/${IP}:5000/getrestaurent`, {
             id,
         })
         navigation.navigate("Menu",{
