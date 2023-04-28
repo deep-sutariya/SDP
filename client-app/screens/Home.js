@@ -1,14 +1,20 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { View, Text, TouchableOpacity, ScrollView, TextInput, Keyboard } from 'react-native'
-import axios from 'axios'
-import HomeCard from '../components/HomeCard'
-import BackGroundImage from '../components/BackGroundImage'
-import { IP } from '@env';
+import React, { useEffect, useRef, useState } from "react";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+  TextInput,
+  Keyboard,
+  Image
+} from "react-native";
+import axios from "axios";
+import HomeCard from "../components/HomeCard";
+import BackGroundImage from "../components/BackGroundImage";
+import { getIP } from "../util/getIp";
 import { FontAwesome5 } from "@expo/vector-icons";
 
-
 const Home = ({ navigation }) => {
-
   const [restaurants, setRestaurants] = useState([]);
   const [filteredRes, setfilteredRes] = useState([]);
   let [loading, setLoading] = useState(true);
@@ -20,96 +26,118 @@ const Home = ({ navigation }) => {
   const getData = async () => {
     setLoading(true);
     console.log(IP);
-    const data = await axios.post(`http://${IP}/res`);
+    const IP = await getIP();
+    console.log(IP);
+    const data = await axios.post(`http://${IP}:5000/res`);
     setRestaurants(data.data);
     setLoading(false);
-  }
+  };
   useEffect(() => {
     getData();
   }, []);
 
-
   const search = async () => {
     if (pincode === "") setfilteredRes([]);
     else if (pincode.length === 6) {
-      const data = await axios.get(`https://api.postalpincode.in/pincode/${pincode}`);
+      const data = await axios.get(
+        `https://api.postalpincode.in/pincode/${pincode}`
+      );
 
       if (data?.data[0].Status === "Success") {
-
-        setfilteredRes(restaurants?.filter(resData => {
-          console.log(resData.rcity.toLowerCase());
-          return (
-            // resData.rcity.toLowerCase() === data?.data[0].PostOffice[0].District.toLowerCase()
-            // ||
-            resData.rcity.toLowerCase() === data?.data[0].PostOffice[0].Block.toLowerCase()
-            ||
-            resData.rpincode === data?.data[0].PostOffice[0].Pincode
-          )
-        })
-        )
+        setfilteredRes(
+          restaurants?.filter((resData) => {
+            console.log(resData.rcity.toLowerCase());
+            return (
+              // resData.rcity.toLowerCase() === data?.data[0].PostOffice[0].District.toLowerCase()
+              // ||
+              resData.rcity.toLowerCase() ===
+                data?.data[0].PostOffice[0].Block.toLowerCase() ||
+              resData.rpincode === data?.data[0].PostOffice[0].Pincode
+            );
+          })
+        );
         Keyboard.dismiss();
         setPincode("");
-      }
-      else {
-        pincode_input.current.focus()
+      } else {
+        pincode_input.current.focus();
         setfilteredRes([]);
         setPincode("");
-        alert('Our Services for the given PinCode will start soon');
+        alert("Our Services for the given PinCode will start soon");
       }
-
     } else {
-      pincode_input.current.focus()
+      pincode_input.current.focus();
       setfilteredRes([]);
       setPincode("");
-      alert('Enter Valid Pincode');
+      alert("Enter Valid Pincode");
     }
-  }
+  };
 
   return (
     <BackGroundImage>
-      <View className="flex-1 justify-center items-center flex-col">
-
-        <View className='flex-row items-center border rounded-md px-4 py-2 w-[50%] my-4'>
+      <View className="flex-1 justify-center items-center pb-14 flex-col">
+        <View className="flex-row items-center border rounded-md px-4 py-1 w-[50%] my-4">
           <TextInput
             ref={pincode_input}
-            className='flex-1 text-gray-700 font-bold text-lg'
+            className="flex-1 text-gray-700 font-bold text-lg"
             placeholder="Pincode..."
             value={pincode}
-            onChangeText={pin => setPincode(pin)}
-            keyboardType='numeric'
+            onChangeText={(pin) => setPincode(pin)}
+            keyboardType="numeric"
             maxLength={6}
             onSubmitEditing={search}
             blurOnSubmit={true}
           />
           <TouchableOpacity onPress={search}>
-            <FontAwesome5 name="search" size={20} color="black" className='mr-2 text-gray-500' />
+            <FontAwesome5
+              name="search"
+              size={20}
+              color="black"
+              className="mr-2 text-gray-500"
+            />
           </TouchableOpacity>
         </View>
-
-        {
-          Object.keys(filteredRes).length > 0 ?
-            <Text onPress={search} className="underline ml-auto mr-4">Clear Filter</Text> : <></>
-        }
+        {Object.keys(filteredRes).length > 0 ? (
+          <Text onPress={search} className="underline ml-auto mr-4">
+            Clear Filter
+          </Text>
+        ) : (
+          <></>
+        )}
         <ScrollView className="flex-1 w-full">
-          {
-
-            Object.keys(filteredRes).length > 0 ?
-              Object.values(filteredRes).map((ele, ind) => {
-                return <HomeCard key={ind} id={ele._id} image={ele.rimage} name={ele.rname.toUpperCase()} address={ele.raddress} rating={ele.rating} ratingcount={ele.ratingcount} navigation={navigation} />
+          {Object.keys(filteredRes).length > 0
+            ? Object.values(filteredRes).map((ele, ind) => {
+                return (
+                  <HomeCard
+                    key={ind}
+                    id={ele._id}
+                    image={ele.rimage}
+                    name={ele.rname.toUpperCase()}
+                    address={ele.raddress}
+                    rating={ele.rating}
+                    ratingcount={ele.ratingcount}
+                    navigation={navigation}
+                  />
+                );
               })
-
-              :
-
-              Object.keys(restaurants).length > 0 &&
+            : Object.keys(restaurants).length > 0 &&
               Object.values(restaurants).map((ele, ind) => {
-                return <HomeCard key={ind} id={ele._id} image={ele.rimage} name={ele.rname.toUpperCase()} address={ele.raddress} rating={ele.rating} ratingcount={ele.ratingcount} navigation={navigation} />
-              })
-          }
+                return (
+                  <HomeCard
+                    key={ind}
+                    id={ele._id}
+                    image={ele.rimage}
+                    name={ele.rname.toUpperCase()}
+                    address={ele.raddress}
+                    rating={ele.rating}
+                    ratingcount={ele.ratingcount}
+                    navigation={navigation}
+                  />
+                );
+              })}
         </ScrollView>
-
       </View>
     </BackGroundImage>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

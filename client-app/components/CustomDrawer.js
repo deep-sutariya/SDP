@@ -11,9 +11,7 @@ import {
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-
 const CustomDrawer = (props) => {
-
   const removeUser = async () => {
     await AsyncStorage.removeItem("userDetails");
     console.log("User Logged Out-->", props?.userData?.uname);
@@ -21,29 +19,31 @@ const CustomDrawer = (props) => {
     props.navigation.navigate("Login");
   };
 
-  const setData = async() => {
+  const setData = async () => {
     const userData = JSON.parse(await AsyncStorage.getItem("userDetails"));
     props.setUserData(userData);
-  }
+  };
 
   useEffect(() => {
     console.log("User Logged In-->", props?.userData?.uname);
-  }, [props?.userData?.uname])
+  }, [props?.userData?.uname]);
 
-  useEffect(()=>{
-    setData()
-  },[])
+  useEffect(() => {
+    setData();
+  }, []);
 
   return (
     <View className="flex-1">
-      <View className="flex-column h-1/5 justify-center items-center mt-10">
+      <View className="flex-column justify-center items-center pt-10 pb-10 ">
         <Image
           source={UserImage}
           style={{ height: 100, width: 100, marginBottom: 10 }}
           className="bg-transparent"
         />
         <View>
-          <Text className="text-lg">{props?.userData?.uname ? props?.userData?.uname : "Unknown User"}</Text>
+          <Text className="text-lg">
+            {props?.userData?.uname ? props?.userData?.uname : "Unknown User"}
+          </Text>
         </View>
       </View>
 
@@ -54,7 +54,7 @@ const CustomDrawer = (props) => {
       <View>
         <TouchableOpacity
           disabled={props?.userData == null}
-          className="p-4 bg-blue-500 rounded-lg m-4"
+          className="p-4 bg-dark rounded-lg m-4"
           onPress={removeUser}
         >
           <View className="flex-row justify-center gap-2 items-center">

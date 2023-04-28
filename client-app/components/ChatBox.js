@@ -1,58 +1,45 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, TextInput } from 'react-native';
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+  TextInput,
+  StyleSheet
+} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { FontAwesome } from '@expo/vector-icons'; 
 
 const ChatBox = () => {
-    const [message, setMessage] = useState('');
-    const [showChatBox, setShowChatBox] = useState(false);
 
-    const handleChatBoxClick = () => {
-        setShowChatBox(!showChatBox);
-    };
-
-    const handleMessageChange = (text) => {
-        setMessage(text);
-    };
-
-    const handleSendMessage = () => {
-        console.log(`Sending message: ${message}`);
-        setMessage('');
-    };
-
-    return (
-
-        <View className="absolute w-5/6 h-4/5 bottom-10 right-5">
-
-            {
-                showChatBox &&
-                <View className="absolute w-[80%] h-[70%] bg-white p-5 rounded-lg shadow-lg bottom-20 right-5">
-                    <Text className="text-gray-700 font-bold text-lg mb-2">Chat Box Popup</Text>
-                    <View className="flex-1">
-                        <Text className="text-gray-700 mb-2">Messages:</Text>
-                        <View className="bg-gray-100 p-2 rounded-lg mb-2">
-                            <Text className="text-gray-700">Hello, how can I help you today?</Text>
-                        </View>
-                    </View>
-                    <View className="flex flex-row items-center w-[80%]">
-                        <TextInput
-                            className="border border-gray-400 rounded-md h-10 pl-4 pr-10 w-full"
-                            onChangeText={handleMessageChange}
-                            value={message}
-                            placeholder="Type your message..."
-                        />
-                        <TouchableOpacity onPress={handleSendMessage} className="bg-blue-500 ml-2 rounded-full h-10 w-10 items-center justify-center">
-                            <Text className="text-white font-bold">Send</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-            }
-
-            <TouchableOpacity onPress={handleChatBoxClick} className="bg-dark rounded-xl w-20 h-12 items-center justify-center absolute bottom-5 right-5 shadow-lg">
-                <Text className="text-white text-xl">Chat</Text>
-            </TouchableOpacity>
-
+  return (
+        <View className="bg-white rounded-xl h-3/5 w-4/5 pt-1 px-4 pb-4 flex-1" style={style.chatbox}>
+        <View className="py-1">
+            <Text className="text-xl" >Food Suggestion <Ionicons name="fast-food" size={22} color="black" /></Text>
         </View>
-    );
-};
-
-
+          <ScrollView className="bg-gray-200 mb-1 flex-1 rounded-lg p-2">
+            <Text className="p-2 rounded-tr-md rounded-b-md w-[80%] bg-gray-100" >Message</Text>
+          </ScrollView>
+          <View className="flex-row justify-between items-center">
+            <TextInput
+              className="border border-gray-300 rounded-lg p-2 w-4/5"
+              placeholder="Type your message"
+            />
+            <TouchableOpacity
+              className="bg-blue-500 px-3 py-2 rounded-lg"
+            >
+              <Text className="text-white font-bold text-lg"><FontAwesome name="send" size={22} color="white" /></Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+  );
+}
+const style = StyleSheet.create({
+    chatbox:{
+        position: "absolute",
+        bottom: 130,
+        right: 25,
+    }
+})
 export default ChatBox;

@@ -17,7 +17,7 @@ const LoginFirst = () => {
 
   return (
     
-          <View className="flex-1 justify-center items-center bg-white">
+          <View className="flex-1 justify-center items-center">
             <Text className="text-2xl font-bold mb-4">
               Ops ! You need to Login First
             </Text>

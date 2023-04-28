@@ -11,7 +11,8 @@ module.exports = {
         dark: "#DF7861",
         light: "#ECB390",
         offwhite: "#F5F5F5",
-      },
+        customgreen: "#d2e0d7"
+      }
     },
   },
   plugins: [],

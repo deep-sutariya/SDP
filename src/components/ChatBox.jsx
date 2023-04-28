@@ -83,7 +83,7 @@ function Chatbox() {
             {isOpen && (
                 <div className="chatbox">
                     <div className="chatbox-header">
-                        <h3>Chat</h3>
+                        <h3>Food Recommandation</h3>
                         <button className="close-btn" onClick={handleToggle}>
                             &times;
                         </button>

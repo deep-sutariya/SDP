@@ -8,7 +8,7 @@ import BackGroundImage from '../components/BackGroundImage';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import TrayCard from '../components/TrayCard';
-import { IP } from '@env';
+import { getIP } from '../util/getIp';
 import axios from 'axios';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
@@ -73,7 +73,8 @@ const Menu = ({ navigation }) => {
         if (u?._id) {
             const order = getOrder();
             if (total > 0) {
-                const data = await axios.post(`http://${IP}/saveorder`, {
+                const IP = await getIP();
+                const data = await axios.post(`http://${IP}:5000/saveorder`, {
                     userid: u?._id,
                     orderres: restaurant?._id,
                     order: order,

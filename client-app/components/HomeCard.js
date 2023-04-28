@@ -1,16 +1,16 @@
 import axios from 'axios'
 import React from 'react'
 import { View, Image, Text, Button, TouchableOpacity } from 'react-native'
-import { IP } from '@env'
+import { getIP } from '../util/getIp'
 import { useNavigation } from '@react-navigation/native'
 
 
 const HomeCard = ({ id, image, name, address, rating, ratingcount }) => {
     const navigation = useNavigation();
     const goToMenu = async (e) => {
-        console.log(id)
-        console.log(IP);
-        const restaurant = await axios.post(`http:/${IP}/getrestaurent`, {
+        const IP = await getIP();
+        console.log(IP + ">");
+        const restaurant = await axios.post(`http:/${IP}:5000/getrestaurent`, {
             id,
         })
         navigation.navigate("Menu",{

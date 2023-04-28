@@ -5,14 +5,15 @@ import axios from "axios";
 import { useState } from "react";
 import { Picker } from "@react-native-picker/picker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { IP } from "@env";
+import { getIP } from "../util/getIp";
 import { useNavigation } from "@react-navigation/native";
 import OrderCard from "../components/OrderCard";
 import LoginFirst from "../components/LoginFirst";
 
 import { Socket, io } from "socket.io-client";
 import ChatBox from "../components/ChatBox";
-const socket = io(`http://${IP}`);
+const IP = getIP();
+const socket = io(`http://${IP}:5000`);
 
 const Order = () => {
   const [user, setUser] = useState();
@@ -24,19 +25,12 @@ const Order = () => {
   const getOrder = async () => {
     console.log(user?.uemail);
     if (user) {
-      const data = await axios.post(`http:/${IP}/getuserorder`, {
+      const data = await axios.post(`http:/${IP}:5000/getuserorder`, {
         email: user.uemail,
         month: Month,
       });
       setorderData(data?.data);
     }
-  };
-  const handleLogin = () => {
-    navigation.navigate("Login");
-  };
-
-  const handleRegister = () => {
-    navigation.navigate("Signup");
   };
 
   useEffect(() => {
@@ -76,8 +70,8 @@ const Order = () => {
 
   return (
     <BackGroundImage>
-      <View className="flex-1">
-        {user ? (
+      {user ? (
+        <View className="flex-1">
           <View className="flex justify-between gap-6">
             <View className="mt-6 bg-dark">
               <Picker
@@ -112,12 +106,12 @@ const Order = () => {
               </ScrollView>
             </View>
           </View>
-        ) : (
-          <LoginFirst />
-        )}
 
-        {/* <ChatBox /> */}
-      </View>
+          {/* <ChatBox /> */}
+        </View>
+      ) : (
+        <LoginFirst />
+      )}
     </BackGroundImage>
   );
 };

@@ -29,6 +29,14 @@ const DrawerNavigator = () => {
           {...props}
         />
       )}
+      screenOptions={{
+        drawerAllowFontScaling: true,
+        drawerActiveBackgroundColor: "#f0f5f1",
+        drawerActiveTintColor: "#669970",
+        headerStyle:{
+          backgroundColor: "#f2f2f2",
+        }
+      }}
     >
       <Drawer.Screen name="Homes" component={BottomTabBarNavigator} />
       <Drawer.Screen name="Login">

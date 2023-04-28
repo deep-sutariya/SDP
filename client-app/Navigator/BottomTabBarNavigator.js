@@ -46,7 +46,7 @@ const BottomTabBarNavigator = () => {
             } else {
               return <Entypo name="home" size={24} color="grey" />;
             }
-          },
+          },tabBarActiveTintColor: "black"
         }}
       >
         {(props) => <Home navigation={navigation} />}
@@ -61,7 +61,7 @@ const BottomTabBarNavigator = () => {
             } else {
               return <Ionicons name="fast-food" size={24} color="grey" />;
             }
-          },
+          },tabBarActiveTintColor: "black"
         }}
       >
         {(props) => <Order navigation={navigation} />}
@@ -80,7 +80,7 @@ const BottomTabBarNavigator = () => {
                 <FontAwesome5 name="calendar-day" size={24} color="grey" />
               );
             }
-          },
+          },tabBarActiveTintColor: "black"
         }}
       >
         {(props) => <Reservation navigation={navigation} />}

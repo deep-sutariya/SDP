@@ -10,7 +10,7 @@ import { validatePhoneNo } from '../util/Validation';
 import { validatePassword } from '../util/Validation';
 
 import axios from 'axios';
-import { IP } from '@env';
+import { IP } from '../util/getIp';
 import BackGroundImage from '../components/BackGroundImage';
 
 const Signup = ({ navigation }) => {
@@ -30,8 +30,8 @@ const Signup = ({ navigation }) => {
       if (validateName(name)) {
         if (validatePhoneNo(phone)) {
           if (validatePassword(password, cpassword)) {
-
-            const user = await axios.post(`http://${IP}/signup`, {
+            const IP = getIP();
+            const user = await axios.post(`http://${IP}:5000/signup`, {
               uemail: email,
               uname: name,
               uphone: phone,
