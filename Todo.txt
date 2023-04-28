@@ -6,3 +6,6 @@ delete previs order
 
 Build application-->
     Chat Bot
+    Reservation First login
+    still asking to login after login!!
+    styling and positioning required for bottomNavigator
