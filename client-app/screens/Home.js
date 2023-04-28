@@ -29,6 +29,7 @@ const Home = ({ navigation }) => {
     const IP = await getIP();
     console.log(IP);
     const data = await axios.post(`http://${IP}:5000/res`);
+    
     setRestaurants(data.data);
     setLoading(false);
   };
