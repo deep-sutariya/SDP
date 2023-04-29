@@ -16,6 +16,9 @@ import ChatBox from "./components/ChatBox";
 
 export default function App() {
   const [showChatBox, setShowChatBox] = useState(false);
+  
+  const [message, setMessage] = useState({ msg: "",from: "user" });
+  const [allMessage,setAllMessage] = useState([]);
 
   const handleChatBoxClick = () => {
     setShowChatBox(!showChatBox);
@@ -31,7 +34,7 @@ export default function App() {
         />
         <AppNavigator />
       </NavigationContainer>
-      {showChatBox && <ChatBox />}
+      {showChatBox && <ChatBox message={message} allMessage={allMessage} setMessage={setMessage} setAllMessage={setAllMessage} />}
       <View className="absolute bottom-10 right-5">
         <TouchableOpacity
           onPress={handleChatBoxClick}
