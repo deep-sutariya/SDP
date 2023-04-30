@@ -57,7 +57,6 @@ const ChatBox = ({ setMessage, setAllMessage, message, allMessage }) => {
 
   useEffect(() => {
     if (isLoading) {
-      console.log(serverMessage);
       setAllMessage([...allMessage, serverMessage]);
       setIsLoading(false);
     }
@@ -103,17 +102,6 @@ const ChatBox = ({ setMessage, setAllMessage, message, allMessage }) => {
               );
           })}
       </ScrollView>
-      {/* {isLoading && (
-        <View
-          style={{
-            justifyContent: "center",
-            alignItems: "center",
-            marginBottom: 10,
-          }}
-        >
-          <ActivityIndicator size="large" color="black" />
-        </View>
-      )} */}
 
       <View className="flex-row justify-between items-center">
         <TextInput
