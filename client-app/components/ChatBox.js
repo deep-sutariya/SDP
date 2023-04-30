@@ -46,22 +46,21 @@ const ChatBox = ({ setMessage, setAllMessage, message, allMessage }) => {
         if (food1) {
           recommendation += food1 + " ,";
         } else if (food2) {
-          if (index == recommendedFood.data.length - 1)
-            recommendation += food2;
+          if (index == recommendedFood.data.length - 1) recommendation += food2;
           else recommendation += food2 + " ,";
         }
       });
     }
 
     setServerMessage({ ...serverMessage, msg: recommendation });
-    setIsLoading(false);
   };
 
   useEffect(() => {
-    if(serverMessage != ""){
+    if (isLoading) {
+      console.log(serverMessage);
       setAllMessage([...allMessage, serverMessage]);
+      setIsLoading(false);
     }
-    setServerMessage({ ...serverMessage, msg:"" });
   }, [serverMessage]);
   useEffect(() => {
     scrollViewRef.current.scrollToEnd({ animated: true });
@@ -104,7 +103,7 @@ const ChatBox = ({ setMessage, setAllMessage, message, allMessage }) => {
               );
           })}
       </ScrollView>
-      {isLoading && (
+      {/* {isLoading && (
         <View
           style={{
             justifyContent: "center",
@@ -114,7 +113,7 @@ const ChatBox = ({ setMessage, setAllMessage, message, allMessage }) => {
         >
           <ActivityIndicator size="large" color="black" />
         </View>
-      )}
+      )} */}
 
       <View className="flex-row justify-between items-center">
         <TextInput
@@ -124,12 +123,26 @@ const ChatBox = ({ setMessage, setAllMessage, message, allMessage }) => {
           value={message.msg}
         />
         <TouchableOpacity
-          className="bg-blue-500 px-3 py-2 rounded-lg"
+          className={`px-3 py-2 rounded-lg ${
+            isLoading ? " bg-blue-200 " : " bg-blue-500 "
+          } `}
           onPress={sendMessage}
+          disabled={isLoading}
         >
-          <Text className="text-white font-bold text-lg">
-            <FontAwesome name="send" size={22} color="white" />
-          </Text>
+          {isLoading == true ? (
+            <View
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <ActivityIndicator size={29} color="white" />
+            </View>
+          ) : (
+            <Text className="text-white font-bold text-lg">
+              <FontAwesome name="send" size={22} color="white" />
+            </Text>
+          )}
         </TouchableOpacity>
       </View>
     </View>
