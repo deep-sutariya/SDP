@@ -106,7 +106,7 @@ function Login({ setNavType }) {
             <div className="option">
               <div className="restaurent" id="res" onClick={handleRestaurent}>
                 <img className="restaurentlogo" src={restaurentlogo} alt="reslogo" />
-                <span>Restaurent</span>
+                <span>Restaurant</span>
               </div>
               <div className="user" id="use" onClick={handleUser}>
                 <img className="userlogo" src={userlogo} alt="userlogo" />

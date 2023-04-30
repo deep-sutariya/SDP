@@ -209,7 +209,7 @@ function Signup({ setNavType }) {
                   onClick={handleResOption}
                   id="restaurant"
                 >
-                  RESTAURENT
+                  RESTAURANT
                 </div>
               </div>
             </div>
