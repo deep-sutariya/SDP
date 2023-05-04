@@ -30,7 +30,10 @@ const Menu = ({ navigation }) => {
 
     const [date, setDate] = useState(new Date());
     const [people, setpeople] = useState();
-
+    let IP;
+    getIP().then((response) => {
+        IP = response
+    });
 
     const setCartData = async () => {
         try {
@@ -84,7 +87,7 @@ const Menu = ({ navigation }) => {
                 await emptyCart();
                 setPopup(false);
                 setTotal(0);
-                navigation.navigate("Order");
+                navigation.navigate("Orders");
             } else {
                 alert("Add something to your tray!");
                 return;
@@ -122,7 +125,8 @@ const Menu = ({ navigation }) => {
             if (people > 0) {
                 if (people <= 20) {
                     if (date && InputDateText !== "Choose") {
-                        const data = await axios.post(`http://${IP}/booktable`, {
+                        console.log(IP);
+                        const data = await axios.post(`http://${IP}:5000/booktable`, {
                             noofpeople: people,
                             time: date.toString().split(" ")[4],
                             resid: restaurant._id,

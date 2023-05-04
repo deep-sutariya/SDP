@@ -5,7 +5,7 @@ import CustomDrawer from "../components/CustomDrawer";
 import Reservation from "../screens/Reservation";
 import Login from "../screens/Login";
 import Signup from "../screens/Signup";
-
+import { View, Text } from 'react-native';
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
@@ -14,6 +14,27 @@ import Menu from "../screens/Menu";
 import BottomTabBarNavigator from "./BottomTabBarNavigator";
 
 const Drawer = createDrawerNavigator();
+
+const CustomHeader = () => {
+  return (
+    <View style={{ backgroundColor: '#f1f1f1', height: 50, alignItems: 'center', justifyContent: 'center' }}>
+      <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Custom Header</Text>
+    </View>
+  );
+};
+
+const DrawerContent = (props) => {
+  return (
+    <DrawerContentScrollView {...props}>
+      <CustomHeader />
+      <DrawerItemList {...props} />
+      <DrawerItem
+        label="Close drawer"
+        onPress={() => props.navigation.closeDrawer()}
+      />
+    </DrawerContentScrollView>
+  );
+};
 
 const DrawerNavigator = () => {
   const navigation = useNavigation();
@@ -38,7 +59,14 @@ const DrawerNavigator = () => {
         }
       }}
     >
-      <Drawer.Screen name="Homes" component={BottomTabBarNavigator} />
+      <Drawer.Screen name="Homes" options={{
+        headerTitle: "BookMyMeal",
+        headerTitleStyle:{
+          color: "#DF7861",
+          fontWeight: "bold",
+          letterSpacing: 1
+        }
+      }} component={BottomTabBarNavigator} />
       <Drawer.Screen name="Login">
         {(props) => <Login navigation={navigation} setUserData={setUserData} />}
       </Drawer.Screen>

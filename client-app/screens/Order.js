@@ -12,16 +12,18 @@ import LoginFirst from "../components/LoginFirst";
 
 import { Socket, io } from "socket.io-client";
 import ChatBox from "../components/ChatBox";
-const IP = getIP();
+let IP;
+getIP().then((response) => {
+  IP = response;
+});
 const socket = io(`http://${IP}:5000`);
-
 const Order = () => {
   const [user, setUser] = useState();
   const [orderData, setorderData] = useState();
   const [Month, setSelectedMonth] = useState("all");
-
+  
   const navigation = useNavigation();
-
+  
   const getOrder = async () => {
     console.log(user?.uemail);
     if (user) {
@@ -35,7 +37,6 @@ const Order = () => {
 
   useEffect(() => {
     getUser();
-
     // <--Socket-->
 
     socket.on("connect", () => {
@@ -96,7 +97,7 @@ const Order = () => {
               </Picker>
             </View>
 
-            <View className="flex">
+            <View className="flex mb-20">
               <ScrollView className="h-[90%]">
                 {orderData &&
                   Object.keys(orderData).length > 0 &&

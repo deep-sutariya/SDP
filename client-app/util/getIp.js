@@ -6,3 +6,6 @@ export const getIP = async () => {
   console.log(host);
   return host;
 };
+export const IPAdd = async () => {
+  return await getIP();
+}
