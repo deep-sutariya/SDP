@@ -38,7 +38,7 @@ function Chatbox() {
         if (message.msg.trim() !== "" && message.msg) {
             setMessages([...messages, message]);
 
-            data = await axios.post('/py', { food: message.msg });
+            data = await axios.post(`${process.env.REACT_APP_HOST_IP}/py`, { food: message.msg });
             console.log(data.data); 
 
             if (data.data.message) {

@@ -66,7 +66,7 @@ const AllMenu = () => {
       let image_url = await UploadImage();
       setaddmenu({ ...addmenu, ["image"]: image_url });
 
-      const data = await axios.post("/addmenu", {
+      const data = await axios.post(`${process.env.REACT_APP_HOST_IP}/addmenu`, {
         resid: loginrestaurant._id.toString(),
         iname: addmenu.name,
         iprice: addmenu.price,

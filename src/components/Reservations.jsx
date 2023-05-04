@@ -5,27 +5,32 @@ import { useEffect } from 'react'
 import { LoginDetails } from '../contex/Logincontex';
 import ReservationCard from './ReservationCard';
 import './style/Reservation.css'
+import BounceLoader from "react-spinners/BounceLoader";
 
 const Reservations = () => {
 
     const [Book, setBook] = useState();
+    const [loading, setLoading] = useState();
 
     const { loginrestaurant, loginuser } = useContext(LoginDetails);
 
+
     const getData = async (type) => {
         let data;
+        setLoading(true);
         if (loginrestaurant?._id) {
-            data = await axios.post("getreservations", {
+            data = await axios.post(`${process.env.REACT_APP_HOST_IP}/getreservations`, {
                 id: loginrestaurant?._id,
                 type: type
             })
         }
         else if (loginuser?._id) {
-            data = await axios.post("getreservations", {
+            data = await axios.post(`${process.env.REACT_APP_HOST_IP}/getreservations`, {
                 id: loginuser?._id,
                 type: type
             })
         }
+        setLoading(false);
         setBook(data?.data);
     }
 
@@ -55,18 +60,25 @@ const Reservations = () => {
             >
                 <h1>Reservations</h1>
             </div>
-            
+
             <div className='Reservation_main'>
                 {
                     loginuser || loginrestaurant ?
-                    Book ?
-                        Book.map((ele, index) => {
-                            return <ReservationCard ele={ele} id={index} />
-                        })
-                        : <h2>Loading...</h2>
-                    : 
-                    <h2>Login First...</h2>
-                    
+                        !loading ?
+                            Book &&
+                                Book.map((ele, index) => {
+                                    return <ReservationCard ele={ele} id={index} />
+                                })
+                            : <div className="loader"><BounceLoader
+                                size={50}
+                                color="black"
+                                aria-label="Loading Spinner"
+                                data-testid="loader"
+                            /> </div>
+
+                        :
+                        <h2>Login First...</h2>
+
                 }
             </div>
         </>

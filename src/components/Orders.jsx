@@ -4,6 +4,7 @@ import './style/orders.css';
 import UserOrderCard from './UserOrderCard';
 import jwt_decode from "jwt-decode";
 import { LoginDetails } from '../contex/Logincontex';
+import BounceLoader from "react-spinners/BounceLoader";
 import { io } from 'socket.io-client'
 const socket = io("http://localhost:5000");
 
@@ -12,15 +13,19 @@ function Orders(props) {
   const { loginrestaurant, loginuser } = useContext(LoginDetails);
 
   const [orderData, setorderData] = useState();
+  const [loading, setLoading] = useState();
 
   const getOrder = async (token, month) => {
 
     let decodedTokenUser = jwt_decode(token);
-    const data = await axios.post(`/getuserorder`, {
+
+    setLoading(true);
+    const data = await axios.post(`${process.env.REACT_APP_HOST_IP}/getuserorder`, {
       email: decodedTokenUser.email,
       month: month
     });
 
+    setLoading(false);
     setorderData(data?.data);
 
   }
@@ -77,12 +82,19 @@ function Orders(props) {
 
       {
         loginrestaurant || loginuser ?
-          orderData && orderData.length > 0 ? orderData.map((element, index) => {
-            return (<> <UserOrderCard key={element.orderid} socket={props.socket} orderData={element} />
-            </>)
-          })
-            : <h1 style={{ textAlign: "center" }}>No Orders in Selected Month</h1>
-        : <h1>Login First..!</h1>
+          !loading ?
+            orderData && orderData.length > 0 ? orderData.map((element, index) => {
+              return (<> <UserOrderCard key={element.orderid} socket={props.socket} orderData={element} />
+              </>)
+            })
+              : <h1 style={{ textAlign: "center" }}>No Orders in Selected Month</h1>
+            : <div className="loader"><BounceLoader
+              size={50}
+              color="black"
+              aria-label="Loading Spinner"
+              data-testid="loader"
+            /> </div>
+          : <h1>Login First..!</h1>
       }
     </>
   )

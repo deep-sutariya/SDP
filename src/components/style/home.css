@@ -4,6 +4,10 @@
     margin-top: 100px;
 }
 
+.clear_filter{
+    cursor: pointer;
+}
+
 .search_box {
     margin: 50px auto 20px auto;
     width: 40%;

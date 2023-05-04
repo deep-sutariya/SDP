@@ -43,7 +43,7 @@ const Popup = (props) => {
         if(sessionStorage.getItem("type") === "user" && loginuser){
             const total = getTotalCardAmount();
             const order = getOrder();
-            const data = await axios.post('/saveorder',{
+            const data = await axios.post(`${process.env.REACT_APP_HOST_IP}/saveorder`,{
                 userid : loginuser._id,
                 orderres : SelectedRestaurant._id,
                 order : order,

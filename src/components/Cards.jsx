@@ -17,7 +17,7 @@ const Cards = (props) => {
   const toMenuPage = async (e) => {
     const SelectedResId = e.target.id;
 
-    const data = await axios.post("/getrestaurent", {
+    const data = await axios.post(`${process.env.REACT_APP_HOST_IP}/getrestaurent`, {
       id: SelectedResId
     });
     sessionStorage.setItem("selectedrestaurent", data?.data?.selectedrestaurenttoken);

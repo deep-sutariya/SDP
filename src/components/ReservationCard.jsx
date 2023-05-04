@@ -63,7 +63,7 @@ const ReservationCard = ({ ele, id }) => {
                                     <td>{ele.reservationtime}</td>
                                 </tr>
                                 <tr>
-                                    <td><button onClick={BookingReciptRes}>Booking Recipt</button></td>
+                                    <td><button onClick={BookingReciptRes}>Booking Receipt</button></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -109,7 +109,7 @@ const ReservationCard = ({ ele, id }) => {
                                     cursor: "pointer"
                                 }}
                             >
-                                Booking Recipt{" "}
+                                Booking Receipt{" "}
                             </button>   
 
                         </div>

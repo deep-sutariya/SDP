@@ -33,7 +33,7 @@ const UserOrderCard = (props) => {
   const handleChange = async (e) => {
     const decodedTokenRestaurant = jwt_decode(sessionStorage.getItem("token"));
 
-    const data = await axios.post("/updatestatus", {
+    const data = await axios.post(`${process.env.REACT_APP_HOST_IP}/updatestatus`, {
       email: decodedTokenRestaurant.email,
       orderid: e.target.id,
       status: e.target.value,
@@ -47,7 +47,7 @@ const UserOrderCard = (props) => {
     let popup = document.getElementById("popup");
     popup?.classList.remove("open-popup");
 
-    const data = await axios.post("/updaterating", {
+    const data = await axios.post(`${process.env.REACT_APP_HOST_IP}/updaterating`, {
       rating: rating,
       resid: e.target.id
     })
@@ -138,12 +138,13 @@ const UserOrderCard = (props) => {
                   fontWeight: "bolder",
                 }}
               >
-                Download Reciept{" "}
+                Download Receipt{" "}
               </button>
               <button type="submit" className="ratingbtn" id={orderid} onClick={openPopup}>
                 Rating
               </button>
               <div className="ratingpopup" id="popup">
+                <h3 onClick={closePopup} style={{ float:"right", cursor:'pointer' }}>X</h3>
                 <img src={starimage} alt="rating" />
                 <h2>Thank You for Ordering !</h2>
                 <p>{resname}</p>

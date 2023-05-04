@@ -15,6 +15,7 @@ import { LoginDetailsProvider } from './contex/Logincontex';
 import { useState } from 'react';
 import Navbar from './components/Navbar';
 import Reservations from './components/Reservations';
+import Forgot_Pass from './components/Forgot_Pass';
 function App() {
   const [menu,setMenu] = useState({});
   const [navtype, setNavType] = useState("user");
@@ -32,6 +33,7 @@ function App() {
                     <Route path="orders" element={<Orders setNavType={setNavType} />} />
                     <Route path="reservation" element={<Reservations setNavType={setNavType} />} />
                     <Route path="login" element={<Login setNavType={setNavType}/>} />
+                    <Route path="forgot-password" element={<Forgot_Pass />} />
                     <Route path="signup" element={<Signup setNavType={setNavType}/>} />
                     <Route path="restaurentmenu" element={<RestaurantMenu setNavType={setNavType}/>} />
                   

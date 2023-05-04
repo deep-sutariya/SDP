@@ -47,7 +47,7 @@ function Signup({ setNavType }) {
 
       if (ups === ucps && uphone.length === 10 && isvalid) {
         try {
-          const data = await axios.post("/signup", {
+          const data = await axios.post(`${process.env.REACT_APP_HOST_IP}/signup`, {
             uemail: user.uemail,
             uname: user.uname,
             upass: user.upass,
@@ -88,7 +88,7 @@ function Signup({ setNavType }) {
         let image_url = await UploadImage();
         console.log(user);
         try {
-          const data = await axios.post("/registerrestaurant", {
+          const data = await axios.post(`${process.env.REACT_APP_HOST_IP}/registerrestaurant`, {
             rname: user.rname,
             roname: user.roname,
             rphone: user.rphone,

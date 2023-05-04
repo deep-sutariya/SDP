@@ -63,7 +63,7 @@ const ResMenuCard = ({
   const EditMenu = async (e) => {
     let image_url = await UploadImage();
     setMenu({ ...menu, ["image"]: image_url });
-    const data = await axios.post("/editmenu", {
+    const data = await axios.post(`${process.env.REACT_APP_HOST_IP}/editmenu`, {
       resid: loginrestaurant._id,
       menuIndex: e.target.id,
       newData: menu,
@@ -87,7 +87,7 @@ const ResMenuCard = ({
   };
 
   const RemoveMenu = async (e) => {
-    const data = await axios.post("/removemenu", {
+    const data = await axios.post(`${process.env.REACT_APP_HOST_IP}/removemenu`, {
       resid: loginrestaurant._id.toString(),
       iid: loginrestaurant.rmenu[e.target.id]._id.toString(),
     });

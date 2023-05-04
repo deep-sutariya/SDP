@@ -1,0 +1,44 @@
+.main_forgot_pass{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 89vh;
+    flex-direction: column;
+}
+.forgot_pass{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40%;
+    flex-direction: column;
+}
+
+.heading{
+    color: var(--dark);
+    font: bold;
+    margin-bottom: 10px;
+}
+
+.forgot_form{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    gap: 30px;
+}
+
+.forgot_form input{
+    width: 80%;
+    height: 40px;
+    font-size: larger;
+    border-radius: 6px;
+    border: 1px solid#CACACA;
+    outline: none;
+}
+.forgot_form input:first-child{
+    text-indent: 10px;
+}
+.forgot_form input:last-child{
+    background-color: var(--light);
+    cursor: pointer;
+}

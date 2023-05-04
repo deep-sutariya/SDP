@@ -9,8 +9,6 @@ import "../components/style/cards.css"
 
 function Home({ setNavType }) {
 
-    console.log("IP-->", process.env.REACT_APP_HOST_IP);
-
     useEffect(() => {
         setNavType("user");
     }, [])
@@ -70,6 +68,10 @@ function Home({ setNavType }) {
         }
     }
 
+    const clear_filter = (e) => {
+        setfilteredRes([]);
+    }
+
     return (
         <>
 
@@ -84,6 +86,16 @@ function Home({ setNavType }) {
             </div>
 
             <h1 style={{ textAlign: "center", margin: "50px 0px", textDecoration: "underline" }}>Restaurants</h1>
+            
+            {
+                filteredRes.length>0?
+                <h4 style={{ textAlign: "center", margin: "10px 0px", textDecoration: "underline" }} className='clear_filter' onClick={clear_filter}>Clear Filter</h4>
+                :
+                <></>
+            }
+
+
+
             {loading ? <div className="loader"><BounceLoader
                 size={50}
                 color="black"
