@@ -38,7 +38,7 @@ export default function App() {
       <View className="absolute bottom-10 right-5">
         <TouchableOpacity
           onPress={handleChatBoxClick}
-          className="bg-gray-300 rounded-bl-3xl rounded-r-3xl px-2 py-2 items-center justify-center absolute bottom-8 right-0"
+          className="bg-white rounded-bl-3xl rounded-r-3xl px-2 py-2 items-center justify-center absolute bottom-8 right-0"
           style={{
             shadowColor: "black",
             elevation: 5

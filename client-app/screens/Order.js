@@ -12,12 +12,12 @@ import LoginFirst from "../components/LoginFirst";
 
 import { Socket, io } from "socket.io-client";
 import ChatBox from "../components/ChatBox";
-let IP;
-getIP().then((response) => {
-  IP = response;
-});
-const socket = io(`http://${IP}:5000`);
 const Order = () => {
+  const [IP, setIP] = useState("");
+  getIP().then((response) => {
+    setIP(response);
+  });
+  let socket ;
   const [user, setUser] = useState();
   const [orderData, setorderData] = useState();
   const [Month, setSelectedMonth] = useState("all");
@@ -36,14 +36,15 @@ const Order = () => {
   };
 
   useEffect(() => {
-    getUser();
     // <--Socket-->
+    socket = io(`http://${IP}:5000`);
+    getUser();
 
     socket.on("connect", () => {
-      console.log("connected");
+      console.log("connected ⚡");
     });
     socket.on("disconnect", () => {
-      console.log("disconnected");
+      console.log("disconnected 👋");
       socket.disconnect();
     });
 

@@ -28,31 +28,35 @@ const ChatBox = ({ setMessage, setAllMessage, message, allMessage }) => {
 
     const IP = await getIP();
     let recommendation = "";
+    if (message.msg != "") {
+      const msg = message.msg;
+      setAllMessage([...allMessage, message]);
+      setMessage({ msg: "", from: "user" });
 
-    const msg = message.msg;
-    setAllMessage([...allMessage, message]);
-    setMessage({ msg: "", from: "user" });
-
-    const recommendedFood = await axios.post(`http://${IP}:5000/py`, {
-      food: msg,
-    });
-
-    if (recommendedFood.data.message) {
-      console.log(recommendedFood.data.message);
-      recommendation = recommendedFood.data.message;
-    } else {
-      recommendation = " Recommended Food Items : \n";
-      recommendedFood.data.map(({ food1, food2 }, index) => {
-        if (food1) {
-          recommendation += food1 + " ,";
-        } else if (food2) {
-          if (index == recommendedFood.data.length - 1) recommendation += food2;
-          else recommendation += food2 + " ,";
-        }
+      const recommendedFood = await axios.post(`http://${IP}:5000/py`, {
+        food: msg,
       });
-    }
 
-    setServerMessage({ ...serverMessage, msg: recommendation });
+      if (recommendedFood.data.message) {
+        console.log(recommendedFood.data.message);
+        recommendation = recommendedFood.data.message;
+      } else {
+        recommendation = " Recommended Food Items : \n";
+        recommendedFood.data.map(({ food1, food2 }, index) => {
+          if (food1) {
+            recommendation += food1 + " ,";
+          } else if (food2) {
+            if (index == recommendedFood.data.length - 1)
+              recommendation += food2;
+            else recommendation += food2 + " ,";
+          }
+        });
+      }
+
+      setServerMessage({ ...serverMessage, msg: recommendation });
+    }else{
+      setServerMessage({ ...serverMessage, msg: "Enter Valid Input plz !" });
+    }
   };
 
   useEffect(() => {
@@ -67,10 +71,10 @@ const ChatBox = ({ setMessage, setAllMessage, message, allMessage }) => {
 
   return (
     <View
-      className="bg-white rounded-xl h-3/5 w-4/5 pt-1 px-4 pb-4 flex-1"
+      className="bg-white rounded-xl h-3/5 w-4/5 pt-1 pb-4 bg-gray-100 flex-1 px-4"
       style={style.chatbox}
     >
-      <View className="py-1">
+      <View className="py-1 border-b-2 border-gray-400">
         <Text className="text-xl">
           Food Suggestion <Ionicons name="fast-food" size={22} color="black" />
         </Text>
@@ -105,7 +109,7 @@ const ChatBox = ({ setMessage, setAllMessage, message, allMessage }) => {
 
       <View className="flex-row justify-between items-center">
         <TextInput
-          className="border border-gray-300 rounded-lg p-2 w-4/5"
+          className="border border-gray-300 bg-white rounded-lg p-2 w-4/5"
           placeholder="Type your message"
           onChangeText={(text) => setMessage({ msg: text, from: "user" })}
           value={message.msg}

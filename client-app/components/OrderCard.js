@@ -5,7 +5,7 @@ import { printToFileAsync } from 'expo-print'
 import { shareAsync } from 'expo-sharing'
 import * as FileSystem from 'expo-file-system'
 import axios from 'axios';
-import { IP } from '@env';
+import { getIP } from '../util/getIp';
 
 const OrderCard = (props) => {
   const ordermenu = props.orderData.ordermenu;
@@ -22,13 +22,13 @@ const OrderCard = (props) => {
 
 
   const closePopup = async () => {
-    console.log(rating + " " + restaurantid);
-    const data = await axios.post(`http://${IP}/updaterating`, {
+    const IP = await getIP();
+    const data = await axios.post(`http://${IP}:5000/updaterating`, {
       rating: rating,
       resid: restaurantid
     })
     alert(`${rating} rating submitted for ${resname}`);
-    setPopup(false);
+    setPopup(!popup);
   }
 
   const DownloadRecipt = async () => {

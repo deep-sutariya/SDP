@@ -4,13 +4,14 @@ import Home from '../screens/Home';
 import Order from '../screens/Order';
 import DrawerNavigator from './DrawerNavigator';
 import Menu from '../screens/Menu';
-
+import OnBoardingScreen from '../screens/OnBoardingScreen';
 const Stack = createNativeStackNavigator();
 
 const AppNavigator = () => {
 
   return (
-    <Stack.Navigator initialRouteName="Drawer" screenOptions={{ headerShown: false }}>
+    <Stack.Navigator initialRouteName="onBoarding" screenOptions={{ headerShown: false }}>
+      <Stack.Screen name='onBoarding' component={OnBoardingScreen} />
       <Stack.Screen name="Drawer" component={DrawerNavigator} />
       <Stack.Screen name="StackHome" component={Home} />
       <Stack.Screen name="StackOrder" component={Order} />
