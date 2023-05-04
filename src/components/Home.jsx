@@ -9,6 +9,8 @@ import "../components/style/cards.css"
 
 function Home({ setNavType }) {
 
+    console.log("IP-->", process.env.REACT_APP_HOST_IP);
+
     useEffect(() => {
         setNavType("user");
     }, [])
@@ -19,7 +21,7 @@ function Home({ setNavType }) {
 
     const getData = async () => {
         setLoading(true);
-        const data = await axios.post("/res");
+        const data = await axios.post(`${process.env.REACT_APP_HOST_IP}/res`);
         setRestaurents(data.data);
         setLoading(false);
     }
@@ -32,7 +34,7 @@ function Home({ setNavType }) {
         pincode = document.getElementById('searchid').value;
         if (pincode === "") setfilteredRes([]);
         else if (pincode.length === 6) {
-            const data = await axios.get(`https://api.postalpincode.in/pincode/${pincode}`);
+            const data = await axios.get(`${process.env.REACT_APP_PIN_API}/${pincode}`);
 
             if (data?.data[0].Status === "Success") {
 
