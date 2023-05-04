@@ -41,38 +41,28 @@ const Profile = () => {
 
   const UploadImage = async (e) => {
     const formData = new FormData();
-    console.log(e.target.files[0])
-    formData.append("file", e.target.files[0]);
-    formData.append("upload_preset", "guydx3xf");
-    formData.append("cloud_name", "dt6unpuse");
-    let url = "";
-    await axios
-      .post("https://api.cloudinary.com/v1_1/dt6unpuse/image/upload", formData)
-      .then((res) => {
-        url = res.data.secure_url;
-      });
-    return url;
+    if (resData.rimage !== "") {
+      formData.append("file", resData.rimage);
+      formData.append("upload_preset", "guydx3xf");
+      formData.append("cloud_name", "dt6unpuse");
+      let url = "";
+      await axios
+        .post(
+          "https://api.cloudinary.com/v1_1/dt6unpuse/image/upload",
+          formData
+        )
+        .then((res) => {
+          url = res.data.secure_url;
+        });
+      return url;
+    } else {
+      return resInfo.rimage;
+    }
   };
-
-
-
-  // converting the file to the Base64 format
-  // function convertToBase64(file) {
-  //   return new Promise((resolve, reject) => {
-  //     const fileReader = new FileReader();
-  //     fileReader.readAsDataURL(file);
-  //     fileReader.onload = () => {
-  //       resolve(fileReader.result);
-  //     };
-  //     fileReader.onerror = (error) => {
-  //       reject(error);
-  //     };
-  //   });
-  // }
 
   useEffect(() => {
     setloading(true);
-    setResData(loginrestaurant);
+    setResData({ ...loginrestaurant, ["rimage"]: "" });
     setResInfo(loginrestaurant);
     setloading(false);
   }, [loginrestaurant]);
@@ -86,9 +76,7 @@ const Profile = () => {
       setResData({ ...resData, [name]: e.target.files[0] });
       document.getElementById("rnameoffile").innerText = e.target.files[0].name;
       document.getElementById("rlabel").innerText = "";
-    }
-    else
-      setResData({ ...resData, [name]: value });
+    } else setResData({ ...resData, [name]: value });
   }
 
   const handleEvent = () => {
@@ -110,17 +98,20 @@ const Profile = () => {
       rcity: resData.rcity,
       rimage: image_url,
       rpass: resData.rpass,
-      rmenu: resData.rmenu
+      rmenu: resData.rmenu,
+      rtableno: resData.rtableno
     });
     console.log(data);
-
     if (data.status === 200) {
+      console.log("200");
+      console.log("200");
       setResInfo(data.data.data);
-      setFlag(!flag);
-      alert(data.data.data.message);
+      alert(data.data.message);
     } else {
-      alert(data.data.data.message);
+      console.log("400");
+      alert(data.data.message);
     }
+    setFlag(!flag);
     setSubmiting(false);
   };
 
@@ -151,7 +142,16 @@ const Profile = () => {
                     <p>{resInfo.roname}</p>
                     <p>{resInfo.remail}</p>
                     <p>{resInfo.rphone}</p>
-                    <p style={{ fontWeight: "bolder", color: "green", fontSize: "larger", letterSpacing: "0px" }}>{resInfo.rating + " ⭐"}</p>
+                    <p
+                      style={{
+                        fontWeight: "bolder",
+                        color: "green",
+                        fontSize: "larger",
+                        letterSpacing: "0px",
+                      }}
+                    >
+                      {resInfo.rating + " ⭐"}
+                    </p>
                   </div>
                   <u></u>
                 </div>
@@ -177,11 +177,10 @@ const Profile = () => {
                 </div>
                 <div className="res_info">
                   <p style={{ fontWeight: "bold" }}>Location :</p>
-                  <a href={resData.rurl}>{resInfo.rurl}</a>
+                  <a href={resInfo.rurl}>{resInfo.rurl}</a>
                 </div>
               </div>
             </div>
-
 
             {/* ***Chart**** */}
 
@@ -203,8 +202,8 @@ const Profile = () => {
             </div> */}
           </>
         ) : (
-          <div className="edit_container" id="edit_form" style={{}}>
-            <h1>Edit 😎</h1>
+          <div className="edit_container" id="edit_form">
+            <h1>Edit </h1>
             <form onSubmit={updateData}>
               <div className="row">
                 <div className="col-25">
@@ -324,7 +323,12 @@ const Profile = () => {
                   <label htmlFor="country">Image</label>
                 </div>
                 <div className="col-75">
-                  <input type="file" id="file-input" name="rimage" onChange={change} />
+                  <input
+                    type="file"
+                    id="file-input"
+                    name="rimage"
+                    onChange={change}
+                  />
                   <label id="file-label" htmlFor="file-input">
                     <i className="fa fa-upload"></i>&emsp;
                     <span id="rlabel">Choose a Image...</span>&ensp;
@@ -355,7 +359,10 @@ const Profile = () => {
                   type="submit"
                   value="Close"
                 />
-                <input type="submit" value={submiting ? "Submitting..." : "Submit"} />
+                <input
+                  type="submit"
+                  value={submiting ? "Submitting..." : "Submit"}
+                />
               </div>
             </form>
           </div>

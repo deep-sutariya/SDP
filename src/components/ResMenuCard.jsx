@@ -87,6 +87,7 @@ const ResMenuCard = ({
   };
 
   const RemoveMenu = async (e) => {
+    console.log(loginrestaurant.rmenu[e.target.id]);
     const data = await axios.post("/removemenu", {
       resid: loginrestaurant._id.toString(),
       iid: loginrestaurant.rmenu[e.target.id]._id.toString(),

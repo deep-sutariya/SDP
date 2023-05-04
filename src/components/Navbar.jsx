@@ -104,7 +104,7 @@ function Navbar(props) {
                   (loginrestaurant) ?
                     <>
                       <div className="dropdown">
-                        <button className="dropbtn">{loginrestaurant?.rname}</button>
+                        <button className="dropbtn" >{loginrestaurant?.rname}</button>
                         <div className="dropdown-content">
                           <Link to="/" onClick={finalCall}>Log Out</Link>
                         </div>
@@ -146,11 +146,6 @@ function Navbar(props) {
       <Outlet />
 
       <Chatbox />
-
-      {/*       
-      <div>
-      ok
-    </div> */}
 
     </>
   )

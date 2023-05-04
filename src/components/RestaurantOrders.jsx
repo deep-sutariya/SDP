@@ -76,7 +76,8 @@ const RestaurantOrders = (props) => {
           return (
             <>
               {" "}
-              <UserOrderCard orderData={element} socket={props.socket} />
+              <UserOrderCard key={element.orderid} orderData={element} />
+              {/*  //socket={props.socket} */}
             </>
           );
         })
