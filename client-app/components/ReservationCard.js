@@ -135,7 +135,7 @@ const ReservationCard = ({ noofpeople, resaddress, reservationtime, resid, resna
 
             <View className="flex flex-row justify-between gap-x-4">
                 <Text className="w-4/12 font-semibold">Booking Time:</Text>
-                <Text className="text-gray-600 w-7/12">{reservationtime}</Text>
+                <Text className="text-gray-600 w-7/12">{reservationtime}:00</Text>
             </View>
 
             <TouchableOpacity className="py-1 px-4 bg-green w-full rounded-md" onPress={DownloadReceipt}>

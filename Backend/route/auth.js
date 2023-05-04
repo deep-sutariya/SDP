@@ -14,6 +14,7 @@ const jwt = require('jsonwebtoken');
 
 router.post("/py", async (req, res) => {
   const spawner = require('child_process').spawn;
+  console.log(req.body.food);
   const food = req.body.food.toLowerCase();
   const python_process = spawner('python', ['route/ML/sdp.py', food]);
   let flag = false;

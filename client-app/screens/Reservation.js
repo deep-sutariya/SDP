@@ -17,7 +17,8 @@ const Reservation = () => {
     );
     setUser(userDetails);
     if (userDetails) {
-      const IP = getIP();
+      const IP = await getIP();
+      console.log(IP);
       const data = await axios.post(`http://${IP}:5000/getreservations`, {
         id: userDetails?._id,
         type: "user",
