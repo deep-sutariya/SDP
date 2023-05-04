@@ -12,7 +12,7 @@ const RestaurantOrders = (props) => {
   const getOrders = async (token, month) => {
     let decodedTokenRestaurant = jwt_decode(token);
     
-    const data = await axios.post("/getrestaurantorder", {
+    const data = await axios.post(`${process.env.REACT_APP_HOST_IP}/getrestaurantorder`, {
       email: decodedTokenRestaurant.email,
       month: month,
     });

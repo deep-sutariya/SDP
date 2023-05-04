@@ -63,7 +63,7 @@ const ResMenuCard = ({
   const EditMenu = async (e) => {
     let image_url = await UploadImage();
     setMenu({ ...menu, ["image"]: image_url });
-    const data = await axios.post("/editmenu", {
+    const data = await axios.post(`${process.env.REACT_APP_HOST_IP}/editmenu`, {
       resid: loginrestaurant._id,
       menuIndex: e.target.id,
       newData: menu,

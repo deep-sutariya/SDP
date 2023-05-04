@@ -88,7 +88,7 @@ const Profile = () => {
     setSubmiting(true);
     let image_url = await UploadImage();
     setResData({ ...resData, ["rimage"]: image_url });
-    const data = await axios.post("/updaterestaurant", {
+    const data = await axios.post(`${process.env.REACT_APP_HOST_IP}/updaterestaurant`, {
       rname: resData.rname,
       roname: resData.roname,
       rphone: resData.rphone,

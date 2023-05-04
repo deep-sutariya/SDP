@@ -478,21 +478,8 @@ router.post("/getreservations", async(req,res)=>{
 })
 
 
-
-// GenerateBill
-// router.get("/generatebill", async (req, res) => {
-//   const stream = res.writeHead(200, {
-//     "Content-Type": "application/pdf",
-//     "Content-Disposition": "attachment;filename=yourBill.pdf",
-//   });
-
-//   res.setHeader("Content-Type", "application/pdf",)
-//   const pdffile = pdf_generator.billPdf(
-//     (chunk) => stream.write(chunk),
-//     () => stream.end(),
-//     { rname: "Deep's Cafe" }
-//   );
-//   res.download(pdffile);
-// });
+router.post("/forgot-password", async(req,res)=>{
+  console.log("fdsa")
+})
 
 module.exports = router;

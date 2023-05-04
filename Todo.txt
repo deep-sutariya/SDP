@@ -1,11 +1,6 @@
 Forgot pass
 popUp
-check login or not in every page and give appropiate response.
 Coupon
 delete previs order
 
 Build application-->
-    Chat Bot
-    Reservation First login
-    still asking to login after login!!
-    styling and positioning required for bottomNavigator

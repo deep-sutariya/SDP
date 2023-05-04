@@ -52,7 +52,7 @@ function Login({ setNavType }) {
     }
     else {
       try {
-        data = await axios.post(`/${loginoption}login`, {
+        data = await axios.post(`${process.env.REACT_APP_HOST_IP}/${loginoption}login`, {
           uemail: user.uemail,
           upass: user.upass,
         });

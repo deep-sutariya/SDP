@@ -52,7 +52,7 @@ function RestaurantMenu() {
   const getSelectedRes = async (token) => {
     setLoading(true);
     let decodedTokenRestaurent = jwt_decode(token);
-    const data = await axios.post(`/getrestaurent`, {
+    const data = await axios.post(`${process.env.REACT_APP_HOST_IP}/getrestaurent`, {
       id: decodedTokenRestaurent.id,
     });
     setSelectedres(data);
@@ -77,7 +77,7 @@ function RestaurantMenu() {
       
             // console.log("-->", date.split('T'))
       
-            const data = await axios.post("/booktable", {
+            const data = await axios.post(`${process.env.REACT_APP_HOST_IP}/booktable`, {
               noofpeople,
               time,
               resid: SelectedRestaurant._id,

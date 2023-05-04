@@ -28,12 +28,12 @@ function Navbar(props) {
     // console.log(type);
     let data;
     if (type === "user") {
-      data = await axios.post("/userlogin", {
+      data = await axios.post(`${process.env.REACT_APP_HOST_IP}/userlogin`, {
         uemail: decodedToken.email,
         upass: decodedToken.pass
       });
     } else {
-      data = await axios.post("/restaurentlogin", {
+      data = await axios.post(`${process.env.REACT_APP_HOST_IP}/restaurentlogin`, {
         uemail: decodedToken.email,
         upass: decodedToken.pass
       });

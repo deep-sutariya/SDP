@@ -4,8 +4,8 @@ import '../components/style/menucard.css'
 import { TrayContex } from '../contex/tray_contex'
 
 const Menu = (props) => {
-  
-  const { cartItem, addToCart } = useContext(TrayContex);
+
+  const {initializeCart,cartItem, addToCart, removeFromCart, updateCartItemCount} = useContext(TrayContex);
 
   const TrayItemAmount = cartItem[props.index];
 
@@ -28,7 +28,18 @@ const Menu = (props) => {
           </div>
 
           <div className="addtraybutton">
-            <button onClick={() => addToCart(props.index)}>ADD TO TRAY {TrayItemAmount > 0 && <>({TrayItemAmount})</>}</button>
+
+            {
+              TrayItemAmount > 0 ?
+                <>
+                  <button onClick={() => removeFromCart(props.index)}>-</button>
+                  <input type="number" className='count' value={cartItem[props.index]} onChange={(e) => updateCartItemCount((e.target.value), props.index)} />
+                  <button onClick={() => addToCart(props.index)}>+</button>
+                </>
+                :
+                <button onClick={() => addToCart(props.index)}>ADD TO TRAY {TrayItemAmount > 0 && <>({TrayItemAmount})</>}</button>
+            }
+
           </div>
 
         </div>

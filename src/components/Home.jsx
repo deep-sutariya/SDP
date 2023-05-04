@@ -19,7 +19,7 @@ function Home({ setNavType }) {
 
     const getData = async () => {
         setLoading(true);
-        const data = await axios.post("/res");
+        const data = await axios.post(`${process.env.REACT_APP_HOST_IP}/res`);
         setRestaurents(data.data);
         setLoading(false);
     }
@@ -32,7 +32,7 @@ function Home({ setNavType }) {
         pincode = document.getElementById('searchid').value;
         if (pincode === "") setfilteredRes([]);
         else if (pincode.length === 6) {
-            const data = await axios.get(`https://api.postalpincode.in/pincode/${pincode}`);
+            const data = await axios.get(`${process.env.REACT_APP_PIN_API}/${pincode}`);
 
             if (data?.data[0].Status === "Success") {
 
@@ -68,6 +68,10 @@ function Home({ setNavType }) {
         }
     }
 
+    const clear_filter = (e) => {
+        setfilteredRes([]);
+    }
+
     return (
         <>
 
@@ -82,6 +86,16 @@ function Home({ setNavType }) {
             </div>
 
             <h1 style={{ textAlign: "center", margin: "50px 0px", textDecoration: "underline" }}>Restaurants</h1>
+            
+            {
+                filteredRes.length>0?
+                <h4 style={{ textAlign: "center", margin: "10px 0px", textDecoration: "underline" }} className='clear_filter' onClick={clear_filter}>Clear Filter</h4>
+                :
+                <></>
+            }
+
+
+
             {loading ? <div className="loader"><BounceLoader
                 size={50}
                 color="black"
