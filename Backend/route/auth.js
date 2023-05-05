@@ -7,37 +7,36 @@ const hashpassword = require("../middleware/hashpassword");
 const userhashpassword = require("../middleware/userhashpassword");
 const { io } = require("socket.io-client");
 const socket = io("http://localhost:5000");
-var nodemailer = require('nodemailer');
+var nodemailer = require("nodemailer");
 
-require('dotenv').config();
-const jwt = require('jsonwebtoken');
+require("dotenv").config();
+const jwt = require("jsonwebtoken");
 const { userInfo } = require("os");
 
-
 router.post("/py", async (req, res) => {
-  const spawner = require('child_process').spawn;
+  const spawner = require("child_process").spawn;
   console.log(req.body.food);
   const food = req.body.food.toLowerCase();
-  const python_process = spawner('python', ['route/ML/sdp.py', food]);
+  const python_process = spawner("python", ["route/ML/sdp.py", food]);
   let flag = false;
 
-  python_process.stdout.on('data', data => {
+  python_process.stdout.on("data", (data) => {
     data = JSON.parse(data.toString());
     if (data.length > 0) {
       flag = true;
       res.send(data);
     }
   });
-  python_process.stderr.on('data', (err) => {
+  python_process.stderr.on("data", (err) => {
     console.log(err.toString());
-  })
-  python_process.stdout.on('close', data => {
+  });
+  python_process.stdout.on("close", (data) => {
     console.log("close", data);
     if (!flag) {
       res.send({ message: "Currently i am updating! try again later" });
     }
-  })
-})
+  });
+});
 
 // Sign Up
 router.post("/signup", userhashpassword, async (req, res) => {
@@ -87,7 +86,7 @@ router.post("/registerrestaurant", hashpassword, async (req, res) => {
       rimage: req.body.rimage,
       rpass: req.body.rpass,
       rmenu: req.body.rmenu,
-      rating: 0
+      rating: 0,
     });
 
     const data = await restaurantInfo.save();
@@ -139,8 +138,10 @@ router.post("/userlogin", async (req, res) => {
   const user = await UserInfo.findOne({ uemail: uemail });
   if (user) {
     if (await bcrypt.compare(upass, user.upass)) {
-
-      var token = jwt.sign({ email: user.uemail, pass: upass }, `${process.env.TOCKEN_PRIVATE_KEY}`);
+      var token = jwt.sign(
+        { email: user.uemail, pass: upass },
+        `${process.env.TOCKEN_PRIVATE_KEY}`
+      );
 
       res.status(200).send({
         data: user,
@@ -148,7 +149,6 @@ router.post("/userlogin", async (req, res) => {
         type: "user",
         message: `Hello ${user.uname}, You Logged in successfully!`,
       });
-
     } else
       res.status(201).send({ message: "Error! : *** Invalid Password ***" });
   } else {
@@ -162,8 +162,10 @@ router.post("/restaurentlogin", async (req, res) => {
   const restaurent = await Restaurantinfo.findOne({ remail: uemail });
   if (restaurent) {
     if (await bcrypt.compare(upass, restaurent.rpass)) {
-
-      var token = jwt.sign({ email: restaurent.remail, pass: upass }, `${process.env.TOCKEN_PRIVATE_KEY}`);
+      var token = jwt.sign(
+        { email: restaurent.remail, pass: upass },
+        `${process.env.TOCKEN_PRIVATE_KEY}`
+      );
 
       res.status(200).send({
         data: restaurent,
@@ -172,7 +174,6 @@ router.post("/restaurentlogin", async (req, res) => {
         message: `Hello ${restaurent.rname}, You Logged in successfully!`,
       });
       // console.log(restaurent);
-
     } else
       res.status(201).send({ message: "Error! : *** Invalid Password ***" });
   } else {
@@ -192,7 +193,7 @@ router.post("/addmenu", async (req, res) => {
       des: ides,
       price: iprice,
       type: itype,
-      image: iimage
+      image: iimage,
     });
     const update = await restaurent.save();
     res
@@ -202,7 +203,6 @@ router.post("/addmenu", async (req, res) => {
     res.status(202).send({ message: "Error" });
   }
 });
-
 
 // Remove Menu Item
 router.post("/removemenu", async (req, res) => {
@@ -219,7 +219,6 @@ router.post("/removemenu", async (req, res) => {
     console.log(err);
   }
 });
-
 
 // Edit Menu
 router.post("/editmenu", async (req, res) => {
@@ -241,18 +240,16 @@ router.post("/editmenu", async (req, res) => {
         restaurantMenu[menuIndex].image = image_url;
         const updatedData = await data.save();
 
-        res.status(200).send({ updatedData, message: "Menu Updated Successfully!" });
-      }
-      else
-        res.status(202).send({ message: "Menu not found" });
-    } else
-      res.status(201).send({ message: "Restaurant not found" });
+        res
+          .status(200)
+          .send({ updatedData, message: "Menu Updated Successfully!" });
+      } else res.status(202).send({ message: "Menu not found" });
+    } else res.status(201).send({ message: "Restaurant not found" });
   } catch (e) {
     // $Set
     res.status(202).send({ message: `${e}` });
   }
 });
-
 
 // Find All Restaurant
 router.post("/res", async (req, res) => {
@@ -265,7 +262,6 @@ router.post("/res", async (req, res) => {
   }
 });
 
-
 // Get Restaurant By Id
 router.post("/getrestaurent", async (req, res) => {
   try {
@@ -277,16 +273,30 @@ router.post("/getrestaurent", async (req, res) => {
     res.status(200).send({ data: data, selectedrestaurenttoken: token });
   } catch (err) {
     console.log(err);
-    res.status(202).send({ message: "Error ocuured", selectedrestaurenttoken: token });
+    res
+      .status(202)
+      .send({ message: "Error ocuured", selectedrestaurenttoken: token });
   }
 });
 
-
 // Fetch Orders
-router.post('/saveorder', async (req, res) => {
+router.post("/saveorder", async (req, res) => {
   console.log(req.body);
   const { userid, orderres, order, ordertotal } = req.body;
-  const month = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"];
+  const month = [
+    "january",
+    "february",
+    "march",
+    "april",
+    "may",
+    "june",
+    "july",
+    "august",
+    "september",
+    "october",
+    "november",
+    "december",
+  ];
 
   const date = new Date();
   const ordertime = date.toDateString();
@@ -302,8 +312,8 @@ router.post('/saveorder', async (req, res) => {
     ordertotal: ordertotal,
     ordertime: ordertime,
     ordermonth: month[ordermonth],
-    orderstatus: "1"
-  }
+    orderstatus: "1",
+  };
   const resorderData = {
     orderid: orderid,
     orderuser: userid,
@@ -312,8 +322,8 @@ router.post('/saveorder', async (req, res) => {
     ordertotal: ordertotal,
     ordertime: ordertime,
     ordermonth: month[ordermonth],
-    orderstatus: "1"
-  }
+    orderstatus: "1",
+  };
   let uorders = user.uorders;
   uorders.unshift(userorderData);
   console.log(uorders);
@@ -326,11 +336,9 @@ router.post('/saveorder', async (req, res) => {
   const updateres = await restaurant.save();
 
   res.status(200).send({ message: `${user.uname}, Your Order Is Placed` });
-
-})
+});
 
 router.post("/getuserorder", async (req, res) => {
-
   const { email, month } = req.body;
   console.log(req.body);
   const user = await UserInfo.findOne({ uemail: email });
@@ -339,15 +347,14 @@ router.post("/getuserorder", async (req, res) => {
   if (month === "all") {
     res.status(200).send(orders);
   } else {
-    orders.forEach(element => {
+    orders.forEach((element) => {
       if (element.ordermonth === month) {
         data.push(element);
       }
-    })
+    });
     // console.log(data);
     res.status(200).send(data);
   }
-
 });
 
 router.post("/getrestaurantorder", async (req, res) => {
@@ -360,16 +367,14 @@ router.post("/getrestaurantorder", async (req, res) => {
   if (month === "all") {
     res.status(200).send(orders);
   } else {
-    orders.forEach(element => {
+    orders.forEach((element) => {
       if (element.ordermonth === month) {
         data.push(element);
       }
-    })
+    });
     // console.log(data);
     res.status(200).send(data);
   }
-
-
 });
 
 router.post("/updatestatus", async (req, res) => {
@@ -377,7 +382,7 @@ router.post("/updatestatus", async (req, res) => {
   const restaurant = await Restaurantinfo.findOne({ remail: email });
   let id;
   const orders = restaurant.rorders;
-  orders.forEach(element => {
+  orders.forEach((element) => {
     if (element.orderid === orderid) {
       element.orderstatus = status;
       id = element.orderuser;
@@ -385,23 +390,26 @@ router.post("/updatestatus", async (req, res) => {
   });
   const user = await UserInfo.findById(id);
   const userorder = user?.uorders;
-  userorder.forEach(element => {
+  userorder.forEach((element) => {
     if (element.orderid === orderid) {
       element.orderstatus = status;
     }
   });
-  await Restaurantinfo.updateOne({ remail: email }, { $set: { rorders: orders } })
-  await UserInfo.updateOne({ uemail: user.uemail }, { $set: { uorders: userorder } })
+  await Restaurantinfo.updateOne(
+    { remail: email },
+    { $set: { rorders: orders } }
+  );
+  await UserInfo.updateOne(
+    { uemail: user.uemail },
+    { $set: { uorders: userorder } }
+  );
 
   socket.emit("statusupdated", req.body);
 
   res.status(200).send({ orders: orders });
-
-
 });
 
 router.post("/updaterating", async (req, res) => {
-
   const { rating, resid } = req.body;
   const restaurant = await Restaurantinfo.findById(resid);
 
@@ -410,23 +418,29 @@ router.post("/updaterating", async (req, res) => {
 
   let newRating = (rating + TotalRating) / (RatingCount + 1);
   newRating = newRating.toFixed(1);
-  await Restaurantinfo.updateOne({ remail: restaurant.remail }, { $set: { rating: newRating, ratingcount: RatingCount + 1, totalrating: TotalRating + rating } });
+  await Restaurantinfo.updateOne(
+    { remail: restaurant.remail },
+    {
+      $set: {
+        rating: newRating,
+        ratingcount: RatingCount + 1,
+        totalrating: TotalRating + rating,
+      },
+    }
+  );
   res.status(200).send({ message: `Rating Updated to ${newRating}!` });
-
-})
-
-
+});
 
 // BookTable
 
 router.post("/booktable", async (req, res) => {
   const { noofpeople, time, resid, userid } = req.body;
-  console.log("Backend->", { userid })
+  console.log("Backend->", { userid });
 
   const user = await UserInfo.findById(userid);
   const restaurant = await Restaurantinfo.findById(resid);
 
-  const hour = time.split(':')[0];
+  const hour = time.split(":")[0];
 
   if (restaurant.rtable[hour] >= noofpeople) {
     restaurant.rtable[hour] -= noofpeople;
@@ -456,29 +470,30 @@ router.post("/booktable", async (req, res) => {
     await restaurant.save();
     await user.save();
 
-    res.status(200).send(`Table Booked For ${noofpeople} People. See you at ${time}.`);
+    res
+      .status(200)
+      .send(`Table Booked For ${noofpeople} People. See you at ${time}.`);
   } else {
-    res.status(202).send(`Table Not Available For ${noofpeople} People at ${time}.`);
+    res
+      .status(202)
+      .send(`Table Not Available For ${noofpeople} People at ${time}.`);
   }
-
-})
+});
 
 router.post("/getreservations", async (req, res) => {
   const { id, type } = req.body;
   let data;
-  console.log("-->", req.body)
+  console.log("-->", req.body);
 
   if (type == "restaurent") {
     data = await Restaurantinfo.findById(id);
-  }
-  else {
+  } else {
     data = await UserInfo.findById(id);
   }
 
   // console.log(data?.registeredtableinfo);
-  res.send(data?.registeredtableinfo)
-})
-
+  res.send(data?.registeredtableinfo);
+});
 
 router.post("/forgot-password", async (req, res) => {
   const uemail = req.body.email;
@@ -486,34 +501,36 @@ router.post("/forgot-password", async (req, res) => {
   if (!olduser) res.send("User Not Exists");
   const secret = `${process.env.TOCKEN_PRIVATE_KEY}` + olduser.upass;
   const token = jwt.sign({ email: olduser.uemail, id: olduser._id }, secret, {
-    expiresIn: "5m"
-  })
+    expiresIn: "5m",
+  });
   const link = `http://localhost:5000/reset-password/${olduser._id}/${token}`;
   console.log(link);
 
-  var transporter = nodemailer.createTransport({
-    service: 'gmail',
+  const transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false,
     auth: {
-      user: 'deepsutariya001@gmail.com',
-      pass: 'deep'
-    }
+      user: "deepsutariya002@gmail.com",
+      pass: "cdqdmfobnrlnnxao",
+    },
   });
 
   var mailOptions = {
-    from: 'd33psutariya@gmail.com',
-    to: 'deepsutariya001@gmail.com',
-    subject: 'Reset Password',
-    text: link,
+    from: "deepsutariya002@gmail.com",
+    to: "deepsutariya001@gmail.com",
+    subject: "Reset Password",
+    html: `<h2>${link}</h2>`,
   };
 
-  transporter.sendMail(mailOptions, function (error, info) {
+  const info = await transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
       console.log(error);
     } else {
-      console.log('Email sent: ' + info.response);
+      res.send("Password Updated");
     }
   });
-})
+});
 
 router.get("/reset-password/:id/:token", async (req, res) => {
   const { id, token } = req.params;
@@ -525,11 +542,10 @@ router.get("/reset-password/:id/:token", async (req, res) => {
   try {
     const verify = jwt.verify(token, secret);
     res.render("index", { email: verify.email });
-  }
-  catch (e) {
+  } catch (e) {
     res.send("Not verified");
   }
-})
+});
 
 router.post("/reset-password/:id/:token", async (req, res) => {
   const { id, token } = req.params;
@@ -541,18 +557,20 @@ router.post("/reset-password/:id/:token", async (req, res) => {
   try {
     const verify = jwt.verify(token, secret);
     const hshpass = await bcrypt.hash(password, 10);
-    await UserInfo.updateOne({
-      _id: id,
-    }, {
-      $set: {
-        upass: hshpass,
+    await UserInfo.updateOne(
+      {
+        _id: id,
+      },
+      {
+        $set: {
+          upass: hshpass,
+        },
       }
-    });
-    res.send("Password Updated")
-  }
-  catch (e) {
+    );
+    res.send("Password Updated");
+  } catch (e) {
     res.send("Something went wrong");
   }
-})
+});
 
 module.exports = router;
