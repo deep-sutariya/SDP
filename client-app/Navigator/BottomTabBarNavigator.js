@@ -1,5 +1,5 @@
 import { View, Text } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Home from "../screens/Home";
 import Order from "../screens/Order";
@@ -8,12 +8,13 @@ import { Entypo } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { useEffect } from "react";
+import { getIP } from "../util/getIp"
 
 const Tab = createBottomTabNavigator();
 
 const BottomTabBarNavigator = () => {
   const navigation = useNavigation();
-
   return (
     <Tab.Navigator
       screenOptions={{

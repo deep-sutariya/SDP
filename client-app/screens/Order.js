@@ -9,10 +9,12 @@ import { getIP } from "../util/getIp";
 import { useNavigation } from "@react-navigation/native";
 import OrderCard from "../components/OrderCard";
 import LoginFirst from "../components/LoginFirst";
+import { useIsFocused } from '@react-navigation/native';
 
 import { Socket, io } from "socket.io-client";
 import ChatBox from "../components/ChatBox";
 const Order = () => {
+  const isFocused = useIsFocused();
   const [IP, setIP] = useState("");
   getIP().then((response) => {
     setIP(response);
@@ -37,29 +39,32 @@ const Order = () => {
 
   useEffect(() => {
     // <--Socket-->
-    socket = io(`http://${IP}:5000`);
-    getUser();
+    if(isFocused){
 
-    socket.on("connect", () => {
-      console.log("connected ⚡");
-    });
-    socket.on("disconnect", () => {
-      console.log("disconnected 👋");
-      socket.disconnect();
-    });
-
-    socket.on("load-resources", (payload) => {
-      console.log("Called");
+      socket = io(`http://${IP}:5000`);
       getUser();
-      getOrder();
-    });
-
-    return () => {
-      socket.off("connect");
-      socket.off("disconnect");
-      socket.off("load-resources");
-    };
-  }, []);
+  
+      socket.on("connect", () => {
+        console.log("connected ⚡");
+      });
+      socket.on("disconnect", () => {
+        console.log("disconnected 👋");
+        socket.disconnect();
+      });
+  
+      socket.on("load-resources", (payload) => {
+        console.log("Called");
+        getUser();
+        getOrder();
+      });
+  
+      return () => {
+        socket.off("connect");
+        socket.off("disconnect");
+        socket.off("load-resources");
+      };
+    }
+  }, [isFocused]);
 
   const getUser = async () => {
     let userData = await JSON.parse(await AsyncStorage.getItem("userDetails"));

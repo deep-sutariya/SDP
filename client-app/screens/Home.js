@@ -25,9 +25,8 @@ const Home = ({ navigation }) => {
 
   const getData = async () => {
     setLoading(true);
-    console.log(IP);
+
     const IP = await getIP();
-    console.log(IP);
     const data = await axios.post(`http://${IP}:5000/res`);
     
     setRestaurants(data.data);
@@ -49,8 +48,6 @@ const Home = ({ navigation }) => {
           restaurants?.filter((resData) => {
             console.log(resData.rcity.toLowerCase());
             return (
-              // resData.rcity.toLowerCase() === data?.data[0].PostOffice[0].District.toLowerCase()
-              // ||
               resData.rcity.toLowerCase() ===
                 data?.data[0].PostOffice[0].Block.toLowerCase() ||
               resData.rpincode === data?.data[0].PostOffice[0].Pincode
