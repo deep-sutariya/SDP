@@ -9,6 +9,8 @@ const PORT = 5000;
 
 const app = express();
 
+app.set("view engine", "ejs");
+
 const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server, {

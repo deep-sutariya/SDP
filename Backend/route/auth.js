@@ -7,9 +7,11 @@ const hashpassword = require("../middleware/hashpassword");
 const userhashpassword = require("../middleware/userhashpassword");
 const { io } = require("socket.io-client");
 const socket = io("http://localhost:5000");
+var nodemailer = require('nodemailer');
 
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
+const { userInfo } = require("os");
 
 
 router.post("/py", async (req, res) => {
@@ -21,18 +23,18 @@ router.post("/py", async (req, res) => {
 
   python_process.stdout.on('data', data => {
     data = JSON.parse(data.toString());
-    if(data.length > 0){
+    if (data.length > 0) {
       flag = true;
       res.send(data);
     }
   });
-  python_process.stderr.on('data',(err) => {
+  python_process.stderr.on('data', (err) => {
     console.log(err.toString());
   })
   python_process.stdout.on('close', data => {
-    console.log("close",data);
-    if(!flag){
-      res.send({message: "Currently i am updating! try again later"});
+    console.log("close", data);
+    if (!flag) {
+      res.send({ message: "Currently i am updating! try again later" });
     }
   })
 })
@@ -423,10 +425,10 @@ router.post("/booktable", async (req, res) => {
 
   const user = await UserInfo.findById(userid);
   const restaurant = await Restaurantinfo.findById(resid);
-  
+
   const hour = time.split(':')[0];
-  
-  if(restaurant.rtable[hour] >= noofpeople){
+
+  if (restaurant.rtable[hour] >= noofpeople) {
     restaurant.rtable[hour] -= noofpeople;
 
     let arr = restaurant.registeredtableinfo;
@@ -455,21 +457,21 @@ router.post("/booktable", async (req, res) => {
     await user.save();
 
     res.status(200).send(`Table Booked For ${noofpeople} People. See you at ${time}.`);
-  }else{
+  } else {
     res.status(202).send(`Table Not Available For ${noofpeople} People at ${time}.`);
   }
 
 })
 
-router.post("/getreservations", async(req,res)=>{
-  const {id,type} = req.body;
+router.post("/getreservations", async (req, res) => {
+  const { id, type } = req.body;
   let data;
-  console.log("-->",req.body)
-  
-  if(type=="restaurent"){
-    data = await Restaurantinfo.findById(id); 
+  console.log("-->", req.body)
+
+  if (type == "restaurent") {
+    data = await Restaurantinfo.findById(id);
   }
-  else{
+  else {
     data = await UserInfo.findById(id);
   }
 
@@ -478,8 +480,79 @@ router.post("/getreservations", async(req,res)=>{
 })
 
 
-router.post("/forgot-password", async(req,res)=>{
-  console.log("fdsa")
+router.post("/forgot-password", async (req, res) => {
+  const uemail = req.body.email;
+  const olduser = await UserInfo.findOne({ uemail: uemail });
+  if (!olduser) res.send("User Not Exists");
+  const secret = `${process.env.TOCKEN_PRIVATE_KEY}` + olduser.upass;
+  const token = jwt.sign({ email: olduser.uemail, id: olduser._id }, secret, {
+    expiresIn: "5m"
+  })
+  const link = `http://localhost:5000/reset-password/${olduser._id}/${token}`;
+  console.log(link);
+
+  var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'deepsutariya001@gmail.com',
+      pass: 'deep'
+    }
+  });
+
+  var mailOptions = {
+    from: 'd33psutariya@gmail.com',
+    to: 'deepsutariya001@gmail.com',
+    subject: 'Reset Password',
+    text: link,
+  };
+
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Email sent: ' + info.response);
+    }
+  });
+})
+
+router.get("/reset-password/:id/:token", async (req, res) => {
+  const { id, token } = req.params;
+
+  const olduser = await UserInfo.findOne({ _id: id });
+  if (!olduser) res.send("User Not Found");
+  const secret = `${process.env.TOCKEN_PRIVATE_KEY}` + olduser.upass;
+
+  try {
+    const verify = jwt.verify(token, secret);
+    res.render("index", { email: verify.email });
+  }
+  catch (e) {
+    res.send("Not verified");
+  }
+})
+
+router.post("/reset-password/:id/:token", async (req, res) => {
+  const { id, token } = req.params;
+  const { password } = req.body;
+  const olduser = await UserInfo.findOne({ _id: id });
+  if (!olduser) res.send("User Not Found");
+  const secret = `${process.env.TOCKEN_PRIVATE_KEY}` + olduser.upass;
+
+  try {
+    const verify = jwt.verify(token, secret);
+    const hshpass = await bcrypt.hash(password, 10);
+    await UserInfo.updateOne({
+      _id: id,
+    }, {
+      $set: {
+        upass: hshpass,
+      }
+    });
+    res.send("Password Updated")
+  }
+  catch (e) {
+    res.send("Something went wrong");
+  }
 })
 
 module.exports = router;
